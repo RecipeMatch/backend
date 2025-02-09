@@ -39,7 +39,9 @@ public class RecipeResponse {
 
     private Boolean recipeLike;
 
-    public RecipeResponse(Recipe recipe, Boolean recipeLike){
+    private int likeSize;
+
+    public RecipeResponse(Recipe recipe, Boolean recipeLike, int likeSize){
         this.recipeName = recipe.getRecipeName();
         this.description = recipe.getDescription();
         this.cookingTime = recipe.getCookingTime();
@@ -51,5 +53,6 @@ public class RecipeResponse {
             this.toolName.add(recipeTool.getTool().getToolName());
         }
         this.recipeLike = recipeLike;
+        this.likeSize = likeSize;
     }
 }

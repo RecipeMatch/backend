@@ -242,7 +242,8 @@ public class RecipeService {
         Recipe recipe = recipeRepository.findById(recipeId).get();
         User user = userRepository.findById(userId).get();
         Boolean recipeLike = recipeLikeRepository.findByUserAndRecipe(user,recipe).isPresent();
-        return new RecipeResponse(recipe,recipeLike);
+        int likeSize = recipeLikeRepository.findAll().size();
+        return new RecipeResponse(recipe,recipeLike,likeSize);
     }
 
     public List<RecipeAllResponse> findAll(){
