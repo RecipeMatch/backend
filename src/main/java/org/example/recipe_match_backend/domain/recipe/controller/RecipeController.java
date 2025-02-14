@@ -33,11 +33,10 @@ public class RecipeController {
     @PostMapping("/recipe")
     public ResponseEntity<RecipeIdAndUserUidResponse> create(@RequestBody RecipeRequest request){
         return ResponseEntity.ok(recipeService.save(request));
-
     }
 
     @PatchMapping("/recipe/{recipeId}")
-    public ResponseEntity<RecipeIdAndUserUidResponse> update(@PathVariable Long recipeId, @RequestBody RecipeUpdateRequest request){
+    public ResponseEntity<RecipeIdAndUserUidResponse> update(@PathVariable Long recipeId, @RequestBody RecipeUpdateRequest request) {
         return ResponseEntity.ok(recipeService.update(recipeId, request));
     }
 

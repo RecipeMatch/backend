@@ -21,6 +21,12 @@ public class RecipeIngredient {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
+  
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ingredient_id")
+    private Ingredient ingredient;
+
+    private String quantity;//g이나 개수일수 있기에 문자열
 
 
     @Override
@@ -34,12 +40,7 @@ public class RecipeIngredient {
     public int hashCode() {
         return Objects.hashCode(id);
     }
-  
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ingredient_id")
-    private Ingredient ingredient;
 
-    private String quantity;//g이나 개수일수 있기에 문자열
 
     public void setRecipe(Recipe recipe){
         this.recipe = recipe;

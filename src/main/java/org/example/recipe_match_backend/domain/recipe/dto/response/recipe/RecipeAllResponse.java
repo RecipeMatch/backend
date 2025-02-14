@@ -19,6 +19,8 @@ import static java.util.stream.Collectors.toList;
 @Getter
 public class RecipeAllResponse {
 
+    private Long id;
+
     private String recipeName;//Recipe
 
     private String description;//Recipe
@@ -36,6 +38,7 @@ public class RecipeAllResponse {
     private List<String> toolName = new ArrayList<>();//RecipeTool
 
     public RecipeAllResponse(Recipe recipe){
+        this.id = recipe.getId();
         this.recipeName = recipe.getRecipeName();
         this.description = recipe.getDescription();
         this.cookingTime = recipe.getCookingTime();

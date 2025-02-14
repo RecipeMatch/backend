@@ -9,5 +9,4 @@ import lombok.*;
 public class RecipeIdAndUserIdRequest {
     private Long recipeId;
     private Long userId;
-
 }

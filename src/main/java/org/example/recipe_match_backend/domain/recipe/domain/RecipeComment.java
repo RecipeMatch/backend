@@ -44,4 +44,5 @@ public class RecipeComment extends BaseEntity {
     public void updateContent(String content) {
         this.content = content;
     }
+
 }

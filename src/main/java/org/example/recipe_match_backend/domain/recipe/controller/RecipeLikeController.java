@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class RecipeLikeController {
 
-    private RecipeLikeService recipeLikeService;
+    private final RecipeLikeService recipeLikeService;
 
     @PostMapping("/like")
     public ResponseEntity<Long> recipeLike(@RequestBody RecipeIdAndUserIdRequest request){

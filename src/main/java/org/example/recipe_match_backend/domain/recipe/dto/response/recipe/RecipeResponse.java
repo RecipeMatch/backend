@@ -21,6 +21,8 @@ import static java.util.stream.Collectors.toList;
 @Getter
 public class RecipeResponse {
 
+    private Long id;
+
     private String recipeName;//Recipe
 
     private String description;//Recipe
@@ -41,7 +43,12 @@ public class RecipeResponse {
 
     private int likeSize;
 
-    public RecipeResponse(Recipe recipe, Boolean recipeLike, int likeSize){
+    private Boolean recipeBookMark;
+
+    private int bookMarkSize;
+
+    public RecipeResponse(Recipe recipe, Boolean recipeLike, int likeSize,Boolean recipeBookMark, int bookMarkSize){
+        this.id = recipe.getId();
         this.recipeName = recipe.getRecipeName();
         this.description = recipe.getDescription();
         this.cookingTime = recipe.getCookingTime();
@@ -54,5 +61,7 @@ public class RecipeResponse {
         }
         this.recipeLike = recipeLike;
         this.likeSize = likeSize;
+        this.recipeBookMark = recipeBookMark;
+        this.bookMarkSize = bookMarkSize;
     }
 }
