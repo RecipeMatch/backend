@@ -261,7 +261,15 @@ public class RecipeService {
 
     private void recipeDifficulty(Recipe recipe,int cookingTime, int stepSize, int ingredientSize, int toolSize){
 
-        int point = (cookingTime/3)+stepSize+ingredientSize+(2*toolSize);
+        int time = (cookingTime-5)/175;
+
+        int step = (stepSize - 1)/14;
+
+        int ingredient = (ingredientSize-1)/14;
+
+        int tool = (toolSize-1)/14;
+
+        int point = 25*(time+step+ingredient+tool);
 
         if(0 <= point && point <= 33){
             recipe.setDifficulty(DifficultyType.초보환영);
