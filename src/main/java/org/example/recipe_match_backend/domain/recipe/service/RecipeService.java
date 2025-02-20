@@ -17,6 +17,7 @@ import org.example.recipe_match_backend.domain.tool.domain.Tool;
 import org.example.recipe_match_backend.domain.tool.repository.ToolRepository;
 import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
+import org.example.recipe_match_backend.type.CategoryType;
 import org.example.recipe_match_backend.type.DifficultyType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -278,8 +279,23 @@ public class RecipeService {
         } else if (67 <= point) {
             recipe.setDifficulty(DifficultyType.어려움);
         }
-
     }
-
+    /**
+     * 카테고리별 기본 이미지 경로 반환.
+     */
+    private String getDefaultImageUrl(CategoryType category) {
+        switch (category) {
+            case JAPANESE:
+                return "/static/images/japanese.jpg";
+            case CHINESE:
+                return "/static/images/chinese.jpg";
+            case KOREAN:
+                return "/static/images/korean.jpg";
+            case WESTERN:
+                return "/static/images/western.jpg";
+            default:
+                return "/static/images/default.jpg";
+        }
+    }
 }
 

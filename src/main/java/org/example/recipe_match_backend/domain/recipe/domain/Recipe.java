@@ -23,32 +23,41 @@ public class Recipe extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //이름:레시피 입력시 필요한 내용
     @Column(nullable = false, unique = true)
-    private String recipeName;//이름:레시피 입력시 필요한 내용
+    private String recipeName;
 
+    //설명:레시피 입력시 필요한 내용
     @Column(length = 2000)
-    private String description;//설명:레시피 입력시 필요한 내용
+    private String description;
 
-    private int cookingTime;//시간:레시피 입력시 필요한 내용
+    //시간:레시피 입력시 필요한 내용
+    private int cookingTime;
 
+    //난이도:레시피 입력시 필요한 내용
     @Enumerated(EnumType.STRING)
-    private DifficultyType difficulty;//난이도:레시피 입력시 필요한 내용
+    private DifficultyType difficulty;
 
+    //카테고리:레시피 입력시 필요한 내용
     @Enumerated(EnumType.STRING)
-    private CategoryType category;//카테고리:레시피 입력시 필요한 내용
+    private CategoryType category;
 
+    //사용자:레시피 입력시 필요한 내용
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;//사용자:레시피 입력시 필요한 내용
+    private User user;
 
+    //레시피 단계 및 내용:레시피 입력시 필요한 내용
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RecipeStep> recipeSteps = new ArrayList<>();//레시피 단계 및 내용:레시피 입력시 필요한 내용
+    private List<RecipeStep> recipeSteps = new ArrayList<>();
 
+    //재료:레시피 입력시 필요한 내용
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RecipeIngredient> recipeIngredients = new ArrayList<>();//재료:레시피 입력시 필요한 내용
+    private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
 
+    //도구:레시피 입력시 필요한 내용
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RecipeTool> recipeTools = new ArrayList<>();//도구:레시피 입력시 필요한 내용
+    private List<RecipeTool> recipeTools = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeLike> recipeLikes = new ArrayList<>();
@@ -64,6 +73,9 @@ public class Recipe extends BaseEntity {
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SearchHistory> searchHistories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecipeImage> recipeImages = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
@@ -91,6 +103,12 @@ public class Recipe extends BaseEntity {
         recipeSteps.add(recipeStep);
         recipeStep.setRecipe(this);
     }
+
+    public void addRecipeImage(RecipeImage image) {
+        image.setRecipe(this);
+        this.recipeImages.add(image);
+    }
+
 
     public void setRecipeName(String recipeName) {
         this.recipeName = recipeName;

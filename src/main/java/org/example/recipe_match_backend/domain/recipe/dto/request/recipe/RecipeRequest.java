@@ -22,13 +22,13 @@ public class RecipeRequest {
 
     private String userUid;
 
-    private String recipeName;//Recipe
+    private String recipeName;      //Recipe
 
-    private String description;//Recipe
+    private String description;     //Recipe
 
-    private Integer cookingTime;//Recipe
+    private Integer cookingTime;    //Recipe
 
-    private CategoryType category;//Recipe
+    private CategoryType category;  //Recipe
 
     private List<RecipeIngredientDto> recipeIngredientDtos = new ArrayList<>();//RecipeIngredient
 

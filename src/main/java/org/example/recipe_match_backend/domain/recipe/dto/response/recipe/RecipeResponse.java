@@ -3,6 +3,7 @@ package org.example.recipe_match_backend.domain.recipe.dto.response.recipe;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.example.recipe_match_backend.domain.recipe.domain.Recipe;
+import org.example.recipe_match_backend.domain.recipe.domain.RecipeImage;
 import org.example.recipe_match_backend.domain.recipe.domain.RecipeLike;
 import org.example.recipe_match_backend.domain.recipe.dto.RecipeIngredientDto;
 import org.example.recipe_match_backend.domain.recipe.dto.RecipeStepDto;
@@ -39,6 +40,8 @@ public class RecipeResponse {
 
     private List<String> toolName = new ArrayList<>();//RecipeTool
 
+    private List<String> imageUrls = new ArrayList<>();
+
     private Boolean recipeLike;
 
     private int likeSize;
@@ -54,11 +57,12 @@ public class RecipeResponse {
         this.cookingTime = recipe.getCookingTime();
         this.difficulty = recipe.getDifficulty();
         this.category = recipe.getCategory();
-        this.recipeIngredientDtos = recipe.getRecipeIngredients().stream().map(r->new RecipeIngredientDto(r)).collect(toList());
-        this.recipeStepDtos = recipe.getRecipeSteps().stream().map(s -> new RecipeStepDto(s)).collect(toList());
+        this.recipeIngredientDtos = recipe.getRecipeIngredients().stream().map(RecipeIngredientDto::new).collect(toList());
+        this.recipeStepDtos = recipe.getRecipeSteps().stream().map(RecipeStepDto::new).collect(toList());
         for(RecipeTool recipeTool:recipe.getRecipeTools()){
             this.toolName.add(recipeTool.getTool().getToolName());
         }
+        this.imageUrls = recipe.getRecipeImages().stream().map(RecipeImage::getImageUrl).collect(toList());
         this.recipeLike = recipeLike;
         this.likeSize = likeSize;
         this.recipeBookMark = recipeBookMark;
