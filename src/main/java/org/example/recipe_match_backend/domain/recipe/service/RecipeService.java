@@ -281,6 +281,7 @@ public class RecipeService {
         }
     }
     /**
+     * 받은 이미지가 null인 경우 or 레시피 api를 통해 가져온 레시피 인 경우
      * 카테고리별 기본 이미지 경로 반환.
      */
     private String getDefaultImageUrl(CategoryType category) {
