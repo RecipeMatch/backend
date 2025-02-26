@@ -3,7 +3,6 @@ package org.example.recipe_match_backend.domain.recipe.service;
 import lombok.RequiredArgsConstructor;
 import org.example.recipe_match_backend.domain.recipe.domain.Recipe;
 import org.example.recipe_match_backend.domain.recipe.domain.RecipeBookMark;
-import org.example.recipe_match_backend.domain.recipe.domain.RecipeLike;
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeIdAndUserIdRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeAllResponse;
 import org.example.recipe_match_backend.domain.recipe.repository.RecipeBookMarkRepository;
@@ -34,7 +33,7 @@ public class RecipeBookMarkService {
         if (recipeBookMarkRepository.findByUserAndRecipe(user, recipe).isEmpty()){
             RecipeBookMark recipeBookMark = RecipeBookMark.builder().recipe(recipe).user(user).build();
             recipe.getRecipeFavorites().add(recipeBookMark);
-            user.getRecipeFavorites().add(recipeBookMark);
+            user.getRecipeBookmarks().add(recipeBookMark);
             return recipeBookMark.getId();
         }
         else{

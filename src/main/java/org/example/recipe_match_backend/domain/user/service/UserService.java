@@ -1,12 +1,19 @@
 package org.example.recipe_match_backend.domain.user.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.recipe_match_backend.domain.recipe.domain.Recipe;
+import org.example.recipe_match_backend.domain.recipe.domain.RecipeBookMark;
+import org.example.recipe_match_backend.domain.recipe.domain.RecipeLike;
+import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeResponse;
+import org.example.recipe_match_backend.domain.recipe.repository.RecipeBookMarkRepository;
+import org.example.recipe_match_backend.domain.recipe.repository.RecipeLikeRepository;
 import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.dto.request.AddInfoRequest;
 import org.example.recipe_match_backend.domain.user.dto.request.OAuthRequest;
 import org.example.recipe_match_backend.domain.user.dto.request.RefreshRequest;
 import org.example.recipe_match_backend.domain.user.dto.response.TokenIncludeNicknameResponse;
 import org.example.recipe_match_backend.domain.user.dto.response.TokenResponse;
+import org.example.recipe_match_backend.domain.user.dto.response.UserRecipeResponse;
 import org.example.recipe_match_backend.global.exception.login.InvalidTokenException;
 import org.example.recipe_match_backend.global.exception.user.UserNotFoundException;
 import org.example.recipe_match_backend.global.jwt.JwtTokenProvider;
@@ -14,7 +21,11 @@ import org.example.recipe_match_backend.domain.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -23,6 +34,8 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final RecipeLikeRepository recipeLikeRepository;
+    private final RecipeBookMarkRepository recipeBookMarkRepository;
 
     /**
      * 사용자 로그인 (신규 회원, 기존 회원)
@@ -108,5 +121,47 @@ public class UserService {
         String refreshToken = jwtTokenProvider.createRefreshToken(user.getUid());
 
         return new TokenResponse(accessToken, refreshToken);
+    }
+
+    /**
+     * 사용자가 작성한 레시피 목록 조회
+     */
+    public List<UserRecipeResponse> getUserRecipes(String uid) {
+        User user = userRepository.findByUid(uid)
+                .orElseThrow(UserNotFoundException::new);
+
+        return user.getRecipes().stream()
+                .map(UserRecipeResponse::new)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 사용자가 좋아요 누른 레시피 목록 조회
+     */
+    public List<UserRecipeResponse> getUserRecipeLikes(String uid) {
+        User user = userRepository.findByUid(uid)
+                .orElseThrow(UserNotFoundException::new);
+
+        List<RecipeLike> recipeLikes = recipeLikeRepository.findAllByUser(user);
+        // RecipeLike 엔티티에서 Recipe 를 꺼내서 DTO 로 변환
+        return recipeLikes.stream()
+                .map(recipeLike -> new UserRecipeResponse(recipeLike.getRecipe()))
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 사용자가 즐겨찾기 누른 레시피 목록 조회
+     */
+    public List<UserRecipeResponse> getUserRecipeBookmarks(String uid) {
+        User user = userRepository.findByUid(uid)
+                .orElseThrow(UserNotFoundException::new);
+
+        List<RecipeBookMark> recipeBookmarks = recipeBookMarkRepository.findAllByUser(user);
+        // RecipeBookMark 엔티티에서 Recipe 를 꺼내서 DTO 로 변환
+        return recipeBookmarks.stream()
+                .map(recipeBookmark -> new UserRecipeResponse(recipeBookmark.getRecipe()))
+                .distinct()
+                .collect(Collectors.toList());
     }
 }
