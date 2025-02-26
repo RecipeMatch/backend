@@ -1,18 +1,21 @@
 package org.example.recipe_match_backend.domain.user.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeResponse;
 import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.dto.request.AddInfoRequest;
 import org.example.recipe_match_backend.domain.user.dto.request.OAuthRequest;
 import org.example.recipe_match_backend.domain.user.dto.request.RefreshRequest;
+import org.example.recipe_match_backend.domain.user.dto.request.UidRequest;
 import org.example.recipe_match_backend.domain.user.dto.response.TokenIncludeNicknameResponse;
 import org.example.recipe_match_backend.domain.user.dto.response.TokenResponse;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
 import org.example.recipe_match_backend.domain.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -40,6 +43,28 @@ public class UserController {
     @PostMapping("/refresh")
     public ResponseEntity<TokenResponse> recreateToken(@RequestBody RefreshRequest refreshRequest){
         return ResponseEntity.ok(userService.recreateToken(refreshRequest));
+    }
+
+
+    // 사용자가 작성한 레시피 목록
+    @GetMapping("/recipes")
+    public ResponseEntity<List<RecipeResponse>> userRecipes(@RequestBody UidRequest uidRequest) {
+        List<RecipeResponse> userRecipes = userService.getUserRecipes(uidRequest.getUid());
+        return ResponseEntity.ok(userRecipes);
+    }
+
+    // 사용자가 좋아요 누른 레시피 목록
+    @GetMapping("/recipesLike")
+    public ResponseEntity<List<RecipeResponse>> recipeLikes(@RequestBody UidRequest uidRequest) {
+        List<RecipeResponse> recipeLikes = userService.getUserRecipeLikes(uidRequest.getUid());
+        return ResponseEntity.ok(recipeLikes);
+    }
+
+    // 사용자가 즐겨찾기 누른 레시피 목록
+    @GetMapping("/recipesBookmark")
+    public ResponseEntity<List<RecipeResponse>> recipeBookmarks(@RequestBody UidRequest uidRequest) {
+        List<RecipeResponse> recipeBookmarks = userService.getUserRecipeBookmarks(uidRequest.getUid());
+        return ResponseEntity.ok(recipeBookmarks);
     }
 
 }

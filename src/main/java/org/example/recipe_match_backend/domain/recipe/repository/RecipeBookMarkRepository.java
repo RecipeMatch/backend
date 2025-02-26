@@ -21,4 +21,7 @@ public interface RecipeBookMarkRepository extends JpaRepository<RecipeBookMark,L
 
     List<RecipeBookMark> findByRecipe(Recipe recipe);
 
+    // 사용자가 즐겨찾기 누른 레시피들 반환
+    List<RecipeBookMark> findAllByUser(User user);
+
 }

@@ -18,4 +18,7 @@ public interface RecipeLikeRepository extends JpaRepository<RecipeLike,Long>{
 
     List<RecipeLike> findByRecipe(Recipe recipe);
 
+    // 사용자가 좋아요 누른 레시피들 반환
+    List<RecipeLike> findAllByUser(User user);
+
 }

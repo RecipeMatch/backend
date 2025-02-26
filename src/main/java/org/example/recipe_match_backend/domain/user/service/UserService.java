@@ -1,6 +1,12 @@
 package org.example.recipe_match_backend.domain.user.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.recipe_match_backend.domain.recipe.domain.Recipe;
+import org.example.recipe_match_backend.domain.recipe.domain.RecipeBookMark;
+import org.example.recipe_match_backend.domain.recipe.domain.RecipeLike;
+import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeResponse;
+import org.example.recipe_match_backend.domain.recipe.repository.RecipeBookMarkRepository;
+import org.example.recipe_match_backend.domain.recipe.repository.RecipeLikeRepository;
 import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.dto.request.AddInfoRequest;
 import org.example.recipe_match_backend.domain.user.dto.request.OAuthRequest;
@@ -14,7 +20,9 @@ import org.example.recipe_match_backend.domain.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -23,6 +31,8 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final RecipeLikeRepository recipeLikeRepository;
+    private final RecipeBookMarkRepository recipeBookMarkRepository;
 
     /**
      * 사용자 로그인 (신규 회원, 기존 회원)
@@ -109,4 +119,89 @@ public class UserService {
 
         return new TokenResponse(accessToken, refreshToken);
     }
+
+    /**
+     * 사용자가 작성한 레시피 목록 조회
+     */
+    public List<RecipeResponse> getUserRecipes(String uid) {
+        User user = userRepository.findByUid(uid)
+                .orElseThrow(UserNotFoundException::new);
+
+        // user.getRecipes() : 사용자가 작성한 레시피들
+        return user.getRecipes().stream()
+                .map(recipe -> {
+                    // 좋아요 여부, 좋아요 개수
+                    boolean recipeLike = recipe.getRecipeLikes().stream()
+                            .anyMatch(like -> like.getUser().equals(user));
+                    int likeSize = recipe.getRecipeLikes().size();
+
+                    // 즐겨찾기 여부, 즐겨찾기 개수
+                    boolean recipeBookMark = recipe.getRecipeFavorites().stream()
+                            .anyMatch(bookmark -> bookmark.getUser().equals(user));
+                    int bookMarkSize = recipe.getRecipeFavorites().size();
+
+                    // Recipe 엔티티 → RecipeResponse DTO 변환
+                    return new RecipeResponse(recipe, recipeLike, likeSize, recipeBookMark, bookMarkSize);
+                })
+                .collect(Collectors.toList());
+    }
+
+
+    /**
+     * 사용자가 좋아요 누른 레시피 목록 조회
+     */
+    public List<RecipeResponse> getUserRecipeLikes(String uid) {
+        User user = userRepository.findByUid(uid)
+                .orElseThrow(UserNotFoundException::new);
+
+        // user가 좋아요 누른 RecipeLike 리스트
+        List<RecipeLike> recipeLikes = recipeLikeRepository.findAllByUser(user);
+
+        return recipeLikes.stream()
+                .map(recipeLike -> {
+                    Recipe recipe = recipeLike.getRecipe();
+
+                    // user가 좋아요 누른 레시피이므로, recipeLike = true
+                    boolean recipeLikeBool = true;
+                    int likeSize = recipe.getRecipeLikes().size();
+
+                    boolean recipeBookMark = recipe.getRecipeFavorites().stream()
+                            .anyMatch(bookmark -> bookmark.getUser().equals(user));
+                    int bookMarkSize = recipe.getRecipeFavorites().size();
+
+                    return new RecipeResponse(recipe, recipeLikeBool, likeSize, recipeBookMark, bookMarkSize);
+                })
+                .distinct() // 혹시 중복이 있을 수 있으니 distinct()
+                .collect(Collectors.toList());
+    }
+
+
+    /**
+     * 사용자가 즐겨찾기 누른 레시피 목록 조회
+     */
+    public List<RecipeResponse> getUserRecipeBookmarks(String uid) {
+        User user = userRepository.findByUid(uid)
+                .orElseThrow(UserNotFoundException::new);
+
+        // user가 즐겨찾기 누른 RecipeBookMark 리스트
+        List<RecipeBookMark> recipeBookmarks = recipeBookMarkRepository.findAllByUser(user);
+
+        return recipeBookmarks.stream()
+                .map(bookmark -> {
+                    Recipe recipe = bookmark.getRecipe();
+
+                    boolean recipeLike = recipe.getRecipeLikes().stream()
+                            .anyMatch(like -> like.getUser().equals(user));
+                    int likeSize = recipe.getRecipeLikes().size();
+
+                    // user가 즐겨찾기 누른 레시피이므로, recipeBookMark = true
+                    boolean recipeBookMark = true;
+                    int bookMarkSize = recipe.getRecipeFavorites().size();
+
+                    return new RecipeResponse(recipe, recipeLike, likeSize, recipeBookMark, bookMarkSize);
+                })
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
 }
