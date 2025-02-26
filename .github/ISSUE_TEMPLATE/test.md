@@ -2,7 +2,7 @@
 name: 테스트
 about: 테스트 작성
 title: "[Test]"
-labels: '테스트'
+labels: 테스트
 assignees: ''
 
 ---
