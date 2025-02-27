@@ -1,5 +1,8 @@
 package org.example.recipe_match_backend.domain.recipe.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.transfer.MultipleFileUpload;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.example.recipe_match_backend.domain.ingredient.domain.Ingredient;
@@ -19,11 +22,19 @@ import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
 import org.example.recipe_match_backend.type.CategoryType;
 import org.example.recipe_match_backend.type.DifficultyType;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.text.html.Option;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
 
@@ -41,9 +52,14 @@ public class RecipeService {
     private final RecipeToolRepository recipeToolRepository;
     private final RecipeLikeRepository recipeLikeRepository;
     private final RecipeBookMarkRepository recipeBookMarkRepository;
+    private final AmazonS3Client amazonS3Client;
+    private final RecipeImageRepository recipeImageRepository;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucketName;
 
     @Transactional
-    public RecipeIdAndUserUidResponse save(RecipeRequest request){
+    public RecipeIdAndUserUidResponse save(RecipeRequest request) throws IOException {
         // 사용자 조회
         User user = userRepository.findByUid(request.getUserUid())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
@@ -57,6 +73,7 @@ public class RecipeService {
                 .recipeIngredients(new ArrayList<>())
                 .recipeSteps(new ArrayList<>())
                 .recipeTools(new ArrayList<>())
+                .recipeImages(new ArrayList<>())
                 .user(user)
                 .build();
 
@@ -121,6 +138,23 @@ public class RecipeService {
 
         recipeDifficulty(recipe, recipe.getCookingTime(), recipe.getRecipeSteps().size(),recipe.getRecipeIngredients().size() , recipe.getRecipeTools().size());
 
+
+        if(request.getFiles() == null){
+            String url = getDefaultImageUrl(recipe.getCategory());
+            RecipeImage img = RecipeImage.builder()
+                    .token(url)//그럼 이거는?
+                    .build();
+            recipe.addRecipeImage(img);
+        }else{
+            for(MultipartFile file:request.getFiles()){
+                String token = uploadFile(file, recipe.getId());
+                RecipeImage img = RecipeImage.builder()
+                        .token(token)//바로 찾는건 불가능 하니 key값을 저장하자
+                        .build();
+                recipe.addRecipeImage(img);
+            }
+        }
+
         // Recipe 저장 (CascadeType.PERSIST에 의해 연관된 엔티티들도 함께 저장됨)
         Recipe savedRecipe = recipeRepository.save(recipe);
 
@@ -128,7 +162,7 @@ public class RecipeService {
     }
 
     @Transactional
-    public RecipeIdAndUserUidResponse update(Long recipeId, RecipeUpdateRequest request){
+    public RecipeIdAndUserUidResponse update(Long recipeId, RecipeUpdateRequest request) throws IOException {
 
         Recipe recipe = recipeRepository.findById(recipeId).get();
 
@@ -235,6 +269,25 @@ public class RecipeService {
             }
         }
 
+        if(request.getFiles() != null){
+            for(MultipartFile file:request.getFiles()){
+                String token = uploadFile(file, recipe.getId());
+                RecipeImage img = RecipeImage.builder()
+                        .token(token)//바로 찾는건 불가능 하니 key값을 저장하자
+                        .build();
+                recipe.addRecipeImage(img);
+            }
+        }
+
+        //기존 레시피 이미지 객체 삭제
+        if(request.getDeleteImgIds() != null){
+            for(Long imgId: request.getDeleteImgIds()){
+                RecipeImage recipeImage = recipeImageRepository.findById(imgId).get();
+                recipe.getRecipeImages().remove(recipeImage);
+                amazonS3Client.deleteObject(bucketName, recipeImage.getToken());
+            }
+        }
+        
         recipeDifficulty(recipe, recipe.getCookingTime(), recipe.getRecipeSteps().size(),recipe.getRecipeIngredients().size() , recipe.getRecipeTools().size());
 
         return new RecipeIdAndUserUidResponse(request.getUserUid(), recipeId);
@@ -242,22 +295,33 @@ public class RecipeService {
 
     @Transactional
     public void delete(Long recipeId){
+        Recipe recipe = recipeRepository.findById(recipeId).get();
+        for(RecipeImage recipeImage:recipe.getRecipeImages()){
+            amazonS3Client.deleteObject(bucketName,recipeImage.getToken());
+        }
         recipeRepository.deleteById(recipeId);
     }
 
     public RecipeResponse find(Long recipeId,Long userId){
         Recipe recipe = recipeRepository.findById(recipeId).get();
         User user = userRepository.findById(userId).get();
+
         Boolean recipeLike = recipeLikeRepository.findByUserAndRecipe(user,recipe).isPresent();
         Boolean recipeBookMark = recipeBookMarkRepository.findByUserAndRecipe(user, recipe).isPresent();
         int likeSize = recipeLikeRepository.findByRecipe(recipe).size();
         int bookMarkSize = recipeBookMarkRepository.findByRecipe(recipe).size();
-        return new RecipeResponse(recipe,recipeLike,likeSize,recipeBookMark,bookMarkSize);
+
+        List<String> urls = new ArrayList<>();
+        for(RecipeImage recipeImage:recipe.getRecipeImages()){
+            urls.add(""+amazonS3Client.getUrl(bucketName, recipeImage.getToken()));
+        }
+
+        return new RecipeResponse(recipe,recipeLike,likeSize,recipeBookMark,bookMarkSize,urls);
     }
 
     public List<RecipeAllResponse> findAll(){
         List<Recipe> recipes = recipeRepository.findAll();
-        return recipes.stream().map(r -> new RecipeAllResponse(r)).collect(toList());
+        return recipes.stream().map(RecipeAllResponse::new).collect(toList());
     }
 
     private void recipeDifficulty(Recipe recipe,int cookingTime, int stepSize, int ingredientSize, int toolSize){
@@ -297,6 +361,37 @@ public class RecipeService {
             default:
                 return "/static/images/default.jpg";
         }
+    }
+
+    private String uploadFile(MultipartFile multipartFile, Long recipeId) throws IOException {
+        File fileObject = convertMultiPartFileToFile(multipartFile).get();
+        String fileName = createFileName(multipartFile.getOriginalFilename());
+        String key =  Long.toString(recipeId)+"/"+fileName;
+        amazonS3Client.putObject(new PutObjectRequest(bucketName, key, fileObject));
+        fileObject.delete();
+        return key;
+    }
+
+    private Optional<File> convertMultiPartFileToFile(MultipartFile multipartFile) throws IOException {
+        File convertFile = new File(System.getProperty("user.dir") + "/" + multipartFile.getOriginalFilename());
+        if (convertFile.createNewFile()) { // 바로 위에서 지정한 경로에 File이 생성됨 (경로가 잘못되었다면 생성 불가능)
+            try (FileOutputStream fos = new FileOutputStream(convertFile)) { // FileOutputStream 데이터를 파일에 바이트 스트림으로 저장하기 위함
+                fos.write(multipartFile.getBytes());
+            }
+            return Optional.of(convertFile);
+        }
+        return Optional.empty();
+    }
+
+    /**
+     파일명을 UUID로 변경. 뒤에 파일 확장자를 붙이기 위해 파일명을 파라미터로 받는다.
+     */
+    private String createFileName(String fileName) {
+        return UUID.randomUUID().toString().concat(getFileExtension(fileName));
+    }
+
+    public String getFileExtension(String fileName) {
+        return fileName.substring(fileName.lastIndexOf("."));
     }
 }
 

@@ -4,6 +4,7 @@ import lombok.*;
 import org.example.recipe_match_backend.domain.recipe.dto.RecipeIngredientDto;
 import org.example.recipe_match_backend.domain.recipe.dto.RecipeStepDto;
 import org.example.recipe_match_backend.type.CategoryType;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,8 @@ public class RecipeUpdateRequest {
 
     private CategoryType category; //Recipe
 
+    private List<MultipartFile> files = new ArrayList<>();
+
     private List<RecipeIngredientDto> recipeIngredientDtos = new ArrayList<>(); //RecipeIngredient
 
     private List<RecipeStepDto> recipeStepDtos = new ArrayList<>(); //RecipeStep
@@ -35,4 +38,11 @@ public class RecipeUpdateRequest {
     private List<Long> deleteIngredientIds = new ArrayList<>();
 
     private List<Long> deleteStepIds= new ArrayList<>();
+
+    private List<Long> deleteImgIds= new ArrayList<>();
+
+    public void setFiles(List<MultipartFile> files){
+        this.files = files;
+    }
+
 }
