@@ -309,12 +309,13 @@ public class RecipeService {
         recipeRepository.deleteById(recipeId);
     }
 
-    public RecipeResponse find(Long recipeId,Long userId){
+    public RecipeResponse find(Long recipeId,String uid){
         Recipe recipe = recipeRepository.findById(recipeId).get();
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findByUid(uid).get();
 
         Boolean recipeLike = recipeLikeRepository.findByUserAndRecipe(user,recipe).isPresent();
         Boolean recipeBookMark = recipeBookMarkRepository.findByUserAndRecipe(user, recipe).isPresent();
+
         int likeSize = recipeLikeRepository.findByRecipe(recipe).size();
         int bookMarkSize = recipeBookMarkRepository.findByRecipe(recipe).size();
 
@@ -326,9 +327,21 @@ public class RecipeService {
         return new RecipeResponse(recipe,recipeLike,likeSize,recipeBookMark,bookMarkSize,urls);
     }
 
-    public List<RecipeAllResponse> findAll(){
+    public List<RecipeResponse> findAll(){
         List<Recipe> recipes = recipeRepository.findAll();
-        return recipes.stream().map(RecipeAllResponse::new).collect(toList());
+        List<RecipeResponse> recipeResponses = new ArrayList<>();
+        for(Recipe recipe:recipes){
+            int likeSize = recipeLikeRepository.findByRecipe(recipe).size();
+            int bookMarkSize = recipeBookMarkRepository.findByRecipe(recipe).size();
+
+            List<String> urls = new ArrayList<>();
+            for(RecipeImage recipeImage:recipe.getRecipeImages()){
+                urls.add(""+amazonS3Client.getUrl(bucketName, recipeImage.getToken()));
+            }
+            recipeResponses.add(new RecipeResponse(recipe,likeSize,bookMarkSize,urls));
+        }
+
+        return recipeResponses;
     }
 
     private void recipeDifficulty(Recipe recipe,int cookingTime, int stepSize, int ingredientSize, int toolSize){

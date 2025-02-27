@@ -68,4 +68,24 @@ public class RecipeResponse {
         this.recipeBookMark = recipeBookMark;
         this.bookMarkSize = bookMarkSize;
     }
+
+    public RecipeResponse(Recipe recipe,  int likeSize, int bookMarkSize, List<String> urls){
+        this.id = recipe.getId();
+        this.recipeName = recipe.getRecipeName();
+        this.description = recipe.getDescription();
+        this.cookingTime = recipe.getCookingTime();
+        this.difficulty = recipe.getDifficulty();
+        this.category = recipe.getCategory();
+        this.recipeIngredientDtos = recipe.getRecipeIngredients().stream().map(RecipeIngredientDto::new).collect(toList());
+        this.recipeStepDtos = recipe.getRecipeSteps().stream().map(RecipeStepDto::new).collect(toList());
+        for(RecipeTool recipeTool:recipe.getRecipeTools()){
+            this.toolName.add(recipeTool.getTool().getToolName());
+        }
+        this.imageUrls = urls;
+        this.recipeLike = recipeLike;
+        this.likeSize = likeSize;
+        this.recipeBookMark = recipeBookMark;
+        this.bookMarkSize = bookMarkSize;
+    }
+
 }
