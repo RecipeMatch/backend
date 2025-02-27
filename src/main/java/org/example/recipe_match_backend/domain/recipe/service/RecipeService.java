@@ -171,24 +171,52 @@ public class RecipeService {
     @Transactional
     public RecipeIdAndUserUidResponse update(Long recipeId, RecipeUpdateRequest request) throws IOException {
 
-        Recipe recipe = recipeRepository.findById(recipeId).get();
+        Recipe recipe = recipeRepository.findById(recipeId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 레시피가 존재하지 않습니다."));
 
-        //null체크
-        if(request.getRecipeName() != null){
+        // === 1) 레시피의 기존 정보(도구, 재료, 단계, 이미지 등) 전부 삭제 ===
+        // 1-1) 기존 RecipeTool 제거
+        for (RecipeTool recipeTool : new ArrayList<>(recipe.getRecipeTools())) {
+            // 양방향 관계 끊기
+            recipeTool.getTool().getRecipeTools().remove(recipeTool);
+            recipe.getRecipeTools().remove(recipeTool);
+        }
+
+        // 1-2) 기존 RecipeIngredient 제거
+        for (RecipeIngredient recipeIngredient : new ArrayList<>(recipe.getRecipeIngredients())) {
+            // 양방향 관계 끊기
+            recipeIngredient.getIngredient().getRecipeIngredients().remove(recipeIngredient);
+            recipe.getRecipeIngredients().remove(recipeIngredient);
+        }
+
+        // 1-3) 기존 RecipeStep 제거
+        for (RecipeStep step : new ArrayList<>(recipe.getRecipeSteps())) {
+            recipe.getRecipeSteps().remove(step);
+        }
+
+        // 1-4) 기존 RecipeImage 제거 & S3 객체도 삭제
+        for (RecipeImage recipeImage : new ArrayList<>(recipe.getRecipeImages())) {
+            amazonS3Client.deleteObject(bucketName, recipeImage.getToken());
+            recipe.getRecipeImages().remove(recipeImage);
+        }
+
+        // === 2) Request로부터 새롭게 들어온 정보 반영 ===
+        // 2-1) 레시피 메타 정보 업데이트
+        if (request.getRecipeName() != null) {
             recipe.setRecipeName(request.getRecipeName());
         }
-        if(request.getCategory() != null){
+        if (request.getCategory() != null) {
             recipe.setCategory(request.getCategory());
         }
-        if(request.getDescription() != null){
+        if (request.getDescription() != null) {
             recipe.setDescription(request.getDescription());
         }
-        if(request.getCookingTime() != null){
+        if (request.getCookingTime() != null) {
             recipe.setCookingTime(request.getCookingTime());
         }
 
-        if(request.getToolName() != null){
-            //수정된 toolName db에 저장(중복 제외)
+        // 2-2) Tools 추가
+        if (request.getToolName() != null) {
             for (String toolName : request.getToolName()) {
                 Tool tool = toolRepository.findByToolName(toolName)
                         .orElseGet(() -> {
@@ -200,7 +228,6 @@ public class RecipeService {
                             return toolRepository.save(newTool);
                         });
 
-                // RecipeTool 생성
                 RecipeTool recipeTool = RecipeTool.builder()
                         .tool(tool)
                         .build();
@@ -211,20 +238,9 @@ public class RecipeService {
             }
         }
 
-        //기존 레시피 도구 객체 삭제
-        if(request.getDeleteToolIds() != null){
-            for(Long toolId: request.getDeleteToolIds()){
-                RecipeTool recipeTool = recipeToolRepository.findById(toolId).get();
-                recipeTool.getTool().getRecipeTools().remove(recipeTool);
-                recipe.getRecipeTools().remove(recipeTool);
-                //recipeToolRepository.deleteById(toolId); : 영속성 전파 ALL
-            }
-        }
-
-        if(request.getRecipeIngredientDtos() != null){
-            //수정된 재료 db에 저장(중복 제외)
+        // 2-3) Ingredients 추가
+        if (request.getRecipeIngredientDtos() != null) {
             for (RecipeIngredientDto dto : request.getRecipeIngredientDtos()) {
-                // 기존 Ingredient 조회 또는 새로 생성
                 Ingredient ingredient = ingredientRepository.findByIngredientName(dto.getIngredientName())
                         .orElseGet(() -> {
                             Ingredient newIngredient = Ingredient.builder()
@@ -235,29 +251,18 @@ public class RecipeService {
                             return ingredientRepository.save(newIngredient);
                         });
 
-                // RecipeIngredient 생성
                 RecipeIngredient recipeIngredient = RecipeIngredient.builder()
                         .quantity(dto.getQuantity())
                         .ingredient(ingredient)
                         .build();
 
-                // 양방향 관계 설정
                 recipe.addRecipeIngredient(recipeIngredient);
                 ingredient.addRecipeIngredient(recipeIngredient);
             }
         }
 
-        //기존 레시피 재료 객체 삭제
-        if(request.getDeleteIngredientIds() != null){
-            for(Long ingredientId: request.getDeleteIngredientIds()){
-                RecipeIngredient recipeIngredient = recipeIngredientRepository.findById(ingredientId).get();
-                recipeIngredient.getIngredient().getRecipeIngredients().remove(recipeIngredient);
-                recipe.getRecipeIngredients().remove(recipeIngredient);
-                //recipeIngredientRepository.deleteById(ingredientId); : 영속성 전파 ALL
-            }
-        }
-
-        if(request.getRecipeStepDtos() != null){
+        // 2-4) Steps 추가
+        if (request.getRecipeStepDtos() != null) {
             for (RecipeStepDto stepDto : request.getRecipeStepDtos()) {
                 RecipeStep step = RecipeStep.builder()
                         .stepOrder(stepDto.getStepOrder())
@@ -267,38 +272,28 @@ public class RecipeService {
             }
         }
 
-        //기존 레시피 단계 객체 삭제
-        if(request.getDeleteStepIds() != null){
-            for(Long stepId: request.getDeleteStepIds()){
-                RecipeStep recipeStep = recipeStepRepository.findById(stepId).get();
-                recipe.getRecipeSteps().remove(recipeStep);
-                //recipeStepRepository.deleteById(stepId); : 영속성 전파 ALL
-            }
-        }
-
-        if(request.getFiles() != null){
-            for(MultipartFile file:request.getFiles()){
+        // 2-5) 새 이미지들 추가
+        if (request.getFiles() != null) {
+            for (MultipartFile file : request.getFiles()) {
                 String token = uploadFile(file, recipe.getId());
                 RecipeImage img = RecipeImage.builder()
-                        .token(token)//바로 찾는건 불가능 하니 key값을 저장하자
+                        .token(token)
                         .build();
                 recipe.addRecipeImage(img);
             }
         }
 
-        //기존 레시피 이미지 객체 삭제
-        if(request.getDeleteImgIds() != null){
-            for(Long imgId: request.getDeleteImgIds()){
-                RecipeImage recipeImage = recipeImageRepository.findById(imgId).get();
-                recipe.getRecipeImages().remove(recipeImage);
-                amazonS3Client.deleteObject(bucketName, recipeImage.getToken());
-            }
-        }
-        
-        recipeDifficulty(recipe, recipe.getCookingTime(), recipe.getRecipeSteps().size(),recipe.getRecipeIngredients().size() , recipe.getRecipeTools().size());
+        // === 3) 난이도 계산 로직 (예시 그대로) ===
+        recipeDifficulty(recipe,
+                recipe.getCookingTime(),
+                recipe.getRecipeSteps().size(),
+                recipe.getRecipeIngredients().size(),
+                recipe.getRecipeTools().size());
 
+        // === 4) 최종 응답 ===
         return new RecipeIdAndUserUidResponse(request.getUserUid(), recipeId);
     }
+
 
     @Transactional
     public void delete(Long recipeId){

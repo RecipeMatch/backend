@@ -33,14 +33,6 @@ public class RecipeUpdateRequest {
 
     private List<String> toolName = new ArrayList<>(); //RecipeTool
 
-    private List<Long> deleteToolIds = new ArrayList<>();
-
-    private List<Long> deleteIngredientIds = new ArrayList<>();
-
-    private List<Long> deleteStepIds= new ArrayList<>();
-
-    private List<Long> deleteImgIds= new ArrayList<>();
-
     public void setFiles(List<MultipartFile> files){
         this.files = files;
     }
