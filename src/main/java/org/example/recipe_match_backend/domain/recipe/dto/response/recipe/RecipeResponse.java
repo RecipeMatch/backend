@@ -50,7 +50,7 @@ public class RecipeResponse {
 
     private int bookMarkSize;
 
-    public RecipeResponse(Recipe recipe, Boolean recipeLike, int likeSize,Boolean recipeBookMark, int bookMarkSize){
+    public RecipeResponse(Recipe recipe, Boolean recipeLike, int likeSize,Boolean recipeBookMark, int bookMarkSize,List<String> urls){
         this.id = recipe.getId();
         this.recipeName = recipe.getRecipeName();
         this.description = recipe.getDescription();
@@ -62,7 +62,7 @@ public class RecipeResponse {
         for(RecipeTool recipeTool:recipe.getRecipeTools()){
             this.toolName.add(recipeTool.getTool().getToolName());
         }
-        this.imageUrls = recipe.getRecipeImages().stream().map(RecipeImage::getImageUrl).collect(toList());
+        this.imageUrls = urls;
         this.recipeLike = recipeLike;
         this.likeSize = likeSize;
         this.recipeBookMark = recipeBookMark;

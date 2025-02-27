@@ -10,7 +10,9 @@ import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.Recipe
 import org.example.recipe_match_backend.domain.recipe.service.RecipeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -31,12 +33,22 @@ public class RecipeController {
     }
 
     @PostMapping("/recipe")
-    public ResponseEntity<RecipeIdAndUserUidResponse> create(@RequestBody RecipeRequest request){
+    public ResponseEntity<RecipeIdAndUserUidResponse> create(@RequestPart RecipeRequest request,@RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
+
+        if (files != null) {
+            request.setFiles(files);
+        }
+
         return ResponseEntity.ok(recipeService.save(request));
     }
 
     @PatchMapping("/recipe/{recipeId}")
-    public ResponseEntity<RecipeIdAndUserUidResponse> update(@PathVariable Long recipeId, @RequestBody RecipeUpdateRequest request) {
+    public ResponseEntity<RecipeIdAndUserUidResponse> update(@PathVariable Long recipeId, @RequestPart RecipeUpdateRequest request, @RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
+
+        if (files != null) {
+            request.setFiles(files);
+        }
+
         return ResponseEntity.ok(recipeService.update(recipeId, request));
     }
 
