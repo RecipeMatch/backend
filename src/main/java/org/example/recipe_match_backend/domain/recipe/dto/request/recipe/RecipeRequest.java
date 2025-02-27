@@ -8,6 +8,7 @@ import org.example.recipe_match_backend.domain.recipe.dto.RecipeStepDto;
 import org.example.recipe_match_backend.domain.recipe.domain.RecipeTool;
 import org.example.recipe_match_backend.type.CategoryType;
 import org.example.recipe_match_backend.type.DifficultyType;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +31,15 @@ public class RecipeRequest {
 
     private CategoryType category;  //Recipe
 
+    private List<MultipartFile> files = new ArrayList<>();
+
     private List<RecipeIngredientDto> recipeIngredientDtos = new ArrayList<>();//RecipeIngredient
 
     private List<RecipeStepDto> recipeStepDtos = new ArrayList<>();//RecipeStep
 
     private List<String> toolName = new ArrayList<>();//RecipeTool
+
+    public void setFiles(List<MultipartFile> files){
+        this.files = files;
+    }
 }

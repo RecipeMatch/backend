@@ -16,8 +16,8 @@ public class RecipeImage extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // S3 업로드된 경우 S3 URL, 기본 이미지일 경우 /static/images 경로
-    private String imageUrl;
+    // S3 업로드된 경우 key, 기본 이미지일 경우 /static/images 경로
+    private String token;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")
