@@ -138,7 +138,7 @@ public class RecipeService {
 
         recipeDifficulty(recipe, recipe.getCookingTime(), recipe.getRecipeSteps().size(),recipe.getRecipeIngredients().size() , recipe.getRecipeTools().size());
 
-
+        /**
         if(request.getFiles() == null){
             String url = getDefaultImageUrl(recipe.getCategory());
             RecipeImage img = RecipeImage.builder()
@@ -154,7 +154,14 @@ public class RecipeService {
                 recipe.addRecipeImage(img);
             }
         }
-
+        **/
+        for(MultipartFile file:request.getFiles()){
+            String token = uploadFile(file, recipe.getId());
+            RecipeImage img = RecipeImage.builder()
+                    .token(token)//바로 찾는건 불가능 하니 key값을 저장하자
+                    .build();
+            recipe.addRecipeImage(img);
+        }
         // Recipe 저장 (CascadeType.PERSIST에 의해 연관된 엔티티들도 함께 저장됨)
         Recipe savedRecipe = recipeRepository.save(recipe);
 
