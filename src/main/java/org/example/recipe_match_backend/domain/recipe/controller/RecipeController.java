@@ -23,12 +23,12 @@ public class RecipeController {
     private final RecipeService recipeService;
 
     @GetMapping("/recipe")
-    public RecipeResponse find(@RequestBody RecipeIdAndUserIdRequest request){
-        return recipeService.find(request.getRecipeId(), request.getUserId());
+    public RecipeResponse find(@RequestBody  RecipeIdAndUserUidResponse request){
+        return recipeService.find(request.getRecipeId(), request.getUserUid());
     }
 
     @GetMapping("/recipeAll")
-    public List<RecipeAllResponse> findAll(){
+    public List<RecipeResponse> findAll(){
         return recipeService.findAll();
     }
 
@@ -44,7 +44,8 @@ public class RecipeController {
     }
 
     @PatchMapping("/recipe/{recipeId}")
-    public ResponseEntity<RecipeIdAndUserUidResponse> update(@PathVariable Long recipeId, @RequestPart RecipeUpdateRequest request, @RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
+    public ResponseEntity<RecipeIdAndUserUidResponse> update(@PathVariable Long recipeId, @RequestPart RecipeUpdateRequest request,
+                                                             @RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
 
         if (files != null) {
             request.setFiles(files);
