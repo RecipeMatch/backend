@@ -3,7 +3,6 @@ package org.example.recipe_match_backend.domain.recipe.service;
 import lombok.RequiredArgsConstructor;
 import org.example.recipe_match_backend.domain.recipe.domain.Recipe;
 import org.example.recipe_match_backend.domain.recipe.domain.RecipeLike;
-import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeIdAndUserIdRequest;
 import org.example.recipe_match_backend.domain.recipe.repository.RecipeLikeRepository;
 import org.example.recipe_match_backend.domain.recipe.repository.RecipeRepository;
 import org.example.recipe_match_backend.domain.user.domain.User;
