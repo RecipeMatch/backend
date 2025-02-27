@@ -1,8 +1,10 @@
 package org.example.recipe_match_backend.domain.user.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
 import lombok.RequiredArgsConstructor;
 import org.example.recipe_match_backend.domain.recipe.domain.Recipe;
 import org.example.recipe_match_backend.domain.recipe.domain.RecipeBookMark;
+import org.example.recipe_match_backend.domain.recipe.domain.RecipeImage;
 import org.example.recipe_match_backend.domain.recipe.domain.RecipeLike;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeResponse;
 import org.example.recipe_match_backend.domain.recipe.repository.RecipeBookMarkRepository;
@@ -17,9 +19,11 @@ import org.example.recipe_match_backend.global.exception.login.InvalidTokenExcep
 import org.example.recipe_match_backend.global.exception.user.UserNotFoundException;
 import org.example.recipe_match_backend.global.jwt.JwtTokenProvider;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,6 +37,10 @@ public class UserService {
     private final JwtTokenProvider jwtTokenProvider;
     private final RecipeLikeRepository recipeLikeRepository;
     private final RecipeBookMarkRepository recipeBookMarkRepository;
+    private final AmazonS3Client amazonS3Client;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucketName;
 
     /**
      * 사용자 로그인 (신규 회원, 기존 회원)
@@ -140,8 +148,13 @@ public class UserService {
                             .anyMatch(bookmark -> bookmark.getUser().equals(user));
                     int bookMarkSize = recipe.getRecipeFavorites().size();
 
+                    List<String> urls = new ArrayList<>();
+                    for(RecipeImage recipeImage:recipe.getRecipeImages()){
+                        urls.add(""+amazonS3Client.getUrl(bucketName, recipeImage.getToken()));
+                    }
+
                     // Recipe 엔티티 → RecipeResponse DTO 변환
-                    return new RecipeResponse(recipe, recipeLike, likeSize, recipeBookMark, bookMarkSize);
+                    return new RecipeResponse(recipe, recipeLike, likeSize, recipeBookMark, bookMarkSize, urls);
                 })
                 .collect(Collectors.toList());
     }
@@ -169,7 +182,12 @@ public class UserService {
                             .anyMatch(bookmark -> bookmark.getUser().equals(user));
                     int bookMarkSize = recipe.getRecipeFavorites().size();
 
-                    return new RecipeResponse(recipe, recipeLikeBool, likeSize, recipeBookMark, bookMarkSize);
+                    List<String> urls = new ArrayList<>();
+                    for(RecipeImage recipeImage:recipe.getRecipeImages()){
+                        urls.add(""+amazonS3Client.getUrl(bucketName, recipeImage.getToken()));
+                    }
+
+                    return new RecipeResponse(recipe, recipeLikeBool, likeSize, recipeBookMark, bookMarkSize, urls);
                 })
                 .distinct() // 혹시 중복이 있을 수 있으니 distinct()
                 .collect(Collectors.toList());
@@ -198,7 +216,12 @@ public class UserService {
                     boolean recipeBookMark = true;
                     int bookMarkSize = recipe.getRecipeFavorites().size();
 
-                    return new RecipeResponse(recipe, recipeLike, likeSize, recipeBookMark, bookMarkSize);
+                    List<String> urls = new ArrayList<>();
+                    for(RecipeImage recipeImage:recipe.getRecipeImages()){
+                        urls.add(""+amazonS3Client.getUrl(bucketName, recipeImage.getToken()));
+                    }
+
+                    return new RecipeResponse(recipe, recipeLike, likeSize, recipeBookMark, bookMarkSize, urls);
                 })
                 .distinct()
                 .collect(Collectors.toList());
