@@ -50,7 +50,7 @@ public class RecipeResponse {
 
     private int bookMarkSize;
 
-    public RecipeResponse(Recipe recipe, Boolean recipeLike, int likeSize,Boolean recipeBookMark, int bookMarkSize,List<String> urls){
+    public RecipeResponse(Recipe recipe, Boolean recipeLike, int likeSize,Boolean recipeBookMark, int bookMarkSize, List<String> urls){
         this.id = recipe.getId();
         this.recipeName = recipe.getRecipeName();
         this.description = recipe.getDescription();
