@@ -49,6 +49,10 @@ jobs:
           MYSQL_URL: ${{ secrets.MYSQL_URL }}
           MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
           MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          # S3 관련 Secret들을 추가
+          S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
+          S3_SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
+          BUCKET: ${{ secrets.BUCKET }}
         run: ./gradlew build
 
       - name: Test with Gradle
