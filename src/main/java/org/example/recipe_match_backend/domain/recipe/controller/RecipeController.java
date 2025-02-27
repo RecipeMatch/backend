@@ -33,7 +33,8 @@ public class RecipeController {
     }
 
     @PostMapping("/recipe")
-    public ResponseEntity<RecipeIdAndUserUidResponse> create(@RequestPart RecipeRequest request,@RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
+    public ResponseEntity<RecipeIdAndUserUidResponse> create(@RequestPart RecipeRequest request,
+                                                             @RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
 
         if (files != null) {
             request.setFiles(files);
