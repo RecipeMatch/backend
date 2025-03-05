@@ -351,16 +351,6 @@ public class RecipeService {
 
         double point = 25*(time+step+ingredient+tool);
 
-        System.out.println("cookingTime: "+cookingTime);
-        System.out.println("stepSize: "+stepSize);
-        System.out.println("ingredientSize: "+ingredientSize);
-        System.out.println("toolSize: "+toolSize);
-        System.out.println("time: "+time);
-        System.out.println("step: "+step);
-        System.out.println("ingredient: "+ingredient);
-        System.out.println("tool: "+tool);
-        System.out.println("point: "+point);
-
         if(0 <= point && point <= 33){
             recipe.setDifficulty(DifficultyType.초보환영);
         } else if (34 <= point && point <= 66) {
