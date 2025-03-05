@@ -17,9 +17,18 @@ public class Allergy {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String allergyName;
 
     @OneToMany(mappedBy = "allergy", cascade = CascadeType.PERSIST)
     private List<UserAllergy> userAllergies = new ArrayList<>();
 
+    public void addUserAllergy(UserAllergy userAllergy) {
+        this.userAllergies.add(userAllergy);
+        userAllergy.addAllergy(this);
+    }
+
+    public Allergy(String allergyName) {
+        this.allergyName = allergyName;
+    }
 }

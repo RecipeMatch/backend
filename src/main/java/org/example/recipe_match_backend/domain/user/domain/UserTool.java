@@ -22,4 +22,16 @@ public class UserTool {
     @JoinColumn(name = "tool_id")
     private Tool tool;
 
+    public void addTool(Tool tool) {
+        this.tool = tool;
+    }
+
+    public void addUser(User user) {
+        this.user = user;
+    }
+
+    public UserTool(User user, Tool tool) {
+        this.user = user;
+        this.tool = tool;
+    }
 }

@@ -24,4 +24,16 @@ public class UserIngredient {
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
 
+    public void addIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
+    }
+
+    public void addUser(User user) {
+        this.user = user;
+    }
+
+    public UserIngredient(User user, Ingredient ingredient) {
+        this.user = user;
+        this.ingredient = ingredient;
+    }
 }

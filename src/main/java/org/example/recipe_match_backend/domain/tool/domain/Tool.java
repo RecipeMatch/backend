@@ -32,4 +32,13 @@ public class Tool {
         this.recipeTools.add(recipeTool);
     }
 
+    public void addUserTool(UserTool userTool) {
+        this.userTools.add(userTool);
+        userTool.addTool(this);
+    }
+
+    public Tool(String toolName) {
+        this.toolName = toolName;
+    }
+
 }

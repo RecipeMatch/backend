@@ -22,4 +22,16 @@ public class UserAllergy {
     @JoinColumn(name = "allergy_id")
     private Allergy allergy;
 
+    public void addAllergy(Allergy allergy) {
+        this.allergy = allergy;
+    }
+
+    public void addUser(User user) {
+        this.user = user;
+    }
+
+    public UserAllergy(User user, Allergy allergy) {
+        this.user = user;
+        this.allergy = allergy;
+    }
 }

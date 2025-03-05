@@ -2,6 +2,10 @@ package org.example.recipe_match_backend.domain.user.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import lombok.RequiredArgsConstructor;
+import org.example.recipe_match_backend.domain.allergy.domain.Allergy;
+import org.example.recipe_match_backend.domain.allergy.repository.AllergyRepository;
+import org.example.recipe_match_backend.domain.ingredient.domain.Ingredient;
+import org.example.recipe_match_backend.domain.ingredient.repository.IngredientRepository;
 import org.example.recipe_match_backend.domain.recipe.domain.Recipe;
 import org.example.recipe_match_backend.domain.recipe.domain.RecipeBookMark;
 import org.example.recipe_match_backend.domain.recipe.domain.RecipeImage;
@@ -9,7 +13,12 @@ import org.example.recipe_match_backend.domain.recipe.domain.RecipeLike;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeResponse;
 import org.example.recipe_match_backend.domain.recipe.repository.RecipeBookMarkRepository;
 import org.example.recipe_match_backend.domain.recipe.repository.RecipeLikeRepository;
+import org.example.recipe_match_backend.domain.tool.domain.Tool;
+import org.example.recipe_match_backend.domain.tool.repository.ToolRepository;
 import org.example.recipe_match_backend.domain.user.domain.User;
+import org.example.recipe_match_backend.domain.user.domain.UserAllergy;
+import org.example.recipe_match_backend.domain.user.domain.UserIngredient;
+import org.example.recipe_match_backend.domain.user.domain.UserTool;
 import org.example.recipe_match_backend.domain.user.dto.request.AddInfoRequest;
 import org.example.recipe_match_backend.domain.user.dto.request.OAuthRequest;
 import org.example.recipe_match_backend.domain.user.dto.request.RefreshRequest;
@@ -38,6 +47,9 @@ public class UserService {
     private final RecipeLikeRepository recipeLikeRepository;
     private final RecipeBookMarkRepository recipeBookMarkRepository;
     private final AmazonS3Client amazonS3Client;
+    private final AllergyRepository allergyRepository;
+    private final ToolRepository toolRepository;
+    private final IngredientRepository ingredientRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
@@ -101,8 +113,46 @@ public class UserService {
      * 회원의 추가 정보 저장
      */
     @Transactional
-    public void updateInfo(AddInfoRequest request, User user){
+    public void updateInfo(AddInfoRequest request){
+        User user = userRepository.findByUid(request.getUid())
+                .orElseThrow(UserNotFoundException::new);
+
         user.updateInfo(request);
+
+        user.getUserAllergies().clear();
+        user.getUserTools().clear();
+        user.getUserIngredients().clear();
+
+        // 알레르기 처리
+        if (request.getAllergyNames() != null) {
+            for (String allergyName : request.getAllergyNames()) {
+                Allergy allergy = allergyRepository.findByAllergyName(allergyName)
+                        .orElseGet(() -> allergyRepository.save(new Allergy(allergyName)));
+                // 편의 메서드 사용
+                user.addAllergy(allergy);
+            }
+        }
+
+        // 도구 처리
+        if (request.getToolNames() != null) {
+            for (String toolName : request.getToolNames()) {
+                Tool tool = toolRepository.findByToolName(toolName)
+                        .orElseGet(() -> toolRepository.save(new Tool(toolName)));
+                // 편의 메서드 사용
+                user.addTool(tool);
+            }
+        }
+
+        // 재료 처리
+        if (request.getIngredientNames() != null) {
+            for (String ingredientName : request.getIngredientNames()) {
+                Ingredient ingredient = ingredientRepository.findByIngredientName(ingredientName)
+                        .orElseGet(() -> ingredientRepository.save(new Ingredient(ingredientName)));
+                // 편의 메서드 사용
+                user.addIngredient(ingredient);
+            }
+        }
+
         userRepository.save(user);
     }
 
