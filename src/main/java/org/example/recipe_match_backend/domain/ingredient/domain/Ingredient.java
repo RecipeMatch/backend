@@ -28,7 +28,16 @@ public class Ingredient {
     @OneToMany(mappedBy = "ingredient", cascade = CascadeType.PERSIST)
     private List<UserIngredient> userIngredients = new ArrayList<>();
 
+    public void addUserIngredient(UserIngredient userIngredient) {
+        this.userIngredients.add(userIngredient);
+        userIngredient.addIngredient(this);
+    }
+
     public void addRecipeIngredient(RecipeIngredient recipeIngredient) {
         this.recipeIngredients.add(recipeIngredient);
+    }
+
+    public Ingredient(String ingredientName) {
+        this.ingredientName = ingredientName;
     }
 }
