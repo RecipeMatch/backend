@@ -339,17 +339,17 @@ public class RecipeService {
         return recipeResponses;
     }
 
-    private void recipeDifficulty(Recipe recipe,int cookingTime, int stepSize, int ingredientSize, int toolSize){
+    private void recipeDifficulty(Recipe recipe,double cookingTime, double stepSize, double ingredientSize, double toolSize){
 
-        int time = (cookingTime-5)/175;
+        double time = (cookingTime-5)/175;
 
-        int step = (stepSize - 1)/14;
+        double step = (stepSize - 1)/14;
 
-        int ingredient = (ingredientSize-1)/14;
+        double ingredient = (ingredientSize-1)/14;
 
-        int tool = (toolSize-1)/14;
+        double tool = (toolSize-1)/14;
 
-        int point = 25*(time+step+ingredient+tool);
+        double point = 25*(time+step+ingredient+tool);
 
         if(0 <= point && point <= 33){
             recipe.setDifficulty(DifficultyType.초보환영);
