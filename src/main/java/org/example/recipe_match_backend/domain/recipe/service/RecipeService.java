@@ -20,6 +20,7 @@ import org.example.recipe_match_backend.domain.tool.domain.Tool;
 import org.example.recipe_match_backend.domain.tool.repository.ToolRepository;
 import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
+import org.example.recipe_match_backend.global.config.AWSS3Config;
 import org.example.recipe_match_backend.type.CategoryType;
 import org.example.recipe_match_backend.type.DifficultyType;
 import org.springframework.beans.factory.annotation.Value;
@@ -324,6 +325,23 @@ public class RecipeService {
 
     public List<RecipeResponse> findAll(){
         List<Recipe> recipes = recipeRepository.findAll();
+        List<RecipeResponse> recipeResponses = new ArrayList<>();
+        for(Recipe recipe:recipes){
+            int likeSize = recipeLikeRepository.findByRecipe(recipe).size();
+            int bookMarkSize = recipeBookMarkRepository.findByRecipe(recipe).size();
+
+            List<String> urls = new ArrayList<>();
+            for(RecipeImage recipeImage:recipe.getRecipeImages()){
+                urls.add(""+amazonS3Client.getUrl(bucketName, recipeImage.getToken()));
+            }
+            recipeResponses.add(new RecipeResponse(recipe,likeSize,bookMarkSize,urls));
+        }
+
+        return recipeResponses;
+    }
+
+    public List<RecipeResponse> findByKeyword(String keyword){
+        List<Recipe> recipes = recipeRepository.findByKeyword(keyword);
         List<RecipeResponse> recipeResponses = new ArrayList<>();
         for(Recipe recipe:recipes){
             int likeSize = recipeLikeRepository.findByRecipe(recipe).size();

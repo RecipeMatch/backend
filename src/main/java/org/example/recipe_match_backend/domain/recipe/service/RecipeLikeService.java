@@ -10,6 +10,7 @@ import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 @RequiredArgsConstructor
@@ -21,9 +22,9 @@ public class RecipeLikeService {
     private final RecipeLikeRepository recipeLikeRepository;
 
     @Transactional
-    public Long recipeLike(RecipeIdAndUserIdRequest request){
-        Recipe recipe = recipeRepository.findById(request.getRecipeId()).get();
-        User user = userRepository.findById(request.getUserId()).get();
+    public Long recipeLike(Long recipeId, String userUid){
+        Recipe recipe = recipeRepository.findById(recipeId).get();
+        User user = userRepository.findByUid(userUid).get();
         if (recipeLikeRepository.findByUserAndRecipe(user, recipe).isEmpty()){
             RecipeLike recipeLike = RecipeLike.builder().recipe(recipe).user(user).build();
             recipe.getRecipeLikes().add(recipeLike);
