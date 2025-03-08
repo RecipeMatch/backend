@@ -11,6 +11,7 @@ import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -26,10 +27,10 @@ public class RecipeBookMarkService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long recipeBookMark(RecipeIdAndUserIdRequest request){
+    public Long recipeBookMark(Long recipeId, String userUid){
 
-        Recipe recipe = recipeRepository.findById(request.getRecipeId()).get();
-        User user = userRepository.findById(request.getUserId()).get();
+        Recipe recipe = recipeRepository.findById(recipeId).get();
+        User user = userRepository.findByUid(userUid).get();
         if (recipeBookMarkRepository.findByUserAndRecipe(user, recipe).isEmpty()){
             RecipeBookMark recipeBookMark = RecipeBookMark.builder().recipe(recipe).user(user).build();
             recipe.getRecipeFavorites().add(recipeBookMark);

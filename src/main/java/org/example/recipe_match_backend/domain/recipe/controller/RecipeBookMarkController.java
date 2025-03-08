@@ -16,8 +16,8 @@ public class RecipeBookMarkController {
     private final RecipeBookMarkService bookMarkService;
 
     @PostMapping("/recipe/bookmark")
-    public ResponseEntity<Long> recipeBookMark(@RequestBody RecipeIdAndUserIdRequest request){
-        return ResponseEntity.ok(bookMarkService.recipeBookMark(request));
+    public ResponseEntity<Long> recipeBookMark(@RequestParam Long recipeId, @RequestParam String userUid){
+        return ResponseEntity.ok(bookMarkService.recipeBookMark(recipeId,userUid));
     }
 
     @GetMapping("/bookmark")

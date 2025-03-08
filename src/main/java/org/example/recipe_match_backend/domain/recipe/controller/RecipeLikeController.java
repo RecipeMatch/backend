@@ -14,8 +14,8 @@ public class RecipeLikeController {
     private final RecipeLikeService recipeLikeService;
 
     @PostMapping("/like")
-    public ResponseEntity<Long> recipeLike(@RequestBody RecipeIdAndUserIdRequest request){
-        return ResponseEntity.ok(recipeLikeService.recipeLike(request));
+    public ResponseEntity<Long> recipeLike(@RequestParam Long recipeId, @RequestParam String userUid){
+        return ResponseEntity.ok(recipeLikeService.recipeLike(recipeId,userUid));
     }
 
 }
