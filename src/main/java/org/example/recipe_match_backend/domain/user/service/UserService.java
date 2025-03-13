@@ -16,6 +16,9 @@ import org.example.recipe_match_backend.domain.recipe.repository.RecipeLikeRepos
 import org.example.recipe_match_backend.domain.tool.domain.Tool;
 import org.example.recipe_match_backend.domain.tool.repository.ToolRepository;
 import org.example.recipe_match_backend.domain.user.domain.User;
+import org.example.recipe_match_backend.domain.user.domain.UserAllergy;
+import org.example.recipe_match_backend.domain.user.domain.UserIngredient;
+import org.example.recipe_match_backend.domain.user.domain.UserTool;
 import org.example.recipe_match_backend.domain.user.dto.request.AddInfoRequest;
 import org.example.recipe_match_backend.domain.user.dto.request.OAuthRequest;
 import org.example.recipe_match_backend.domain.user.dto.request.RefreshRequest;
