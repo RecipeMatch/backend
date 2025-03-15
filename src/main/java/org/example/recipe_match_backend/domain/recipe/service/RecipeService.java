@@ -2,7 +2,6 @@ package org.example.recipe_match_backend.domain.recipe.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.transfer.MultipleFileUpload;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.example.recipe_match_backend.domain.ingredient.domain.Ingredient;
@@ -13,14 +12,12 @@ import org.example.recipe_match_backend.domain.recipe.dto.RecipeStepDto;
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeUpdateRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeIdAndUserUidResponse;
-import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeAllResponse;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeResponse;
 import org.example.recipe_match_backend.domain.recipe.repository.*;
 import org.example.recipe_match_backend.domain.tool.domain.Tool;
 import org.example.recipe_match_backend.domain.tool.repository.ToolRepository;
 import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
-import org.example.recipe_match_backend.global.config.AWSS3Config;
 import org.example.recipe_match_backend.type.CategoryType;
 import org.example.recipe_match_backend.type.DifficultyType;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.text.html.Option;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -37,7 +33,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -370,11 +365,11 @@ public class RecipeService {
         double point = 25*(time+step+ingredient+tool);
 
         if(0 <= point && point <= 33){
-            recipe.setDifficulty(DifficultyType.초보환영);
+            recipe.setDifficulty(DifficultyType.EASY);
         } else if (34 <= point && point <= 66) {
-            recipe.setDifficulty(DifficultyType.중간);
+            recipe.setDifficulty(DifficultyType.MIDDLE);
         } else if (67 <= point) {
-            recipe.setDifficulty(DifficultyType.어려움);
+            recipe.setDifficulty(DifficultyType.HARD);
         }
     }
     /**
