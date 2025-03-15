@@ -30,4 +30,5 @@ public enum AllergyType {
     public String getDisplayName() {
         return displayName;
     }
+
 }
