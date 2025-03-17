@@ -2,7 +2,6 @@ package org.example.recipe_match_backend.domain.user.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.recipe_match_backend.domain.allergy.domain.Allergy;
 import org.example.recipe_match_backend.domain.ingredient.domain.Ingredient;
 import org.example.recipe_match_backend.domain.recipe.domain.*;
 import org.example.recipe_match_backend.domain.tool.domain.Tool;
@@ -11,6 +10,7 @@ import org.example.recipe_match_backend.global.entity.BaseEntity;
 import org.example.recipe_match_backend.domain.post.domain.Post;
 import org.example.recipe_match_backend.domain.post.domain.PostComment;
 import org.example.recipe_match_backend.domain.searchhistory.domain.SearchHistory;
+import org.example.recipe_match_backend.type.AllergyType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +33,12 @@ public class User extends BaseEntity {
     private String nickname;
 
     private String phoneNumber;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "user_allergies", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "allergy_type")
+    @Enumerated(EnumType.STRING)
+    private List<AllergyType> allergies = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
@@ -68,10 +74,6 @@ public class User extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserAllergy> userAllergies = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserTool> userTools = new ArrayList<>();
 
     @Builder.Default
@@ -86,11 +88,6 @@ public class User extends BaseEntity {
         this.recipes.add(recipe);
     }
 
-    public void addUserAllergy(UserAllergy userAllergy) {
-        this.userAllergies.add(userAllergy);
-        userAllergy.addUser(this);
-    }
-
     public void addUserTool(UserTool userTool) {
         this.userTools.add(userTool);
         userTool.addUser(this);
@@ -101,11 +98,9 @@ public class User extends BaseEntity {
         userIngredient.addUser(this);
     }
 
-    // 예시: UserAllergy를 만드는 과정을 메서드 안에서 처리할 수도 있음
-    public void addAllergy(Allergy allergy) {
-        UserAllergy ua = new UserAllergy(this, allergy);
-        this.userAllergies.add(ua);
-        allergy.getUserAllergies().add(ua);
+    // user에 allergy 부분 추가
+    public void addAllergy(List<AllergyType> allergies) {
+        this.allergies = allergies;
     }
 
     // 마찬가지로 Tool, Ingredient용 메서드도 가능
