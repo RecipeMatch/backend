@@ -2,8 +2,6 @@ package org.example.recipe_match_backend.domain.user.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import lombok.RequiredArgsConstructor;
-import org.example.recipe_match_backend.domain.allergy.domain.Allergy;
-import org.example.recipe_match_backend.domain.allergy.repository.AllergyRepository;
 import org.example.recipe_match_backend.domain.ingredient.domain.Ingredient;
 import org.example.recipe_match_backend.domain.ingredient.repository.IngredientRepository;
 import org.example.recipe_match_backend.domain.recipe.domain.Recipe;
@@ -16,9 +14,6 @@ import org.example.recipe_match_backend.domain.recipe.repository.RecipeLikeRepos
 import org.example.recipe_match_backend.domain.tool.domain.Tool;
 import org.example.recipe_match_backend.domain.tool.repository.ToolRepository;
 import org.example.recipe_match_backend.domain.user.domain.User;
-import org.example.recipe_match_backend.domain.user.domain.UserAllergy;
-import org.example.recipe_match_backend.domain.user.domain.UserIngredient;
-import org.example.recipe_match_backend.domain.user.domain.UserTool;
 import org.example.recipe_match_backend.domain.user.dto.request.AddInfoRequest;
 import org.example.recipe_match_backend.domain.user.dto.request.OAuthRequest;
 import org.example.recipe_match_backend.domain.user.dto.request.RefreshRequest;
@@ -28,6 +23,7 @@ import org.example.recipe_match_backend.global.exception.login.InvalidTokenExcep
 import org.example.recipe_match_backend.global.exception.user.UserNotFoundException;
 import org.example.recipe_match_backend.global.jwt.JwtTokenProvider;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
+import org.example.recipe_match_backend.type.AllergyType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +43,6 @@ public class UserService {
     private final RecipeLikeRepository recipeLikeRepository;
     private final RecipeBookMarkRepository recipeBookMarkRepository;
     private final AmazonS3Client amazonS3Client;
-    private final AllergyRepository allergyRepository;
     private final ToolRepository toolRepository;
     private final IngredientRepository ingredientRepository;
 
@@ -119,19 +114,12 @@ public class UserService {
 
         user.updateInfo(request);
 
-        user.getUserAllergies().clear();
+        user.getAllergies().clear();
         user.getUserTools().clear();
         user.getUserIngredients().clear();
 
         // 알레르기 처리
-        if (request.getAllergyNames() != null) {
-            for (String allergyName : request.getAllergyNames()) {
-                Allergy allergy = allergyRepository.findByAllergyName(allergyName)
-                        .orElseGet(() -> allergyRepository.save(new Allergy(allergyName)));
-                // 편의 메서드 사용
-                user.addAllergy(allergy);
-            }
-        }
+        user.addAllergy(request.getAllergyNames());
 
         // 도구 처리
         if (request.getToolNames() != null) {
