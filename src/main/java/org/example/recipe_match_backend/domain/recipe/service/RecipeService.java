@@ -354,15 +354,15 @@ public class RecipeService {
 
     private void recipeDifficulty(Recipe recipe,double cookingTime, double stepSize, double ingredientSize, double toolSize){
 
-        double time = (cookingTime-5)/175;
+        double time = 0.3*((cookingTime-5)/175);
 
-        double step = (stepSize - 1)/14;
+        double step = 0.4*((stepSize - 1)/14);
 
-        double ingredient = (ingredientSize-1)/14;
+        double ingredient = 0.2*((ingredientSize-1)/14);
 
-        double tool = (toolSize-1)/14;
+        double tool = 0.1*((toolSize-1)/14);
 
-        double point = 25*(time+step+ingredient+tool);
+        double point = 100*(time+step+ingredient+tool);
 
         if(0 <= point && point <= 33){
             recipe.setDifficulty(DifficultyType.EASY);
