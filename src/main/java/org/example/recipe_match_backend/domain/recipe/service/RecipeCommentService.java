@@ -42,7 +42,7 @@ public class RecipeCommentService {
         return comments.stream()
                 .map(comment -> RecipeCommentResponse.builder()
                         .id(comment.getId())
-                        .userUid(comment.getUser().getUid())
+                        .nickname(comment.getUser().getNickname())
                         .recipeId(comment.getRecipe().getId())
                         .content(comment.getContent())
                         .build())
@@ -82,7 +82,7 @@ public class RecipeCommentService {
 
         return RecipeCommentResponse.builder()
                 .id(comment.getId())
-                .userUid(comment.getUser().getUid())
+                .nickname(comment.getUser().getNickname())
                 .recipeId(comment.getRecipe().getId())
                 .content(comment.getContent())
                 .build();
