@@ -9,7 +9,7 @@ import org.example.recipe_match_backend.domain.recipe.domain.RecipeComment;
 @Getter
 public class RecipeCommentResponse {
     private Long id;
-    private String userUid;
+    private String nickname;
     private Long recipeId;
     private String content;
 }
