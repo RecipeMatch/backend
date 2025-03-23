@@ -43,7 +43,7 @@ public enum AllergyType {
                 return type;
             }
         }
-        throw new AllergyTypeException();
+        throw new AllergyTypeException(displayName);
     }
 
 }
