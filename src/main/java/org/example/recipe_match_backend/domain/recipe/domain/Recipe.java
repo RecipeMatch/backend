@@ -42,6 +42,8 @@ public class Recipe extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private CategoryType category;
 
+    private String alterTools;
+
     //사용자:레시피 입력시 필요한 내용
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
