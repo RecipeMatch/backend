@@ -1,7 +1,6 @@
 # 환경 변수 파일
 .env
 src/main/resources/firebase-adminsdk.json
-src/main/resources/recipe.json
 
 # 로그 파일
 logs/
