@@ -25,7 +25,7 @@ public class Recipe extends BaseEntity {
     private Long id;
 
     // 이름:레시피 입력시 필요한 내용
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = false)
     private String recipeName;
 
     // 설명:레시피 입력시 필요한 내용
@@ -44,8 +44,9 @@ public class Recipe extends BaseEntity {
     private CategoryType category;
 
     // 일레르기: 레시피 입력시 필요한 내용
+    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    private AllergyType allergy;
+    private List<AllergyType> allergies = new ArrayList<>();
 
     private String alterTools;
 
@@ -56,14 +57,17 @@ public class Recipe extends BaseEntity {
 
     //레시피 단계 및 내용:레시피 입력시 필요한 내용
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<RecipeStep> recipeSteps = new ArrayList<>();
 
     //재료:레시피 입력시 필요한 내용
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
 
     //도구:레시피 입력시 필요한 내용
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<RecipeTool> recipeTools = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)

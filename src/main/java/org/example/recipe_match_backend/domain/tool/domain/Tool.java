@@ -23,6 +23,7 @@ public class Tool {
     private String toolName;
 
     @OneToMany(mappedBy = "tool")
+    @Builder.Default
     private List<RecipeTool> recipeTools = new ArrayList<>();
 
     @OneToMany(mappedBy = "tool", cascade = CascadeType.PERSIST)
