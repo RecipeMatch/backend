@@ -1,5 +1,8 @@
 package org.example.recipe_match_backend.type;
 
+import org.example.recipe_match_backend.global.exception.type.AllergyTypeException;
+import org.example.recipe_match_backend.global.exception.type.DifficultyTypeException;
+
 public enum AllergyType {
     EGG("알류"),
     MILK("우유"),
@@ -40,7 +43,7 @@ public enum AllergyType {
                 return type;
             }
         }
-        throw new IllegalArgumentException("일치하는 알레르기 Enum이 없습니다: " + displayName);
+        throw new AllergyTypeException();
     }
 
 }
