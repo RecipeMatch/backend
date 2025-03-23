@@ -31,4 +31,16 @@ public enum AllergyType {
         return displayName;
     }
 
+    /**
+     * displayName(한글)으로부터 해당 Enum을 찾아내는 메서드
+     */
+    public static AllergyType fromDisplayName(String displayName) {
+        for (AllergyType type : AllergyType.values()) {
+            if (type.displayName.equals(displayName)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("일치하는 알레르기 Enum이 없습니다: " + displayName);
+    }
+
 }
