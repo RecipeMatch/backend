@@ -19,10 +19,10 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String ingredientName;
 
     @OneToMany(mappedBy = "ingredient")
+    @Builder.Default
     private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
 
     @OneToMany(mappedBy = "ingredient", cascade = CascadeType.PERSIST)

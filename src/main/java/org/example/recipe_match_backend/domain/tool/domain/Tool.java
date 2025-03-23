@@ -19,10 +19,10 @@ public class Tool {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String toolName;
 
     @OneToMany(mappedBy = "tool")
+    @Builder.Default
     private List<RecipeTool> recipeTools = new ArrayList<>();
 
     @OneToMany(mappedBy = "tool", cascade = CascadeType.PERSIST)

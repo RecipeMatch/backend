@@ -1,5 +1,8 @@
 package org.example.recipe_match_backend.type;
 
+import org.example.recipe_match_backend.global.exception.type.AllergyTypeException;
+import org.example.recipe_match_backend.global.exception.type.DifficultyTypeException;
+
 public enum AllergyType {
     EGG("알류"),
     MILK("우유"),
@@ -29,6 +32,18 @@ public enum AllergyType {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    /**
+     * displayName(한글)으로부터 해당 Enum을 찾아내는 메서드
+     */
+    public static AllergyType fromDisplayName(String displayName) {
+        for (AllergyType type : AllergyType.values()) {
+            if (type.displayName.equals(displayName)) {
+                return type;
+            }
+        }
+        throw new AllergyTypeException(displayName);
     }
 
 }
