@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class IngredientDTO {
+public class IngredientJsonDTO {
     private String ingredientName;
     private String quantity;
 }
