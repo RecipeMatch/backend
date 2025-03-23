@@ -31,8 +31,8 @@ public enum ErrorCode {
     COMMENT_NOT_MATCH_RECIPE(HttpStatus.NOT_FOUND, "ECM003", "해당 댓글은 요청한 레시피에 속하지 않습니다."),
 
     // type 관련
-    DIFFICULTY_TYPE_NOT_FOUND(HttpStatus.NOT_FOUND, "ECM001", "일치하는 난이도가 없습니다"),
-    ALLERGY_TYPE_NOT_FOUND(HttpStatus.NOT_FOUND, "ECM001", "일치하는 알레르기가 없습니다");
+    DIFFICULTY_TYPE_NOT_FOUND(HttpStatus.NOT_FOUND, "ET001", "일치하는 난이도가 없습니다"),
+    ALLERGY_TYPE_NOT_FOUND(HttpStatus.NOT_FOUND, "ET002", "일치하는 알레르기가 없습니다");
 
 
     private final HttpStatus httpStatus;
