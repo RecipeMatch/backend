@@ -1,6 +1,7 @@
 package org.example.recipe_match_backend.type;
 
 import lombok.Getter;
+import org.example.recipe_match_backend.global.exception.type.DifficultyTypeException;
 
 @Getter
 public enum DifficultyType {
@@ -23,6 +24,6 @@ public enum DifficultyType {
                 return type;
             }
         }
-        throw new IllegalArgumentException("일치하는 난이도 Enum이 없습니다: " + korName);
+        throw new DifficultyTypeException();
     }
 }
