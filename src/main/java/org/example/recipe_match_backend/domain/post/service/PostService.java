@@ -65,4 +65,5 @@ public class PostService {
                 .orElseThrow(PostNotFoundException::new);
         postRepository.delete(post);
     }
+
 }
