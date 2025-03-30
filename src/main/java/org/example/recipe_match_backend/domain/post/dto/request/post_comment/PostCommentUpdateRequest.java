@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PostCommentUpdateRequest {
-    private String content;  // 수정할 댓글 내용
+    private String content;
 }
