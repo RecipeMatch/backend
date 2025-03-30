@@ -51,7 +51,10 @@ public class PostService {
     }
 
     public void update(PostRequest request) {
+        Post post = postRepository.findById(request.getPostId())
+                .orElseThrow(PostNotFound::new);
 
+        post.update(request.getTitle(), request.getContent());
     }
 
     public void delete(Long postId) {
