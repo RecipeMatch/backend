@@ -28,12 +28,12 @@ public class PostService {
     public PostResponse find(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFound::new);
-        return PostResponse.of(post);
+        return PostResponse.from(post);
     }
 
     public List<PostResponse> findAll() {
         return postRepository.findAll().stream()
-                .map(PostResponse::of)
+                .map(PostResponse::from)
                 .toList();
     }
 
