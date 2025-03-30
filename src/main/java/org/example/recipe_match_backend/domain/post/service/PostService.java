@@ -3,6 +3,7 @@ package org.example.recipe_match_backend.domain.post.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.recipe_match_backend.domain.post.domain.Post;
+import org.example.recipe_match_backend.domain.post.dto.request.post.PostCreateRequest;
 import org.example.recipe_match_backend.domain.post.dto.request.post.PostRequest;
 import org.example.recipe_match_backend.domain.post.dto.response.post.PostResponse;
 import org.example.recipe_match_backend.domain.post.repository.PostRepository;
@@ -37,7 +38,7 @@ public class PostService {
                 .toList();
     }
 
-    public void create(PostRequest request) {
+    public void create(PostCreateRequest request) {
         User user = userRepository.findByUid(request.getUid())
                 .orElseThrow(UserNotFoundException::new);
 

@@ -1,6 +1,7 @@
 package org.example.recipe_match_backend.domain.post.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.recipe_match_backend.domain.post.dto.request.post.PostCreateRequest;
 import org.example.recipe_match_backend.domain.post.dto.request.post.PostRequest;
 import org.example.recipe_match_backend.domain.post.dto.response.post.PostResponse;
 import org.example.recipe_match_backend.domain.post.service.PostService;
@@ -29,7 +30,7 @@ public class PostController {
     }
 
     @PostMapping("/post")
-    public ResponseEntity<Void> create(@RequestBody PostRequest request){
+    public ResponseEntity<Void> create(@RequestBody PostCreateRequest request){
         postService.create(request);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
