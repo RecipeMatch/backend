@@ -38,6 +38,7 @@ public class PostService {
                 .toList();
     }
 
+    @Transactional(readOnly = false)
     public void create(PostCreateRequest request) {
         User user = userRepository.findByUid(request.getUid())
                 .orElseThrow(UserNotFoundException::new);
@@ -51,6 +52,7 @@ public class PostService {
         postRepository.save(post);
     }
 
+    @Transactional(readOnly = false)
     public void update(PostRequest request) {
         Post post = postRepository.findById(request.getPostId())
                 .orElseThrow(PostNotFound::new);
@@ -58,6 +60,7 @@ public class PostService {
         post.update(request.getTitle(), request.getContent());
     }
 
+    @Transactional(readOnly = false)
     public void delete(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFound::new);
