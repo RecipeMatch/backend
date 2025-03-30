@@ -19,6 +19,7 @@ import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeR
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeUpdateRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeIdAndUserUidResponse;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeResponse;
+import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeSaveResponse;
 import org.example.recipe_match_backend.domain.recipe.repository.*;
 import org.example.recipe_match_backend.domain.tool.domain.Tool;
 import org.example.recipe_match_backend.domain.tool.repository.ToolRepository;
@@ -161,7 +162,7 @@ public class RecipeService {
     }
 
     @Transactional
-    public RecipeIdAndUserUidResponse save(RecipeRequest request) throws IOException {
+    public RecipeSaveResponse save(RecipeRequest request) throws IOException {
         // 사용자 조회
         User user = userRepository.findByUid(request.getUserUid())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
@@ -267,11 +268,11 @@ public class RecipeService {
         // Recipe 저장 (CascadeType.PERSIST에 의해 연관된 엔티티들도 함께 저장됨)
         Recipe savedRecipe = recipeRepository.save(recipe);
 
-        return new RecipeIdAndUserUidResponse(request.getUserUid(), recipe.getId());
+        return new RecipeSaveResponse(recipe.getAlternativeTool(), recipe.getAllergies(), request.getUserUid(), recipe.getId());
     }
 
     @Transactional
-    public RecipeIdAndUserUidResponse update(Long recipeId, RecipeUpdateRequest request) throws IOException {
+    public RecipeSaveResponse update(Long recipeId, RecipeUpdateRequest request) throws IOException {
 
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 레시피가 존재하지 않습니다."));
@@ -393,7 +394,7 @@ public class RecipeService {
                 recipe.getRecipeTools().size());
 
         // === 4) 최종 응답 ===
-        return new RecipeIdAndUserUidResponse(request.getUserUid(), recipeId);
+        return new RecipeSaveResponse(recipe.getAlternativeTool(), recipe.getAllergies(), request.getUserUid(), recipe.getId());
     }
 
 
