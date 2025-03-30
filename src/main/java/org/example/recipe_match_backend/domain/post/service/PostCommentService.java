@@ -11,6 +11,7 @@ import org.example.recipe_match_backend.domain.post.repository.PostCommentReposi
 import org.example.recipe_match_backend.domain.post.repository.PostRepository;
 import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
+import org.example.recipe_match_backend.global.exception.post.PostCommentNotFoundException;
 import org.example.recipe_match_backend.global.exception.post.PostNotFoundException;
 import org.example.recipe_match_backend.global.exception.user.UserNotFoundException;
 import org.springframework.stereotype.Service;
@@ -55,7 +56,10 @@ public class PostCommentService {
 
     @Transactional
     public void update(Long commentId, PostCommentUpdateRequest request) {
+        PostComment comment = postCommentRepository.findById(commentId)
+                .orElseThrow(PostCommentNotFoundException::new);
 
+        comment.updateContent(request.getContent());
     }
 
     @Transactional
