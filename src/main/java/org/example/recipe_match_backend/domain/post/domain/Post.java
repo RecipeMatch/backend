@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Builder(toBuilder = true)
 public class Post extends BaseEntity {
 
     @Id
@@ -27,7 +28,11 @@ public class Post extends BaseEntity {
     @Column(length = 2000)
     private String content;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostComment> postComments = new ArrayList<>();
 
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }
