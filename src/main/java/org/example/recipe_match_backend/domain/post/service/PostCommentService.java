@@ -6,6 +6,10 @@ import org.example.recipe_match_backend.domain.post.domain.Post;
 import org.example.recipe_match_backend.domain.post.dto.request.post_comment.PostCommentCreateRequest;
 import org.example.recipe_match_backend.domain.post.dto.request.post_comment.PostCommentUpdateRequest;
 import org.example.recipe_match_backend.domain.post.dto.response.post_comment.PostCommentResponse;
+import org.example.recipe_match_backend.domain.post.repository.PostCommentRepository;
+import org.example.recipe_match_backend.domain.post.repository.PostRepository;
+import org.example.recipe_match_backend.domain.user.repository.UserRepository;
+import org.example.recipe_match_backend.global.exception.post.PostNotFound;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +31,7 @@ public class PostCommentService {
 
         return post.getPostComments().stream()
                 .map(PostCommentResponse::from)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional
