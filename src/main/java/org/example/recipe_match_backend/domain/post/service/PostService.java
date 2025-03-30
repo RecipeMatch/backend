@@ -37,6 +37,10 @@ public class PostService {
         return null;
     }
 
+    public void create(PostRequest request) {
+
+    }
+
     public void update(PostRequest request) {
 
     }

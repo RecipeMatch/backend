@@ -30,6 +30,7 @@ public class PostController {
 
     @PostMapping("/post")
     public ResponseEntity<Void> create(@RequestBody PostRequest request){
+        postService.create(request);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
