@@ -35,6 +35,8 @@ public class Recipe extends BaseEntity {
     // 시간:레시피 입력시 필요한 내용
     private int cookingTime;
 
+    private String alternativeTool;
+
     // 난이도:레시피 입력시 필요한 내용
     @Enumerated(EnumType.STRING)
     private DifficultyType difficulty;

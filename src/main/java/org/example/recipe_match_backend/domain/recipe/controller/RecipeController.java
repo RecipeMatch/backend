@@ -5,6 +5,7 @@ import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeR
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeUpdateRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeIdAndUserUidResponse;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeResponse;
+import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeSaveResponse;
 import org.example.recipe_match_backend.domain.recipe.service.RecipeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +32,8 @@ public class RecipeController {
     }
 
     @PostMapping("/recipe")
-    public ResponseEntity<RecipeIdAndUserUidResponse> create(@RequestPart RecipeRequest request,
-                                                             @RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
+    public ResponseEntity<RecipeSaveResponse> create(@RequestPart RecipeRequest request,
+                                                     @RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
 
         if (files != null) {
             request.setFiles(files);
@@ -42,7 +43,7 @@ public class RecipeController {
     }
 
     @PatchMapping("/recipe/{recipeId}")
-    public ResponseEntity<RecipeIdAndUserUidResponse> update(@PathVariable Long recipeId, @RequestPart RecipeUpdateRequest request,
+    public ResponseEntity<RecipeSaveResponse> update(@PathVariable Long recipeId, @RequestPart RecipeUpdateRequest request,
                                                              @RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
 
         if (files != null) {
