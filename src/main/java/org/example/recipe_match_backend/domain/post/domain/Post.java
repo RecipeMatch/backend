@@ -27,7 +27,7 @@ public class Post extends BaseEntity {
     @Column(length = 2000)
     private String content;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostComment> postComments = new ArrayList<>();
 
 }
