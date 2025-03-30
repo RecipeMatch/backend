@@ -22,12 +22,7 @@ public class PostService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
-    public PostResponse create(PostRequest request) {
 
-
-
-        return null;
-    }
 
     public PostResponse find(Long postId) {
 

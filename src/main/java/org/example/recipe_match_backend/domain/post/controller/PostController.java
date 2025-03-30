@@ -29,8 +29,8 @@ public class PostController {
     }
 
     @PostMapping("/post")
-    public ResponseEntity<PostResponse> create(@RequestBody PostRequest request){
-        return ResponseEntity.ok(postService.create(request));
+    public ResponseEntity<Void> create(@RequestBody PostRequest request){
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PutMapping("/post")
@@ -40,7 +40,8 @@ public class PostController {
     }
 
     @DeleteMapping("/post/{postId}")
-    public void delete(@PathVariable Long postId){
+    public ResponseEntity<Void> delete(@PathVariable Long postId){
         postService.delete(postId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
