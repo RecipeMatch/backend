@@ -6,7 +6,9 @@ import org.example.recipe_match_backend.domain.post.domain.Post;
 import org.example.recipe_match_backend.domain.post.dto.request.post.PostRequest;
 import org.example.recipe_match_backend.domain.post.dto.response.post.PostResponse;
 import org.example.recipe_match_backend.domain.post.repository.PostRepository;
+import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
+import org.example.recipe_match_backend.global.exception.user.UserNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +38,16 @@ public class PostService {
     }
 
     public void create(PostRequest request) {
+        User user = userRepository.findByUid(request.getUid())
+                .orElseThrow(UserNotFoundException::new);
 
+        Post post = Post.builder()
+                .user(user)
+                .title(request.getTitle())
+                .content(request.getContent())
+                .build();
+
+        postRepository.save(post);
     }
 
     public void update(PostRequest request) {
