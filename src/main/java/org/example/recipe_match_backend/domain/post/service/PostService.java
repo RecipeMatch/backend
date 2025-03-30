@@ -22,8 +22,6 @@ public class PostService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
-
-
     public PostResponse find(Long postId) {
 
 
