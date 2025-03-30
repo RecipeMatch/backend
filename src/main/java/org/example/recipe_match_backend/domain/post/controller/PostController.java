@@ -31,7 +31,7 @@ public class PostController {
     @PostMapping("/post")
     public ResponseEntity<Void> create(@RequestBody PostCreateRequest request){
         postService.create(request);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/post")

@@ -9,6 +9,7 @@ import org.example.recipe_match_backend.domain.user.domain.User;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Builder(toBuilder = true)
 public class PostComment extends BaseEntity {
 
     @Id
@@ -26,4 +27,7 @@ public class PostComment extends BaseEntity {
     @Column(length = 1000)
     private String content;
 
+    public void updateContent(String content) {
+        this.content = content;
+    }
 }
