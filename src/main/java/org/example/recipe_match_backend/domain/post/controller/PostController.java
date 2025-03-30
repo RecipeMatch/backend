@@ -5,7 +5,6 @@ import org.example.recipe_match_backend.domain.post.dto.request.post.PostCreateR
 import org.example.recipe_match_backend.domain.post.dto.request.post.PostRequest;
 import org.example.recipe_match_backend.domain.post.dto.response.post.PostResponse;
 import org.example.recipe_match_backend.domain.post.service.PostService;
-import org.example.recipe_match_backend.domain.user.dto.request.AddInfoRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,18 +31,18 @@ public class PostController {
     @PostMapping("/post")
     public ResponseEntity<Void> create(@RequestBody PostCreateRequest request){
         postService.create(request);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/post")
     public ResponseEntity<Void> update(@RequestBody PostRequest request) {
         postService.update(request);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/post/{postId}")
     public ResponseEntity<Void> delete(@PathVariable Long postId){
         postService.delete(postId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.ok().build();
     }
 }

@@ -14,7 +14,7 @@ public class PostResponse {
     private String content;
     private List<PostComment> comments;
 
-    public static PostResponse of(Post post) {
+    public static PostResponse from(Post post) {
         PostResponse response = new PostResponse();
         response.postId = post.getId();
         response.title = post.getTitle();
