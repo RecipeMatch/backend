@@ -9,7 +9,7 @@ import org.example.recipe_match_backend.domain.post.dto.response.post.PostRespon
 import org.example.recipe_match_backend.domain.post.repository.PostRepository;
 import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
-import org.example.recipe_match_backend.global.exception.post.PostNotFound;
+import org.example.recipe_match_backend.global.exception.post.PostNotFoundException;
 import org.example.recipe_match_backend.global.exception.user.UserNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +27,7 @@ public class PostService {
 
     public PostResponse find(Long postId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(PostNotFound::new);
+                .orElseThrow(PostNotFoundException::new);
         return PostResponse.from(post);
     }
 
@@ -54,7 +54,7 @@ public class PostService {
     @Transactional(readOnly = false)
     public void update(PostRequest request) {
         Post post = postRepository.findById(request.getPostId())
-                .orElseThrow(PostNotFound::new);
+                .orElseThrow(PostNotFoundException::new);
 
         post.update(request.getTitle(), request.getContent());
     }
@@ -62,7 +62,7 @@ public class PostService {
     @Transactional(readOnly = false)
     public void delete(Long postId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(PostNotFound::new);
+                .orElseThrow(PostNotFoundException::new);
         postRepository.delete(post);
     }
 }
