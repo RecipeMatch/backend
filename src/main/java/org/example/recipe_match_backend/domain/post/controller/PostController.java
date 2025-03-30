@@ -37,12 +37,12 @@ public class PostController {
     @PutMapping("/post")
     public ResponseEntity<Void> update(@RequestBody PostRequest request) {
         postService.update(request);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/post/{postId}")
     public ResponseEntity<Void> delete(@PathVariable Long postId){
         postService.delete(postId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.ok().build();
     }
 }
