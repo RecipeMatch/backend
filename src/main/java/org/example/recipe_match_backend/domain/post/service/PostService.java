@@ -58,6 +58,8 @@ public class PostService {
     }
 
     public void delete(Long postId) {
-
+        Post post = postRepository.findById(postId)
+                .orElseThrow(PostNotFound::new);
+        postRepository.delete(post);
     }
 }
