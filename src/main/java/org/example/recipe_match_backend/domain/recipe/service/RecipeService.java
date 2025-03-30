@@ -2,22 +2,30 @@ package org.example.recipe_match_backend.domain.recipe.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.recipe_match_backend.domain.ingredient.domain.Ingredient;
 import org.example.recipe_match_backend.domain.ingredient.repository.IngredientRepository;
 import org.example.recipe_match_backend.domain.recipe.domain.*;
 import org.example.recipe_match_backend.domain.recipe.dto.RecipeIngredientDto;
 import org.example.recipe_match_backend.domain.recipe.dto.RecipeStepDto;
+import org.example.recipe_match_backend.domain.recipe.dto.mapping.IngredientJsonDTO;
+import org.example.recipe_match_backend.domain.recipe.dto.mapping.RecipeJsonDTO;
+import org.example.recipe_match_backend.domain.recipe.dto.mapping.RecipeStepJsonDTO;
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeUpdateRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeIdAndUserUidResponse;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeResponse;
+import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeSaveResponse;
 import org.example.recipe_match_backend.domain.recipe.repository.*;
 import org.example.recipe_match_backend.domain.tool.domain.Tool;
 import org.example.recipe_match_backend.domain.tool.repository.ToolRepository;
 import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
+import org.example.recipe_match_backend.type.AllergyType;
 import org.example.recipe_match_backend.type.CategoryType;
 import org.example.recipe_match_backend.type.DifficultyType;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +41,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -55,7 +63,106 @@ public class RecipeService {
     private String bucketName;
 
     @Transactional
-    public RecipeIdAndUserUidResponse save(RecipeRequest request) throws IOException {
+    public void loadRecipesFromJson(String filePath) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        File jsonFile = new File(filePath);
+
+        List<RecipeJsonDTO> recipeDTOList = objectMapper.readValue(
+                jsonFile,
+                new TypeReference<List<RecipeJsonDTO>>() {}
+        );
+
+        for (RecipeJsonDTO dto : recipeDTOList) {
+
+            CategoryType category = parseCategoryWithDefault(dto.getCategory());
+            DifficultyType difficulty = DifficultyType.fromKorName(dto.getDifficulty());
+
+            List<AllergyType> allergyList = new ArrayList<>();
+            if (dto.getAllergy() != null && !dto.getAllergy().trim().isEmpty()) {
+                String[] tokens = dto.getAllergy().split(",");
+                for (String token : tokens) {
+                    String trimmed = token.trim();
+                    try {
+                        allergyList.add(AllergyType.fromDisplayName(trimmed));
+                    } catch (Exception e) {
+                        log.error("알레르기 리스트 추가 실패했습니다.");
+                    }
+                }
+            }
+
+            Recipe recipe = Recipe.builder()
+                    .recipeName(dto.getRecipeName())
+                    .description(dto.getDescription())
+                    .cookingTime(dto.getCookingTime())
+                    .alterTools(dto.getAlterTools())
+                    .difficulty(difficulty)
+                    .category(category)
+                    .allergies(allergyList)
+                    .build();
+
+            // 재료 처리
+            for (IngredientJsonDTO ingDto : dto.getIngredients()) {
+                Ingredient ingredient = ingredientRepository
+                        .findByIngredientName(ingDto.getIngredientName())
+                        .orElseGet(() -> {
+                            Ingredient newIng = Ingredient.builder()
+                                    .ingredientName(ingDto.getIngredientName())
+                                    .build();
+                            ingredientRepository.save(newIng);
+                            return newIng;
+                        });
+
+                RecipeIngredient recipeIngredient = RecipeIngredient.builder()
+                        .ingredient(ingredient)
+                        .quantity(ingDto.getQuantity())
+                        .build();
+
+                recipe.addRecipeIngredient(recipeIngredient);
+                ingredient.addRecipeIngredient(recipeIngredient);
+            }
+
+            // 도구 처리
+            for (String toolName : dto.getTools()) {
+                Tool tool = toolRepository
+                        .findByToolName(toolName)
+                        .orElseGet(() -> {
+                            Tool newTool = Tool.builder()
+                                    .toolName(toolName)
+                                    .build();
+                            toolRepository.save(newTool);
+                            return newTool;
+                        });
+
+                RecipeTool recipeTool = RecipeTool.builder()
+                        .tool(tool)
+                        .build();
+
+                recipe.addRecipeTool(recipeTool);
+                tool.addRecipeTool(recipeTool);
+            }
+
+            // 단계 처리
+            for (RecipeStepJsonDTO stepDto : dto.getSteps()) {
+                RecipeStep step = RecipeStep.builder()
+                        .stepOrder(stepDto.getStepOrder())
+                        .content(stepDto.getContent())
+                        .build();
+                recipe.addRecipeStep(step);
+            }
+
+            double cookingTime = recipe.getCookingTime();
+            double stepSize = recipe.getRecipeSteps().size();
+            double ingredientSize = recipe.getRecipeIngredients().size();
+            double toolSize = recipe.getRecipeTools().size();
+
+            recipeDifficulty(recipe, cookingTime, stepSize, ingredientSize, toolSize);
+
+            recipeRepository.save(recipe);
+        }
+    }
+
+    @Transactional
+    public RecipeSaveResponse save(RecipeRequest request) throws IOException {
         // 사용자 조회
         User user = userRepository.findByUid(request.getUserUid())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
@@ -161,11 +268,11 @@ public class RecipeService {
         // Recipe 저장 (CascadeType.PERSIST에 의해 연관된 엔티티들도 함께 저장됨)
         Recipe savedRecipe = recipeRepository.save(recipe);
 
-        return new RecipeIdAndUserUidResponse(request.getUserUid(), recipe.getId());
+        return new RecipeSaveResponse(recipe.getAlternativeTool(), recipe.getAllergies(), request.getUserUid(), recipe.getId());
     }
 
     @Transactional
-    public RecipeIdAndUserUidResponse update(Long recipeId, RecipeUpdateRequest request) throws IOException {
+    public RecipeSaveResponse update(Long recipeId, RecipeUpdateRequest request) throws IOException {
 
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 레시피가 존재하지 않습니다."));
@@ -287,7 +394,7 @@ public class RecipeService {
                 recipe.getRecipeTools().size());
 
         // === 4) 최종 응답 ===
-        return new RecipeIdAndUserUidResponse(request.getUserUid(), recipeId);
+        return new RecipeSaveResponse(recipe.getAlternativeTool(), recipe.getAllergies(), request.getUserUid(), recipe.getId());
     }
 
 
@@ -420,6 +527,17 @@ public class RecipeService {
 
     public String getFileExtension(String fileName) {
         return fileName.substring(fileName.lastIndexOf("."));
+    }
+
+    private CategoryType parseCategoryWithDefault(String categoryStr) {
+        if (categoryStr == null || categoryStr.trim().isEmpty()) {
+            return CategoryType.DEFAULT;
+        }
+        try {
+            return CategoryType.valueOf(categoryStr);  // 예: "KOREAN", "CHINESE", ...
+        } catch (IllegalArgumentException e) {
+            return CategoryType.DEFAULT;
+        }
     }
 }
 

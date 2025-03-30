@@ -4,5 +4,9 @@ public enum CategoryType {
     KOREAN,
     CHINESE,
     JAPANESE,
-    WESTERN
+    WESTERN,
+    SOUTHEAST_ASIAN,
+    ITALIAN,
+    FUSION,
+    DEFAULT
 }

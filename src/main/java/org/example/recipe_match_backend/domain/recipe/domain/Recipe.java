@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.example.recipe_match_backend.global.entity.BaseEntity;
 import org.example.recipe_match_backend.domain.searchhistory.domain.SearchHistory;
+import org.example.recipe_match_backend.type.AllergyType;
 import org.example.recipe_match_backend.type.CategoryType;
 import org.example.recipe_match_backend.type.DifficultyType;
 import org.example.recipe_match_backend.domain.user.domain.User;
@@ -23,24 +24,33 @@ public class Recipe extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //이름:레시피 입력시 필요한 내용
-    @Column(nullable = false, unique = true)
+    // 이름:레시피 입력시 필요한 내용
+    @Column(nullable = false, unique = false)
     private String recipeName;
 
-    //설명:레시피 입력시 필요한 내용
+    // 설명:레시피 입력시 필요한 내용
     @Column(length = 2000)
     private String description;
 
-    //시간:레시피 입력시 필요한 내용
+    // 시간:레시피 입력시 필요한 내용
     private int cookingTime;
 
-    //난이도:레시피 입력시 필요한 내용
+    private String alternativeTool;
+
+    // 난이도:레시피 입력시 필요한 내용
     @Enumerated(EnumType.STRING)
     private DifficultyType difficulty;
 
-    //카테고리:레시피 입력시 필요한 내용
+    // 카테고리:레시피 입력시 필요한 내용
     @Enumerated(EnumType.STRING)
     private CategoryType category;
+
+    // 일레르기: 레시피 입력시 필요한 내용
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    private List<AllergyType> allergies = new ArrayList<>();
+
+    private String alterTools;
 
     //사용자:레시피 입력시 필요한 내용
     @ManyToOne(fetch = FetchType.LAZY)
@@ -49,14 +59,17 @@ public class Recipe extends BaseEntity {
 
     //레시피 단계 및 내용:레시피 입력시 필요한 내용
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<RecipeStep> recipeSteps = new ArrayList<>();
 
     //재료:레시피 입력시 필요한 내용
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
 
     //도구:레시피 입력시 필요한 내용
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<RecipeTool> recipeTools = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
