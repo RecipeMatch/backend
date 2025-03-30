@@ -8,6 +8,7 @@ import org.example.recipe_match_backend.domain.post.dto.response.post.PostRespon
 import org.example.recipe_match_backend.domain.post.repository.PostRepository;
 import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
+import org.example.recipe_match_backend.global.exception.post.PostNotFound;
 import org.example.recipe_match_backend.global.exception.user.UserNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,16 +26,15 @@ public class PostService {
     private final PostRepository postRepository;
 
     public PostResponse find(Long postId) {
-
-
-
-        return null;
+        Post post = postRepository.findById(postId)
+                .orElseThrow(PostNotFound::new);
+        return PostResponse.of(post);
     }
 
-
     public List<PostResponse> findAll() {
-
-        return null;
+        return postRepository.findAll().stream()
+                .map(PostResponse::of)
+                .toList();
     }
 
     public void create(PostRequest request) {
