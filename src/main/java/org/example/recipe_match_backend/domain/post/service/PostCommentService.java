@@ -64,6 +64,8 @@ public class PostCommentService {
 
     @Transactional
     public void delete(Long commentId) {
-
+        PostComment comment = postCommentRepository.findById(commentId)
+                .orElseThrow(PostCommentNotFoundException::new);
+        postCommentRepository.delete(comment);
     }
 }
