@@ -1,7 +1,6 @@
 package org.example.recipe_match_backend.domain.recipe.dto.request.recipe;
 
 import lombok.Data;
-import lombok.Getter;
 import org.example.recipe_match_backend.type.RecommendType;
 
 import java.util.List;
