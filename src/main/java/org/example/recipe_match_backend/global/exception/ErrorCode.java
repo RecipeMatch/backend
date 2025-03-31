@@ -35,7 +35,8 @@ public enum ErrorCode {
     ALLERGY_TYPE_NOT_FOUND(HttpStatus.NOT_FOUND, "ET002", "일치하는 알레르기가 없습니다"),
 
     // post 관련
-    POST_NOT_FOUND(HttpStatus.NOT_FOUND, "EP001", "게시물을 찾을 수 없습니다.");
+    POST_NOT_FOUND(HttpStatus.NOT_FOUND, "EP001", "게시물을 찾을 수 없습니다."),
+    POST_COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "EP002", "게시물 댓글을 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
