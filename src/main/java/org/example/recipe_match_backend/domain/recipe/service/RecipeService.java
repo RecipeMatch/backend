@@ -16,6 +16,7 @@ import org.example.recipe_match_backend.domain.recipe.dto.mapping.IngredientJson
 import org.example.recipe_match_backend.domain.recipe.dto.mapping.RecipeJsonDTO;
 import org.example.recipe_match_backend.domain.recipe.dto.mapping.RecipeStepJsonDTO;
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeRequest;
+import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeSortRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeUpdateRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeIdAndUserUidResponse;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeResponse;
@@ -538,6 +539,10 @@ public class RecipeService {
         } catch (IllegalArgumentException e) {
             return CategoryType.DEFAULT;
         }
+    }
+
+    public List<RecipeResponse> sortRecipes(RecipeSortRequest request) {
+        return null;
     }
 }
 
