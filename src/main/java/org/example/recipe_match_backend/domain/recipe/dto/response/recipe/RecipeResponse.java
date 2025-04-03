@@ -8,6 +8,7 @@ import org.example.recipe_match_backend.domain.recipe.domain.RecipeLike;
 import org.example.recipe_match_backend.domain.recipe.dto.RecipeIngredientDto;
 import org.example.recipe_match_backend.domain.recipe.dto.RecipeStepDto;
 import org.example.recipe_match_backend.domain.recipe.domain.RecipeTool;
+import org.example.recipe_match_backend.type.AllergyType;
 import org.example.recipe_match_backend.type.CategoryType;
 import org.example.recipe_match_backend.type.DifficultyType;
 
@@ -34,6 +35,8 @@ public class RecipeResponse {
 
     private CategoryType category;//Recipe
 
+    private String alternativeTool;
+
     private List<RecipeIngredientDto> recipeIngredientDtos = new ArrayList<>();//RecipeIngredient
 
     private List<RecipeStepDto> recipeStepDtos = new ArrayList<>();//RecipeStep
@@ -41,6 +44,8 @@ public class RecipeResponse {
     private List<String> toolName = new ArrayList<>();//RecipeTool
 
     private List<String> imageUrls = new ArrayList<>();
+
+    private List<AllergyType> allergies = new ArrayList<>();
 
     private Boolean recipeLike;
 
@@ -57,12 +62,14 @@ public class RecipeResponse {
         this.cookingTime = recipe.getCookingTime();
         this.difficulty = recipe.getDifficulty();
         this.category = recipe.getCategory();
+        this.alternativeTool = recipe.getAlternativeTool();
         this.recipeIngredientDtos = recipe.getRecipeIngredients().stream().map(RecipeIngredientDto::new).collect(toList());
         this.recipeStepDtos = recipe.getRecipeSteps().stream().map(RecipeStepDto::new).collect(toList());
         for(RecipeTool recipeTool:recipe.getRecipeTools()){
             this.toolName.add(recipeTool.getTool().getToolName());
         }
         this.imageUrls = urls;
+        this.allergies = recipe.getAllergies();
         this.recipeLike = recipeLike;
         this.likeSize = likeSize;
         this.recipeBookMark = recipeBookMark;
@@ -76,15 +83,15 @@ public class RecipeResponse {
         this.cookingTime = recipe.getCookingTime();
         this.difficulty = recipe.getDifficulty();
         this.category = recipe.getCategory();
+        this.alternativeTool = recipe.getAlternativeTool();
         this.recipeIngredientDtos = recipe.getRecipeIngredients().stream().map(RecipeIngredientDto::new).collect(toList());
         this.recipeStepDtos = recipe.getRecipeSteps().stream().map(RecipeStepDto::new).collect(toList());
         for(RecipeTool recipeTool:recipe.getRecipeTools()){
             this.toolName.add(recipeTool.getTool().getToolName());
         }
         this.imageUrls = urls;
-        this.recipeLike = recipeLike;
+        this.allergies = recipe.getAllergies();
         this.likeSize = likeSize;
-        this.recipeBookMark = recipeBookMark;
         this.bookMarkSize = bookMarkSize;
     }
 
