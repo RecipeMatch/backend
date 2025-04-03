@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.recipe_match_backend.type.CategoryType;
 import org.example.recipe_match_backend.type.DifficultyType;
+import org.example.recipe_match_backend.type.RecommendType;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,4 +19,5 @@ public class RecipeSearchRequest {
     private CategoryType category;
     private int cookingTime;
     private Boolean userInfo;
+    private RecommendType sortBy;
 }
