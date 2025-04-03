@@ -447,8 +447,27 @@ public class RecipeService {
     }
 
     public List<RecipeResponse> findSearch(RecipeSearchRequest request){
+
         List<Recipe> recipes = recipeRepository.search(request);
+
         List<RecipeResponse> recipeResponses = new ArrayList<>();
+
+        if (request.getSortBy().equals(RecommendType.LIKE)) {
+            recipes.sort((r1, r2) -> {
+                int likeCount1 = recipeLikeRepository.findByRecipe(r1).size();
+                int likeCount2 = recipeLikeRepository.findByRecipe(r2).size();
+                return Integer.compare(likeCount2, likeCount1);
+            });
+        } else if (request.getSortBy().equals(RecommendType.BOOKMARK)) {
+            recipes.sort((r1, r2) -> {
+                int bookmarkCount1 = recipeBookMarkRepository.findByRecipe(r1).size();
+                int bookmarkCount2 = recipeBookMarkRepository.findByRecipe(r2).size();
+                return Integer.compare(bookmarkCount2, bookmarkCount1);
+            });
+        } else {
+            throw new TypeNotFoundException();
+        }
+
         for(Recipe recipe:recipes){
             int likeSize = recipeLikeRepository.findByRecipe(recipe).size();
             int bookMarkSize = recipeBookMarkRepository.findByRecipe(recipe).size();
