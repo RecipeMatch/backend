@@ -16,6 +16,7 @@ import org.example.recipe_match_backend.domain.recipe.dto.mapping.IngredientJson
 import org.example.recipe_match_backend.domain.recipe.dto.mapping.RecipeJsonDTO;
 import org.example.recipe_match_backend.domain.recipe.dto.mapping.RecipeStepJsonDTO;
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeRequest;
+import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeSearchRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeSortRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeUpdateRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeIdAndUserUidResponse;
@@ -444,7 +445,25 @@ public class RecipeService {
 
         return recipeResponses;
     }
-    
+
+    public List<RecipeResponse> findSearch(RecipeSearchRequest request){
+        List<Recipe> recipes = recipeRepository.search(request);
+        List<RecipeResponse> recipeResponses = new ArrayList<>();
+        for(Recipe recipe:recipes){
+            int likeSize = recipeLikeRepository.findByRecipe(recipe).size();
+            int bookMarkSize = recipeBookMarkRepository.findByRecipe(recipe).size();
+
+            List<String> urls = new ArrayList<>();
+            for(RecipeImage recipeImage:recipe.getRecipeImages()){
+                urls.add(""+amazonS3Client.getUrl(bucketName, recipeImage.getToken()));
+            }
+            recipeResponses.add(new RecipeResponse(recipe,likeSize,bookMarkSize,urls));
+        }
+
+        return recipeResponses;
+    }
+
+
     private void recipeDifficulty(Recipe recipe,double cookingTime, double stepSize, double ingredientSize, double toolSize){
 
         double time = 0.3*((cookingTime-5)/175);

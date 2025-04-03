@@ -2,6 +2,7 @@ package org.example.recipe_match_backend.domain.recipe.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeRequest;
+import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeSearchRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeSortRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeUpdateRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeIdAndUserUidResponse;
@@ -31,7 +32,7 @@ public class RecipeController {
     public List<RecipeResponse> findAll(){
         return recipeService.findAll();
     }
-
+    
     @PostMapping("/recipe")
     public ResponseEntity<RecipeSaveResponse> create(@RequestPart RecipeRequest request,
                                                      @RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
@@ -73,6 +74,11 @@ public class RecipeController {
     @PostMapping("/recipe/sort")
     public List<RecipeResponse> sortRecipes(@RequestBody RecipeSortRequest request){
         return recipeService.sortRecipes(request);
+    }
+
+    @PostMapping("/recipeSearch")
+    public List<RecipeResponse> findSearch(@RequestBody RecipeSearchRequest request) {
+        return recipeService.findSearch(request);
     }
 
 }
