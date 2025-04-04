@@ -17,6 +17,7 @@ public class RecipeSearchRequest {
     private String keyword;
     private DifficultyType difficulty;
     private CategoryType category;
-    private int cookingTime;
+    private Integer minTime;
+    private Integer maxTime;
     private Boolean userInfo;
 }
