@@ -1,6 +1,7 @@
 package org.example.recipe_match_backend.domain.user.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.recipe_match_backend.domain.post.dto.response.post.PostResponse;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeResponse;
 import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.dto.request.AddInfoRequest;
@@ -62,6 +63,13 @@ public class UserController {
     public ResponseEntity<List<RecipeResponse>> recipeBookmarks(@RequestParam("uid") String uid) {
         List<RecipeResponse> recipeBookmarks = userService.getUserRecipeBookmarks(uid);
         return ResponseEntity.ok(recipeBookmarks);
+    }
+
+    // 사용자가 작성한 게시물 목록 조회 (uid를 쿼리 파라미터로 전달)
+    @GetMapping("/posts")
+    public ResponseEntity<List<PostResponse>> posts(@RequestParam("uid") String uid){
+        List<PostResponse> posts = userService.getUserPosts(uid);
+        return ResponseEntity.ok(posts);
     }
 
 }
