@@ -76,7 +76,7 @@ public class RecipeController {
         return recipeService.sortRecipes(request);
     }
 
-    @PostMapping("/recipeSearch")
+    @PostMapping("/recipe/search")
     public List<RecipeResponse> findSearch(@RequestBody RecipeSearchRequest request) {
         return recipeService.findSearch(request);
     }
