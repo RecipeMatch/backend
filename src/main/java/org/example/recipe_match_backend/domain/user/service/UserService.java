@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import lombok.RequiredArgsConstructor;
 import org.example.recipe_match_backend.domain.ingredient.domain.Ingredient;
 import org.example.recipe_match_backend.domain.ingredient.repository.IngredientRepository;
+import org.example.recipe_match_backend.domain.post.dto.response.post.PostResponse;
 import org.example.recipe_match_backend.domain.recipe.domain.Recipe;
 import org.example.recipe_match_backend.domain.recipe.domain.RecipeBookMark;
 import org.example.recipe_match_backend.domain.recipe.domain.RecipeImage;
@@ -265,4 +266,15 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 사용자가 작성한 게시물 조회
+     */
+    public List<PostResponse> getUserPosts(String uid) {
+        User user = userRepository.findByUid(uid)
+                .orElseThrow(UserNotFoundException::new);
+
+        return user.getPosts().stream()
+                .map(PostResponse::from)
+                .collect(Collectors.toList());
+    }
 }
