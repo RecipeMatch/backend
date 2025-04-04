@@ -35,7 +35,7 @@ public class RecipeResponse {
 
     private CategoryType category;//Recipe
 
-    private String alternativeTool;
+    private String alterTools;
 
     private List<RecipeIngredientDto> recipeIngredientDtos = new ArrayList<>();//RecipeIngredient
 
@@ -62,7 +62,7 @@ public class RecipeResponse {
         this.cookingTime = recipe.getCookingTime();
         this.difficulty = recipe.getDifficulty();
         this.category = recipe.getCategory();
-        this.alternativeTool = recipe.getAlternativeTool();
+        this.alterTools = recipe.getAlterTools();
         this.recipeIngredientDtos = recipe.getRecipeIngredients().stream().map(RecipeIngredientDto::new).collect(toList());
         this.recipeStepDtos = recipe.getRecipeSteps().stream().map(RecipeStepDto::new).collect(toList());
         for(RecipeTool recipeTool:recipe.getRecipeTools()){
@@ -83,7 +83,7 @@ public class RecipeResponse {
         this.cookingTime = recipe.getCookingTime();
         this.difficulty = recipe.getDifficulty();
         this.category = recipe.getCategory();
-        this.alternativeTool = recipe.getAlternativeTool();
+        this.alterTools = recipe.getAlterTools();
         this.recipeIngredientDtos = recipe.getRecipeIngredients().stream().map(RecipeIngredientDto::new).collect(toList());
         this.recipeStepDtos = recipe.getRecipeSteps().stream().map(RecipeStepDto::new).collect(toList());
         for(RecipeTool recipeTool:recipe.getRecipeTools()){
