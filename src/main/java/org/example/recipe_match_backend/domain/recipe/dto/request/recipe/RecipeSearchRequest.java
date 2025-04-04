@@ -19,5 +19,4 @@ public class RecipeSearchRequest {
     private CategoryType category;
     private int cookingTime;
     private Boolean userInfo;
-    private RecommendType sortBy;
 }
