@@ -16,6 +16,8 @@ import org.example.recipe_match_backend.domain.recipe.dto.mapping.IngredientJson
 import org.example.recipe_match_backend.domain.recipe.dto.mapping.RecipeJsonDTO;
 import org.example.recipe_match_backend.domain.recipe.dto.mapping.RecipeStepJsonDTO;
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeRequest;
+import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeSearchRequest;
+import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeSortRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeUpdateRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeIdAndUserUidResponse;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeResponse;
@@ -25,9 +27,11 @@ import org.example.recipe_match_backend.domain.tool.domain.Tool;
 import org.example.recipe_match_backend.domain.tool.repository.ToolRepository;
 import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
+import org.example.recipe_match_backend.global.exception.type.TypeNotFoundException;
 import org.example.recipe_match_backend.type.AllergyType;
 import org.example.recipe_match_backend.type.CategoryType;
 import org.example.recipe_match_backend.type.DifficultyType;
+import org.example.recipe_match_backend.type.RecommendType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -442,9 +446,28 @@ public class RecipeService {
         return recipeResponses;
     }
 
-    public List<RecipeResponse> findByKeyword(String keyword){
-        List<Recipe> recipes = recipeRepository.findByKeyword(keyword);
+    public List<RecipeResponse> findSearch(RecipeSearchRequest request){
+
+        List<Recipe> recipes = recipeRepository.search(request);
+
         List<RecipeResponse> recipeResponses = new ArrayList<>();
+
+        if (request.getSortBy().equals(RecommendType.LIKE)) {
+            recipes.sort((r1, r2) -> {
+                int likeCount1 = recipeLikeRepository.findByRecipe(r1).size();
+                int likeCount2 = recipeLikeRepository.findByRecipe(r2).size();
+                return Integer.compare(likeCount2, likeCount1);
+            });
+        } else if (request.getSortBy().equals(RecommendType.BOOKMARK)) {
+            recipes.sort((r1, r2) -> {
+                int bookmarkCount1 = recipeBookMarkRepository.findByRecipe(r1).size();
+                int bookmarkCount2 = recipeBookMarkRepository.findByRecipe(r2).size();
+                return Integer.compare(bookmarkCount2, bookmarkCount1);
+            });
+        } else {
+            throw new TypeNotFoundException();
+        }
+
         for(Recipe recipe:recipes){
             int likeSize = recipeLikeRepository.findByRecipe(recipe).size();
             int bookMarkSize = recipeBookMarkRepository.findByRecipe(recipe).size();
@@ -458,6 +481,7 @@ public class RecipeService {
 
         return recipeResponses;
     }
+
 
     private void recipeDifficulty(Recipe recipe,double cookingTime, double stepSize, double ingredientSize, double toolSize){
 
@@ -538,6 +562,42 @@ public class RecipeService {
         } catch (IllegalArgumentException e) {
             return CategoryType.DEFAULT;
         }
+    }
+
+    public List<RecipeResponse> sortRecipes(RecipeSortRequest request) {
+        List<Recipe> recipes = recipeRepository.findAllById(request.getRecipeIds());
+
+        if (request.getSortBy().equals(RecommendType.LIKE)) {
+            recipes.sort((r1, r2) -> {
+                int likeCount1 = recipeLikeRepository.findByRecipe(r1).size();
+                int likeCount2 = recipeLikeRepository.findByRecipe(r2).size();
+                return Integer.compare(likeCount2, likeCount1);
+            });
+        } else if (request.getSortBy().equals(RecommendType.BOOKMARK)) {
+            recipes.sort((r1, r2) -> {
+                int bookmarkCount1 = recipeBookMarkRepository.findByRecipe(r1).size();
+                int bookmarkCount2 = recipeBookMarkRepository.findByRecipe(r2).size();
+                return Integer.compare(bookmarkCount2, bookmarkCount1);
+            });
+        } else {
+            throw new TypeNotFoundException();
+        }
+
+        List<RecipeResponse> recipeResponses = new ArrayList<>();
+
+        for (Recipe recipe : recipes) {
+            int likeSize = recipeLikeRepository.findByRecipe(recipe).size();
+            int bookmarkSize = recipeBookMarkRepository.findByRecipe(recipe).size();
+
+            List<String> urls = new ArrayList<>();
+            for (RecipeImage recipeImage : recipe.getRecipeImages()) {
+                urls.add("" + amazonS3Client.getUrl(bucketName, recipeImage.getToken()));
+            }
+
+            recipeResponses.add(new RecipeResponse(recipe, likeSize, bookmarkSize, urls));
+        }
+
+        return recipeResponses;
     }
 }
 

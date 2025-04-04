@@ -2,6 +2,8 @@ package org.example.recipe_match_backend.domain.recipe.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeRequest;
+import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeSearchRequest;
+import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeSortRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeUpdateRequest;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeIdAndUserUidResponse;
 import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.RecipeResponse;
@@ -30,7 +32,7 @@ public class RecipeController {
     public List<RecipeResponse> findAll(){
         return recipeService.findAll();
     }
-
+    
     @PostMapping("/recipe")
     public ResponseEntity<RecipeSaveResponse> create(@RequestPart RecipeRequest request,
                                                      @RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
@@ -57,4 +59,26 @@ public class RecipeController {
     public void delete(@PathVariable Long recipeId){
         recipeService.delete(recipeId);
     }
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------------------
+     * 레시피 좋아요, 즐겨찾기 순으로 정렬 로직
+     * [ Request 정보 ]
+     * private List<Long> recipeIds;    -> 먼저 사용자가 지정한 부분에 따른 레시피를 먼저 반환하고 그 레시피 ID들을 List 형태로 서버로 보내는 방식
+     * private String sortBy;           -> "like" 또는 "bookmark" 중 하나를 선택해서 보내는 방식
+     * -----------------------------------------------------------------------------------------------------------------------------
+     * [ Response 정보 ]
+     * 기존 레시피 정보 방식
+     * -----------------------------------------------------------------------------------------------------------------------------
+     */
+    @PostMapping("/recipe/sort")
+    public List<RecipeResponse> sortRecipes(@RequestBody RecipeSortRequest request){
+        return recipeService.sortRecipes(request);
+    }
+
+    @PostMapping("/recipeSearch")
+    public List<RecipeResponse> findSearch(@RequestBody RecipeSearchRequest request) {
+        return recipeService.findSearch(request);
+    }
+
 }

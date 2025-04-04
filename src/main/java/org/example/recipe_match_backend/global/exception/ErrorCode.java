@@ -36,7 +36,10 @@ public enum ErrorCode {
 
     // post 관련
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "EP001", "게시물을 찾을 수 없습니다."),
-    POST_COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "EP002", "게시물 댓글을 찾을 수 없습니다.");
+    POST_COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "EP002", "게시물 댓글을 찾을 수 없습니다."),
+
+    // recommend 기능 관련
+    TYPE_NOT_FOUND(HttpStatus.NOT_FOUND, "ERM001", "해당 타입(좋아요, 즐겨찾기)을 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
