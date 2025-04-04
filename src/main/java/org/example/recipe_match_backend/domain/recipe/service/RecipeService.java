@@ -272,7 +272,7 @@ public class RecipeService {
         // Recipe 저장 (CascadeType.PERSIST에 의해 연관된 엔티티들도 함께 저장됨)
         Recipe savedRecipe = recipeRepository.save(recipe);
 
-        return new RecipeSaveResponse(recipe.getAlternativeTool(), recipe.getAllergies(), request.getUserUid(), recipe.getId());
+        return new RecipeSaveResponse(recipe.getAlterTools(), recipe.getAllergies(), request.getUserUid(), recipe.getId());
     }
 
     @Transactional
@@ -398,7 +398,7 @@ public class RecipeService {
                 recipe.getRecipeTools().size());
 
         // === 4) 최종 응답 ===
-        return new RecipeSaveResponse(recipe.getAlternativeTool(), recipe.getAllergies(), request.getUserUid(), recipe.getId());
+        return new RecipeSaveResponse(recipe.getAlterTools(), recipe.getAllergies(), request.getUserUid(), recipe.getId());
     }
 
 

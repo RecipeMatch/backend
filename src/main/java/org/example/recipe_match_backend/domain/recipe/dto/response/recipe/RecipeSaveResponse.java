@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 public class RecipeSaveResponse {
 
-    private String alternativeTool;
+    private String alterTools;
     private List<AllergyType> allergies = new ArrayList<>();
     private String UserUid;
     private Long RecipeId;
