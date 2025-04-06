@@ -47,10 +47,9 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom{
                         keywordLike(request.getKeyword()),
                         difficultyEq(request.getDifficulty()),
                         categoryEq(request.getCategory()),
-                        timeBetween(request.getMinTime(), request.getMaxTime()),
                         optionalUser.map(u -> allergiesContainAny(u.getAllergies())).orElse(null),
-                        optionalUser.map(u -> userToolsContainAny(u.getUserTools())).orElse(null),
-                        optionalUser.map(u -> userIngredientContainAny(u.getUserIngredients())).orElse(null)
+                        optionalUser.map(u -> userToolsEqAny(u.getUserTools())).orElse(null),
+                        optionalUser.map(u -> userIngredientEqAny(u.getUserIngredients())).orElse(null)
                 )
                 .fetch();
     }
@@ -67,21 +66,18 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom{
         return category != null ? recipe.category.eq(category) : null;
     }
 
-    private BooleanExpression timeBetween(Integer min, Integer max){
-        return (min != null && max != null) ? recipe.cookingTime.between(min,max):null;
-    }
-
     private BooleanExpression allergiesContainAny(List<AllergyType> allergies) {
         if (allergies == null || allergies.isEmpty()) {
             return null;
         }
-        return allergies.stream()
+        BooleanExpression anyAllergies = allergies.stream()
                 .map(recipe.allergies::contains)
                 .reduce(BooleanExpression::or)
                 .orElse(null);
+        return anyAllergies.not();
     }
 
-    private BooleanExpression userToolsContainAny(List<UserTool> userTools) {
+    private BooleanExpression userToolsEqAny(List<UserTool> userTools) {
         if (userTools == null || userTools.isEmpty()) {
             return null;
         }
@@ -93,7 +89,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom{
                 .orElse(null);
     }
 
-    private BooleanExpression userIngredientContainAny(List<UserIngredient> userIngredients) {
+    private BooleanExpression userIngredientEqAny(List<UserIngredient> userIngredients) {
         if (userIngredients == null || userIngredients.isEmpty()) {
             return null;
         }
@@ -104,7 +100,5 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom{
                 .reduce(BooleanExpression::or)
                 .orElse(null);
     }
-
-
 
 }
