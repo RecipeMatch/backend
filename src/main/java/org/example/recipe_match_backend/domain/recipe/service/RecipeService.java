@@ -479,11 +479,11 @@ public class RecipeService {
 
         double point = 100*(time+step+ingredient+tool);
 
-        if(0 <= point && point <= 33){
+        if(0 <= point && point <= 30){
             recipe.setDifficulty(DifficultyType.EASY);
-        } else if (34 <= point && point <= 66) {
+        } else if (30 < point && point <= 50) {
             recipe.setDifficulty(DifficultyType.MIDDLE);
-        } else if (67 <= point) {
+        } else if (50 < point) {
             recipe.setDifficulty(DifficultyType.HARD);
         }
     }
