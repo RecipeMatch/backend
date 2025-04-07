@@ -1,5 +1,6 @@
 package org.example.recipe_match_backend.domain.post.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.recipe_match_backend.global.entity.BaseEntity;
