@@ -178,6 +178,7 @@ public class RecipeService {
                 .description(request.getDescription())
                 .cookingTime(request.getCookingTime())
                 .category(request.getCategory())
+                .serving(request.getServing())
                 .recipeIngredients(new ArrayList<>())
                 .recipeSteps(new ArrayList<>())
                 .recipeTools(new ArrayList<>())
