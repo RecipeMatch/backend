@@ -102,6 +102,7 @@ public class RecipeService {
                     .difficulty(difficulty)
                     .category(category)
                     .allergies(allergyList)
+                    .serving(Integer.parseInt(dto.getServing()))
                     .build();
 
             // 재료 처리
@@ -177,6 +178,7 @@ public class RecipeService {
                 .description(request.getDescription())
                 .cookingTime(request.getCookingTime())
                 .category(request.getCategory())
+                .serving(request.getServing())
                 .recipeIngredients(new ArrayList<>())
                 .recipeSteps(new ArrayList<>())
                 .recipeTools(new ArrayList<>())
@@ -467,7 +469,7 @@ public class RecipeService {
     }
 
 
-    private void recipeDifficulty(Recipe recipe,double cookingTime, double stepSize, double ingredientSize, double toolSize){
+    private void recipeDifficulty(Recipe recipe, double cookingTime, double stepSize, double ingredientSize, double toolSize){
 
         double time = 0.3*((cookingTime-5)/175);
 
