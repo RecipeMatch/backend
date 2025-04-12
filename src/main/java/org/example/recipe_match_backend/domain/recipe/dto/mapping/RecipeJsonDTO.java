@@ -19,5 +19,6 @@ public class RecipeJsonDTO {
     private List<RecipeStepJsonDTO> steps;
     private List<String> tools;
     private String alterTools;
+    private String serving;
 
 }

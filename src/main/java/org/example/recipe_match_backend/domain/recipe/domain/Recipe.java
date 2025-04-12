@@ -50,6 +50,9 @@ public class Recipe extends BaseEntity {
 
     private String alterTools;
 
+    // 인분: 1인분, 2인분 ..
+    private int serving;
+
     //사용자:레시피 입력시 필요한 내용
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
