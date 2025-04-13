@@ -1,4 +1,4 @@
-package org.example.recipe_match_backend.global.coupang.dto;
+package org.example.recipe_match_backend.global.api.naverProducts.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
