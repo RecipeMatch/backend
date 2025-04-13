@@ -1,9 +1,9 @@
-package org.example.recipe_match_backend.global.coupang.dto.response;
+package org.example.recipe_match_backend.global.api.naverProducts.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.example.recipe_match_backend.global.coupang.dto.ProductDto;
+import org.example.recipe_match_backend.global.api.naverProducts.dto.ProductDto;
 
 import java.util.List;
 
