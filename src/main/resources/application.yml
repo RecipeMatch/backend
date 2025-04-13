@@ -47,3 +47,8 @@ cloud:
     credentials:
       accessKey: ${ACCESS_KEY}
       secretKey: ${SECRET_KEY}
+
+naver:
+  shopping:
+    client-id: ${YOUR_NAVER_CLIENT_ID}
+    client-secret: ${YOUR_NAVER_CLIENT_SECRET}
