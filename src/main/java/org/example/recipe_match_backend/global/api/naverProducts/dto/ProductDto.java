@@ -9,9 +9,9 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 public class ProductDto {
-    private String name;
-    private int price;
-    private String imageUrl;
-    private String productUrl;
+    private String name;            // 상품 이름
+    private int price;              // 상품 가격
+    private String imageUrl;        // 상품 이미지 url
+    private String productUrl;      // 상품 정보 url
 
 }
