@@ -3,7 +3,7 @@ package org.example.recipe_match_backend.global.coupang.dto.response;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.recipe_match_backend.global.coupang.dto.request.ProductRequest;
+import org.example.recipe_match_backend.global.coupang.dto.ProductDto;
 
 import java.util.List;
 
@@ -12,5 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductRecommendationResponse {
     private boolean hasMissing;
-    private List<ProductRequest> products;
+    private List<ProductDto> products;
 }
