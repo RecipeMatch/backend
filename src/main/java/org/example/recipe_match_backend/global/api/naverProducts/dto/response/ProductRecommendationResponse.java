@@ -11,6 +11,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class ProductRecommendationResponse {
-    private boolean hasMissing;
-    private List<ProductDto> products;
+    private boolean hasMissing;             // 사용자가 레시피 재료 전부 가지고 있는지 아닌지 여부 판단
+    private List<ProductDto> products;      // 상품 정보 리스트
 }
