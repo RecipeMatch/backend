@@ -29,8 +29,10 @@ public class NaverShoppingClient {
 
     public List<ProductDto> searchProducts(String keyword, int size) {
         try {
-            String encodedKeyword = URLEncoder.encode(keyword, StandardCharsets.UTF_8);
-            String url = "https://openapi.naver.com/v1/search/shop.json?query=" + encodedKeyword + "&display=" + size;
+            String encodedKeyword = URLEncoder.encode(keyword, StandardCharsets.UTF_8);         // 이거 진행하면 안되는 이유가 뭘까? 기존에는 UTF-8을 진행해야하는데 음..
+            String url = "https://openapi.naver.com/v1/search/shop.json?query=" + keyword + "&display=" + size;
+
+            System.out.println(clientId + " " + clientSecret);
 
             HttpHeaders headers = new HttpHeaders();
             headers.set("X-Naver-Client-Id", clientId);
@@ -55,7 +57,7 @@ public class NaverShoppingClient {
                         .toList();
             }
         } catch (Exception e) {
-            log.error("NaverShoppingClient Error: {}", e.getMessage());
+            log.error("네이버 ShoppingClient Error: {}", e.getMessage());
         }
         return new ArrayList<>();
     }
