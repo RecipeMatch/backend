@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.recipe_match_backend.global.api.naverProducts.dto.ProductDto;
 import org.example.recipe_match_backend.global.api.naverProducts.service.RecipeRecommendationService;
 import org.example.recipe_match_backend.global.api.naverProducts.dto.response.ProductRecommendationResponse;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +15,7 @@ public class RecipeRecommendationController {
 
     private final RecipeRecommendationService service;
 
+    @GetMapping("/recipe/{recipeId}/recommend")
     public ProductRecommendationResponse recommendProducts(
             @PathVariable Long recipeId,
             @RequestParam String userUid){
