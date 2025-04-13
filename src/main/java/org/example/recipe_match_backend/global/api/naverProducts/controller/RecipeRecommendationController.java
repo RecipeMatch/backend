@@ -1,9 +1,9 @@
-package org.example.recipe_match_backend.global.coupang.controller;
+package org.example.recipe_match_backend.global.api.naverProducts.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.recipe_match_backend.global.coupang.dto.ProductDto;
-import org.example.recipe_match_backend.global.coupang.dto.response.ProductRecommendationResponse;
-import org.example.recipe_match_backend.global.coupang.service.RecipeRecommendationService;
+import org.example.recipe_match_backend.global.api.naverProducts.dto.ProductDto;
+import org.example.recipe_match_backend.global.api.naverProducts.service.RecipeRecommendationService;
+import org.example.recipe_match_backend.global.api.naverProducts.dto.response.ProductRecommendationResponse;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
