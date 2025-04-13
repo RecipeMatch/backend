@@ -13,4 +13,5 @@ public class ProductDto {
     private int price;
     private String imageUrl;
     private String productUrl;
+
 }
