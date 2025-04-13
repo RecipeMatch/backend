@@ -15,9 +15,9 @@ public class RecipeRecommendationController {
 
     private final RecipeRecommendationService service;
 
-    @GetMapping("/recipe/{recipeId}/recommend")
+    @GetMapping("/recommendations/products")
     public ProductRecommendationResponse recommendProducts(
-            @PathVariable Long recipeId,
+            @RequestParam Long recipeId,
             @RequestParam String userUid){
 
         List<ProductDto> products = service.recommendProducts(recipeId, userUid);
@@ -27,5 +27,4 @@ public class RecipeRecommendationController {
                 .products(products)
                 .build();
     }
-
 }
