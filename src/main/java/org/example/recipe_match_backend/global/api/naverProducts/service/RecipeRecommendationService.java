@@ -6,6 +6,7 @@ import org.example.recipe_match_backend.domain.recipe.repository.RecipeRepositor
 import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
 import org.example.recipe_match_backend.global.api.naverProducts.dto.ProductDto;
+import org.example.recipe_match_backend.global.api.naverProducts.dto.response.SearchProductRecommendationResponse;
 import org.example.recipe_match_backend.global.config.NaverShoppingClient;
 import org.example.recipe_match_backend.global.exception.recipe.RecipeNotFoundException;
 import org.example.recipe_match_backend.global.exception.user.UserNotFoundException;
@@ -46,6 +47,11 @@ public class RecipeRecommendationService {
         if(missing.isEmpty()) return List.of();
 
         String keyword = missing.get(ThreadLocalRandom.current().nextInt(missing.size()));
+
+        return client.searchProducts(keyword, 5);
+    }
+
+    public List<ProductDto> searchRecommendProducts(String keyword) {
 
         return client.searchProducts(keyword, 5);
     }
