@@ -1,4 +1,3 @@
-
 plugins {
     java
     id("org.springframework.boot") version "3.4.1"
@@ -22,12 +21,6 @@ configurations {
 
 repositories {
     mavenCentral()
-}
-
-dependencyManagement {
-    imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2024.0.0")
-    }
 }
 
 dependencies {
@@ -70,8 +63,6 @@ dependencies {
     annotationProcessor("com.querydsl:querydsl-apt:5.0.0:jakarta")
     annotationProcessor("jakarta.annotation:jakarta.annotation-api")
     annotationProcessor("jakarta.persistence:jakarta.persistence-api")
-
-    implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
 }
 
