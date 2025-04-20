@@ -11,5 +11,5 @@ import java.util.List;
 @Getter
 public class CommentRequest {
     private String model;
-    private List<Message> message;
+    private List<Message> messages;
 }
