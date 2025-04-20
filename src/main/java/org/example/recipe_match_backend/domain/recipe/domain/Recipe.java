@@ -143,4 +143,13 @@ public class Recipe extends BaseEntity {
     public void setCookingTime(int cookingTime) {
         this.cookingTime = cookingTime;
     }
+
+    public void setAlterTools(String alterTools){
+        this.alterTools = alterTools;
+    }
+
+    public void setAllergies(List<AllergyType> allergies){
+        this.allergies = allergies;
+    }
+
 }

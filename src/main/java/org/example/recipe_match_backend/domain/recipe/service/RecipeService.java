@@ -27,6 +27,9 @@ import org.example.recipe_match_backend.domain.tool.domain.Tool;
 import org.example.recipe_match_backend.domain.tool.repository.ToolRepository;
 import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
+import org.example.recipe_match_backend.global.api.chatgptProducts.dto.request.AiContentRequest;
+import org.example.recipe_match_backend.global.api.chatgptProducts.dto.response.CommentResponse;
+import org.example.recipe_match_backend.global.api.chatgptProducts.service.AiCommentService;
 import org.example.recipe_match_backend.global.exception.type.TypeNotFoundException;
 import org.example.recipe_match_backend.type.AllergyType;
 import org.example.recipe_match_backend.type.CategoryType;
@@ -40,10 +43,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @Service
@@ -62,6 +65,7 @@ public class RecipeService {
     private final RecipeBookMarkRepository recipeBookMarkRepository;
     private final AmazonS3Client amazonS3Client;
     private final RecipeImageRepository recipeImageRepository;
+    private final AiCommentService aiCommentService;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
@@ -271,6 +275,57 @@ public class RecipeService {
                     .build();
             recipe.addRecipeImage(img);
         }
+
+        //대체도구 분석
+        String alterToolsSystemContent = "너는 요리 도구 대체 도우미야. " +
+                "사용자가 입력한 도구를 기준으로 대체 가능한 요리 도구만 JSON 배열로 출력해." +
+                "동의어를 인식하고, 중복은 제거하며,다른 텍스트나 설명은 포함하지 마.동시에 []과 따옴표를 붙이지마. 입력한 도구는 대체 도구에서 제외해" +
+                "해당 항목이 없으면 빈 문장을 출력해.";
+        String alterToolsUserContent = String.join(",", request.getToolName());
+        AiContentRequest alterToolsContentRequest = new AiContentRequest(alterToolsSystemContent,alterToolsUserContent);
+        CommentResponse alterToolsComment = aiCommentService.commentResponse(alterToolsContentRequest);
+
+        log.info("alterTools token:"+alterToolsComment.getUsage().getTotal_tokens());
+        log.info("alterTools:"+alterToolsComment.getChoices().getFirst().getMessage().getContent());
+
+        recipe.setAlterTools(alterToolsComment.getChoices().stream().findFirst().map(choice -> choice.getMessage().getContent()).orElseThrow());
+
+        //알레르기 분석
+        String allergiesSystemContent = "너는 식재료 알레르기 분석 도우미야. " +
+                "사용자가 입력한 재료 목록을 기반으로 아래 알레르기 항목 중 해당되는 항목만 JSON 으로 출력해." +
+                "동의어를 인식하고, 중복은 제거해." +
+                "출력에는 다른 텍스트나 설명은 포함하지 마. 동시에 []과 따옴표를 붙이지마. 해당 항목이 없으면 빈 문장을 출력해" +
+                "알레르기 항목:EGG,MILK,MEMIL,PEANUT,SOY,WHEAT,PINENUT,WALNUT,CRAB,SHRIMP,SQUID,MACKEREL,SHELLFISH,PEACH,TOMATO,CHICKEN,PORK,BEEF,SULFITE";
+        String allergiesUserContent = recipe
+                .getRecipeIngredients()
+                .stream()
+                .map(r -> r.getIngredient().getIngredientName())
+                .collect(Collectors.joining(","));//레시피에서 재료 이름 리스트 습득 후 쉼표를 기준으로 합침
+        AiContentRequest allergiesContentRequest = new AiContentRequest(allergiesSystemContent,allergiesUserContent);
+        CommentResponse allergiesComment = aiCommentService.commentResponse(allergiesContentRequest);
+
+        log.info("allergies token:"+allergiesComment.getUsage().getTotal_tokens());
+        log.info("allergies:"+allergiesComment.getChoices().getFirst().getMessage().getContent());
+
+        String[] allergies =allergiesComment.getChoices().getFirst().getMessage().getContent().split(",");//문자열 쉼표 기준 나누기
+        List<String> cleanedAllergies = Arrays.stream(allergies)
+                .map(String::trim) // 앞뒤 공백 제거
+                .filter(s -> !s.isEmpty()) // 빈 문자열 제거
+                .toList();
+        List<AllergyType> allergyTypes = new ArrayList<>();
+        if(!cleanedAllergies.isEmpty()){
+            for(String allergy: cleanedAllergies){
+                try {
+                    AllergyType type = AllergyType.valueOf(allergy.toUpperCase()); // 혹은 그대로
+                    allergyTypes.add(type);
+                } catch (IllegalArgumentException e) {
+                    // 로그 출력 또는 무시
+                    System.out.println("유효하지 않은 알레르기 타입: " + allergy);
+                }
+            }
+            recipe.setAllergies(allergyTypes);
+        }
+
         // Recipe 저장 (CascadeType.PERSIST에 의해 연관된 엔티티들도 함께 저장됨)
         Recipe savedRecipe = recipeRepository.save(recipe);
 
