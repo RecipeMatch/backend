@@ -3,12 +3,9 @@ package org.example.recipe_match_backend.domain.recipe.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import jdk.jfr.Category;
 import org.example.recipe_match_backend.domain.recipe.domain.QRecipe;
 import org.example.recipe_match_backend.domain.recipe.domain.Recipe;
-import org.example.recipe_match_backend.domain.recipe.domain.RecipeTool;
 import org.example.recipe_match_backend.domain.recipe.dto.request.recipe.RecipeSearchRequest;
-import org.example.recipe_match_backend.domain.tool.domain.Tool;
 import org.example.recipe_match_backend.domain.user.domain.User;
 import org.example.recipe_match_backend.domain.user.domain.UserIngredient;
 import org.example.recipe_match_backend.domain.user.domain.UserTool;
@@ -17,7 +14,6 @@ import org.example.recipe_match_backend.type.AllergyType;
 import org.example.recipe_match_backend.type.CategoryType;
 import org.example.recipe_match_backend.type.DifficultyType;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
