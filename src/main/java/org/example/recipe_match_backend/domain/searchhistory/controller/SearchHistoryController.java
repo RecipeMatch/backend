@@ -18,8 +18,8 @@ public class SearchHistoryController {
     private final SearchHistoryService searchHistoryService;
 
     @PostMapping("/recommended")
-    public List<RecipeResponse> recommended(@RequestParam String uid){
-        return searchHistoryService.recommended_Recipe(uid);
+    public List<RecipeResponse> recommended(@RequestParam String userUid){
+        return searchHistoryService.recommended_Recipe(userUid);
     }
 
 }

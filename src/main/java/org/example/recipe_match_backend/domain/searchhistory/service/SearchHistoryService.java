@@ -2,6 +2,7 @@ package org.example.recipe_match_backend.domain.searchhistory.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.recipe_match_backend.domain.recipe.domain.Recipe;
 import org.example.recipe_match_backend.domain.recipe.domain.RecipeImage;
 import org.example.recipe_match_backend.domain.recipe.domain.RecipeIngredient;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -62,7 +64,7 @@ public class SearchHistoryService {
 
         List<RecipeResponse> recipeResponses = new ArrayList<>();
 
-        for(Recipe recipe:recommendRecipes){//이제 여기서 recipes를 추천하는 레시피 리스트로 바꿔야함: querydsl을 통해 점수 기반 추천
+        for(Recipe recipe:recommendRecipes){
             int likeSize = recipeLikeRepository.findByRecipe(recipe).size();
             int bookMarkSize = recipeBookMarkRepository.findByRecipe(recipe).size();
 

@@ -6,6 +6,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import lombok.extern.slf4j.Slf4j;
 import org.example.recipe_match_backend.domain.recipe.domain.QRecipe;
 import org.example.recipe_match_backend.domain.recipe.domain.Recipe;
 import org.example.recipe_match_backend.domain.recipe.domain.RecipeIngredient;
@@ -15,6 +16,10 @@ import org.example.recipe_match_backend.domain.searchhistory.dto.request.SearchH
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.example.recipe_match_backend.domain.recipe.domain.QRecipeIngredient.recipeIngredient;
+import static org.example.recipe_match_backend.domain.recipe.domain.QRecipeTool.recipeTool;
+
+@Slf4j
 public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
@@ -60,13 +65,15 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
                         .orElse(Expressions.FALSE) : Expressions.FALSE)
                 .then(2)
                 .otherwise(0));
-
-        return queryFactory
+        List<Recipe> recipes= queryFactory
                 .select(recipe)
                 .from(recipe)
                 .orderBy(scoreExpr.desc())
-                .limit(10)
                 .fetch();
+
+        return recipes.stream()
+                .limit(5)
+                .toList();
     }
 
 }
