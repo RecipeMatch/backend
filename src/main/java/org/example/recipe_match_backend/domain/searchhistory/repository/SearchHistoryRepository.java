@@ -1,4 +1,2 @@
-package org.example.recipe_match_backend.domain.searchhistory.repository;
-
-public class SearchHistoryRepository {
+package org.example.recipe_match_backend.domain.searchhistory.repository;public interface SearchHistoryRepository {
 }
