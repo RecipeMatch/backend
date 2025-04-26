@@ -449,7 +449,7 @@ public class RecipeService {
 
         SearchHistory searchHistory = SearchHistory.builder().user(user).recipe(recipe).categoryType(recipe.getCategory()).build();
 
-        if(user.getSearchHistories().size() >= 3){
+        if(user.getSearchHistories().size() >= 5){
             SearchHistory history = user.getSearchHistories().remove(0);
             recipe.getSearchHistories().remove(history);
         }

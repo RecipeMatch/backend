@@ -65,6 +65,7 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
                         .orElse(Expressions.FALSE) : Expressions.FALSE)
                 .then(2)
                 .otherwise(0));
+
         List<Recipe> recipes= queryFactory
                 .select(recipe)
                 .from(recipe)
