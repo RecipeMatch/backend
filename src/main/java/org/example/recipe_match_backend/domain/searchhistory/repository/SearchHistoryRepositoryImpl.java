@@ -36,7 +36,7 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
 
         scoreExpr = scoreExpr.add(new CaseBuilder()
                 .when(request.getDifficultyTypes() != null ? recipe.difficulty.in(request.getDifficultyTypes()):Expressions.FALSE)
-                .then(1)
+                .then(2)
                 .otherwise(0));
 
         scoreExpr = scoreExpr.add(new CaseBuilder()
@@ -47,7 +47,7 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
                         .map(ingredient -> recipe.recipeIngredients.any().ingredient.eq(ingredient))
                         .reduce(BooleanExpression::or)
                         .orElse(Expressions.FALSE) : Expressions.FALSE)
-                .then(2)
+                .then(3)
                 .otherwise(0));
 
         scoreExpr = scoreExpr.add(new CaseBuilder()
