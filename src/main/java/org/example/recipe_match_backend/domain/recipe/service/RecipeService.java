@@ -617,7 +617,8 @@ public class RecipeService {
     private String chatgptAlterTool(List<String> toolNames){
         String alterToolsSystemContent = "너는 요리 도구 대체 도우미야. " +
                 "사용자가 입력한 도구를 기준으로 대체 가능한 요리 도구만 JSON 배열로 출력해." +
-                "각 도구에 하나씩 대체 도구를 생성하고 도구가 입력된 순서대로 대체도구를 배치하여 출력해."+
+                "각 도구에 반드시 하나씩 대체 도구를 생성하고 도구가 입력된 순서대로 대체도구를 배치하여 출력해. 대체도구가 도구와 같은 이름이여도 안돼."+
+                "도구와 대체도구의 유사도가 너무 떨어져도 안돼."+
                 "동의어를 인식하고, 중복은 제거하며,다른 텍스트나 설명은 포함하지 마.동시에 []과 따옴표를 붙이지마. 입력한 도구는 대체 도구에서 제외해" +
                 "해당 항목이 없으면 빈 문장을 출력해.";
         String alterToolsUserContent = String.join(",", toolNames);

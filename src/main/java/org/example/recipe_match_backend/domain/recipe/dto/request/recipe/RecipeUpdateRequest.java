@@ -25,6 +25,8 @@ public class RecipeUpdateRequest {
 
     private CategoryType category; //Recipe
 
+    private int serving;
+
     private List<MultipartFile> files = new ArrayList<>();
 
     private List<RecipeIngredientDto> recipeIngredientDtos = new ArrayList<>(); //RecipeIngredient
