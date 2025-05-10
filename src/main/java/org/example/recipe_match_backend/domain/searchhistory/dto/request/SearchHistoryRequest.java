@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.recipe_match_backend.domain.recipe.domain.Recipe;
 import org.example.recipe_match_backend.domain.recipe.domain.RecipeIngredient;
 import org.example.recipe_match_backend.domain.recipe.domain.RecipeTool;
 import org.example.recipe_match_backend.domain.searchhistory.domain.SearchHistory;
@@ -19,6 +20,8 @@ import java.util.List;
 @Getter
 public class SearchHistoryRequest {
 
+    private String uid;
+    private List<Recipe> recipes = new ArrayList<>();
     private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
     private List<RecipeTool> recipeTools = new ArrayList<>();
     private List<CategoryType> categoryTypes = new ArrayList<>();

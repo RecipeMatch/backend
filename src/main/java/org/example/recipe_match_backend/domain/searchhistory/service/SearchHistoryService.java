@@ -58,7 +58,7 @@ public class SearchHistoryService {
             difficultyTypes.add(recipe.getDifficulty());
         }
 
-        SearchHistoryRequest request = new SearchHistoryRequest(recipeIngredients,recipeTools,categoryTypes,difficultyTypes);
+        SearchHistoryRequest request = new SearchHistoryRequest(uid,recipes,recipeIngredients,recipeTools,categoryTypes,difficultyTypes);
 
         List<Recipe> recommendRecipes = searchHistoryRepository.recommend(request);
 
