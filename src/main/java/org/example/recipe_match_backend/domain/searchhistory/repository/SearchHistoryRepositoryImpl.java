@@ -122,16 +122,19 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
                 .filter(ingredient -> !commonIngredientsToExclude.contains(ingredient.getIngredientName()))
                 .toList();
 
-        List<String> MainIngredients = new ArrayList<>(Arrays.asList(
-                "돼지고기","쇠고기","닭","닭고기","가리비", "가재새우","검은껍질홍합", "고등어",
-                "꼴뚜기", "꽁치", "꽃게", "낙지","문어", "바지락",
-                "북어", "새우", "생새우", "생태", "연어", "오징어",
-                "재첩", "조개살", "조기", "중새우살", "쭈꾸미", "홍합", "훈제연어",
-                "감자", "배추", "송이버섯", "오이", "호박","청포묵","팥","두부"
-        ));
 
-        //NumberExpression<Double> IngredientCount = recipe.recipeIngredients.size().doubleValue();
-        //NumberExpression<Double> recipeIngredientCount = Expressions.numberTemplate(Double.class, "{0}", IngredientCount);
+        Map<String, Double> MainIngredients = Map.ofEntries(
+                Map.entry("돼지고기", 3.0), Map.entry("쇠고기", 3.0), Map.entry("닭", 3.0), Map.entry("닭고기", 3.0), Map.entry("가리비", 1.0),
+                Map.entry("가재새우", 1.0), Map.entry("검은껍질홍합", 1.0), Map.entry("고등어", 2.0), Map.entry("꼴뚜기", 1.0), Map.entry("꽁치", 2.0),
+                Map.entry("꽃게", 2.0), Map.entry("낙지", 2.0), Map.entry("문어", 2.0), Map.entry("바지락", 1.0), Map.entry("맵쌀", 2.0),
+                Map.entry("소면", 2.0), Map.entry("칼국수면", 2.0), Map.entry("북어", 2.0), Map.entry("새우", 2.0), Map.entry("생새우", 2.0),
+                Map.entry("생태", 1.0), Map.entry("연어", 2.0), Map.entry("오징어", 2.0), Map.entry("찹쌀", 2.0), Map.entry("중면", 2.0),
+                Map.entry("당면", 1.0), Map.entry("재첩", 1.0), Map.entry("조개살", 2.0), Map.entry("조기", 2.0), Map.entry("중새우살", 2.0),
+                Map.entry("쭈꾸미", 2.0), Map.entry("홍합", 2.0), Map.entry("훈제연어", 2.0), Map.entry("감자", 2.0), Map.entry("배추", 1.0),
+                Map.entry("송이버섯", 2.0), Map.entry("오이", 1.0), Map.entry("호박", 1.0), Map.entry("청포묵", 2.0), Map.entry("팥", 2.0),
+                Map.entry("두부", 2.0), Map.entry("쌀", 2.0)
+        );
+
         NumberExpression<Double> recipeIngredientCount =recipe.recipeIngredients.size().doubleValue();
 
         score = score.add(similarityCalculate(
@@ -139,7 +142,6 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
                 MainIngredients,
                 recipeIngredientCount,
                 ing -> recipe.recipeIngredients.any().ingredient.eq(ing),
-                (ing, main)  -> recipe.recipeIngredients.any().ingredient.eq(ing).and(recipe.recipeIngredients.any().ingredient.ingredientName.eq(main)),
                 30.0));
 
         List<Tool> userTools = request
@@ -148,13 +150,14 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
                 .map(RecipeTool::getTool)
                 .toList();
 
-        List<String> MainTools = new ArrayList<>(Arrays.asList(
-                "그릴", "김밥매트", "냄비", "돌솥", "뚝배기", "발효통", "밥솥", "석쇠", "솥", "스팀기","압력밥솥", "압력솥",
-                "오븐", "원형 틀", "유부틀", "전골냄비", "찜통", "튀김용 냄비", "튀김팬", "팬", "프라이팬"
-        ));
+        Map<String, Double> MainTools = Map.ofEntries(
+                Map.entry("그릴", 2.0), Map.entry("김밥매트", 2.0), Map.entry("냄비", 2.0), Map.entry("돌솥", 2.0), Map.entry("뚝배기", 2.0),
+                Map.entry("발효통", 2.0), Map.entry("밥솥", 2.0), Map.entry("석쇠", 2.0), Map.entry("솥", 2.0), Map.entry("스팀기", 2.0),
+                Map.entry("압력밥솥", 2.0), Map.entry("압력솥", 2.0), Map.entry("오븐", 2.0), Map.entry("원형 틀", 2.0), Map.entry("유부틀", 2.0),
+                Map.entry("전골냄비", 2.0), Map.entry("찜통", 2.0), Map.entry("튀김용 냄비", 2.0), Map.entry("튀김팬", 2.0), Map.entry("팬", 2.0),
+                Map.entry("프라이팬", 2.0)
+        );
 
-        //NumberExpression<Double> ToolCount = recipe.recipeTools.size().doubleValue();
-        //NumberExpression<Double> recipeToolCount = Expressions.numberTemplate(Double.class, "{0}", ToolCount);
         NumberExpression<Double> recipeToolCount = recipe.recipeTools.size().doubleValue();;
 
         score = score.add(similarityCalculate(
@@ -162,35 +165,40 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
                 MainTools,
                 recipeToolCount,
                 tool -> recipe.recipeTools.any().tool.eq(tool),
-                (tool,main) -> recipe.recipeTools.any().tool.eq(tool).and(recipe.recipeTools.any().tool.toolName.eq(main)),
                 10.0));
 
         return score;
 
     }
 
-    private <T,F> NumberExpression<Double> similarityCalculate(List<T> userValues,// 사용자 입력 값 (Ingredient, Tool 등)
-                                                               List<F> userMain,
-                                                               Expression<Double> recipeSizeExpr,// recipe.recipeIngredients / recipeTools 개수
-                                                               Function<T, BooleanExpression> matchCondition,// any().ingredient.eq(x) 또는 any().tool.eq(x)
-                                                               BiFunction<T, F, BooleanExpression> matchMain,
-                                                               double weight){
+    private <T> NumberExpression<Double> similarityCalculate(List<T> userValues,// 사용자 입력 값 (Ingredient, Tool 등)
+                                                             Map<String,Double> userMain,
+                                                             Expression<Double> recipeSizeExpr,// recipe.recipeIngredients / recipeTools 개수
+                                                             Function<T, BooleanExpression> matchCondition,// any().ingredient.eq(x) 또는 any().tool.eq(x)
+                                                             double weight){
 
         NumberExpression<Double> count =  Expressions.numberTemplate(Double.class, "0");
         NumberExpression<Double> matchCount =  Expressions.numberTemplate(Double.class, "0");
         NumberExpression<Double> unionCount = Expressions.numberTemplate(Double.class, String.valueOf(userValues.size()));
 
-        List<NumberExpression<Double>> expressions = new ArrayList<>();
-
         for(T userValue: userValues){
-            for (F main: userMain) {
-                count = count.add(
-                        new CaseBuilder()
-                                .when(matchMain.apply(userValue,main))
-                                .then(2.0)
-                                .otherwise(0.0)
-                );
+            String name = null;
+
+            if (userValue instanceof Ingredient ingredient) {
+                name = ingredient.getIngredientName();
+            } else if (userValue instanceof Tool tool) {
+                name = tool.getToolName();
             }
+
+            Double score = (name != null && userMain.get(name) != null) ? userMain.get(name) : Double.valueOf(0.0);
+
+            count = count.add(
+                    new CaseBuilder()
+                            .when(matchCondition.apply(userValue))
+                            .then(Expressions.constant(score))
+                            .otherwise(0.0)
+            );
+
             matchCount = matchCount.add(
                     new CaseBuilder()
                             .when(matchCondition.apply(userValue))
