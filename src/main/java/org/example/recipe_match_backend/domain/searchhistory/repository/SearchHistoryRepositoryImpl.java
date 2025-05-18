@@ -57,7 +57,7 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
                         optionalUser.map(u -> allergiesContainAny(u.getAllergies())).orElse(null),
                         optionalUser.map(u -> duplicateAny(request.getRecipes())).orElse(null)
                 )
-                .orderBy(scoreExpr.desc())
+                .orderBy(scoreExpr.desc(),recipe.recipeLikes.size().desc())
                 .limit(5)
                 .fetch();
     }
@@ -93,9 +93,7 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
                 .then(1.0)
                 .otherwise(0.0));
 
-        NumberExpression<Double> jaccardScore = similarity(request);
-
-        scoreExpr = scoreExpr.add(jaccardScore);
+        scoreExpr = scoreExpr.add(similarity(request));
 
         return scoreExpr;
     }
@@ -111,7 +109,7 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
                 "마늘","초고추장","양념간장","청주","식초","배즙","양파즙","양념장","녹말","무명실",
                 "파슬리가루","생강","통깨","깨","월계수잎","실파","다진생강","진간장",
                 "겨자", "겨자잎", "계핏가루", "다진양파", "들기름", "레몬즙","마늘종",
-                "버터", "슈가파우더", "쌈장", "연겨자", "올리브오일", "전분",
+                "버터", "슈가파우더", "쌈장", "연겨자", "올리브오일", "전분","술",
                 "통후추", "파마산치즈", "파슬리", "황설탕", "후추", "흑설탕", "흰설탕"
         );
 
@@ -124,15 +122,15 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
 
 
         Map<String, Double> MainIngredients = Map.ofEntries(
-                Map.entry("돼지고기", 3.0), Map.entry("쇠고기", 3.0), Map.entry("닭", 3.0), Map.entry("닭고기", 3.0), Map.entry("가리비", 1.0),
-                Map.entry("가재새우", 1.0), Map.entry("검은껍질홍합", 1.0), Map.entry("고등어", 2.0), Map.entry("꼴뚜기", 1.0), Map.entry("꽁치", 2.0),
-                Map.entry("꽃게", 2.0), Map.entry("낙지", 2.0), Map.entry("문어", 2.0), Map.entry("바지락", 1.0), Map.entry("맵쌀", 2.0),
-                Map.entry("소면", 2.0), Map.entry("칼국수면", 2.0), Map.entry("북어", 2.0), Map.entry("새우", 2.0), Map.entry("생새우", 2.0),
-                Map.entry("생태", 1.0), Map.entry("연어", 2.0), Map.entry("오징어", 2.0), Map.entry("찹쌀", 2.0), Map.entry("중면", 2.0),
-                Map.entry("당면", 1.0), Map.entry("재첩", 1.0), Map.entry("조개살", 2.0), Map.entry("조기", 2.0), Map.entry("중새우살", 2.0),
-                Map.entry("쭈꾸미", 2.0), Map.entry("홍합", 2.0), Map.entry("훈제연어", 2.0), Map.entry("감자", 2.0), Map.entry("배추", 1.0),
-                Map.entry("송이버섯", 2.0), Map.entry("오이", 1.0), Map.entry("호박", 1.0), Map.entry("청포묵", 2.0), Map.entry("팥", 2.0),
-                Map.entry("두부", 2.0), Map.entry("쌀", 2.0)
+                Map.entry("돼지고기", 25.0), Map.entry("쇠고기", 25.0), Map.entry("닭", 25.0), Map.entry("닭고기", 25.0), Map.entry("가리비", 2.0),
+                Map.entry("가재새우", 2.0), Map.entry("검은껍질홍합", 2.0), Map.entry("고등어", 5.0), Map.entry("꼴뚜기", 2.0), Map.entry("꽁치", 5.0),
+                Map.entry("꽃게", 8.0), Map.entry("낙지", 2.0), Map.entry("문어", 8.0), Map.entry("바지락", 2.0), Map.entry("맵쌀", 10.0),
+                Map.entry("소면", 13.0), Map.entry("칼국수면", 13.0), Map.entry("북어", 2.0), Map.entry("새우", 5.0), Map.entry("생새우", 5.0),
+                Map.entry("생태", 2.0), Map.entry("연어", 10.0), Map.entry("오징어", 2.0), Map.entry("찹쌀", 13.0), Map.entry("중면", 13.0),
+                Map.entry("당면", 2.0), Map.entry("재첩", 2.0), Map.entry("조개살", 5.0), Map.entry("조기", 5.0), Map.entry("중새우살", 5.0),
+                Map.entry("쭈꾸미", 5.0), Map.entry("홍합", 5.0), Map.entry("훈제연어", 8.0), Map.entry("감자", 8.0), Map.entry("배추", 2.0),
+                Map.entry("송이버섯", 5.0), Map.entry("오이", 1.0), Map.entry("호박", 1.0), Map.entry("청포묵", 7.0), Map.entry("팥", 10.0),
+                Map.entry("두부", 15.0), Map.entry("쌀", 15.0)
         );
 
         NumberExpression<Double> recipeIngredientCount =recipe.recipeIngredients.size().doubleValue();
@@ -142,30 +140,7 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
                 MainIngredients,
                 recipeIngredientCount,
                 ing -> recipe.recipeIngredients.any().ingredient.eq(ing),
-                30.0));
-
-        List<Tool> userTools = request
-                .getRecipeTools()
-                .stream()
-                .map(RecipeTool::getTool)
-                .toList();
-
-        Map<String, Double> MainTools = Map.ofEntries(
-                Map.entry("그릴", 2.0), Map.entry("김밥매트", 2.0), Map.entry("냄비", 2.0), Map.entry("돌솥", 2.0), Map.entry("뚝배기", 2.0),
-                Map.entry("발효통", 2.0), Map.entry("밥솥", 2.0), Map.entry("석쇠", 2.0), Map.entry("솥", 2.0), Map.entry("스팀기", 2.0),
-                Map.entry("압력밥솥", 2.0), Map.entry("압력솥", 2.0), Map.entry("오븐", 2.0), Map.entry("원형 틀", 2.0), Map.entry("유부틀", 2.0),
-                Map.entry("전골냄비", 2.0), Map.entry("찜통", 2.0), Map.entry("튀김용 냄비", 2.0), Map.entry("튀김팬", 2.0), Map.entry("팬", 2.0),
-                Map.entry("프라이팬", 2.0)
-        );
-
-        NumberExpression<Double> recipeToolCount = recipe.recipeTools.size().doubleValue();;
-
-        score = score.add(similarityCalculate(
-                userTools,
-                MainTools,
-                recipeToolCount,
-                tool -> recipe.recipeTools.any().tool.eq(tool),
-                10.0));
+                60.0));
 
         return score;
 
