@@ -52,6 +52,7 @@ public class SearchHistoryService {
         List<RecipeTool> recipeTools = new ArrayList<>();
         List<CategoryType> categoryTypes = searchHistories.stream().map(SearchHistory::getCategoryType).toList();
         List<DifficultyType> difficultyTypes = new ArrayList<>();
+
         for(Recipe recipe:recipes){
             recipeIngredients.addAll(recipe.getRecipeIngredients());
             recipeTools.addAll(recipe.getRecipeTools());
