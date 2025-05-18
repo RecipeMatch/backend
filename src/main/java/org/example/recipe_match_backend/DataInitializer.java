@@ -12,7 +12,6 @@ public class DataInitializer implements CommandLineRunner {
 
     private final RecipeService recipeService;
     private final RecipeRepository recipeRepository;
-
     @Override
     public void run(String... args) throws Exception {
         long count = recipeRepository.count();
