@@ -12,6 +12,7 @@ import org.example.recipe_match_backend.domain.recipe.dto.response.recipe.Recipe
 import org.example.recipe_match_backend.domain.recipe.repository.RecipeBookMarkRepository;
 import org.example.recipe_match_backend.domain.recipe.repository.RecipeLikeRepository;
 import org.example.recipe_match_backend.domain.searchhistory.domain.SearchHistory;
+import org.example.recipe_match_backend.domain.searchhistory.dto.request.RecipeWithScoreDto;
 import org.example.recipe_match_backend.domain.searchhistory.dto.request.SearchHistoryRequest;
 import org.example.recipe_match_backend.domain.searchhistory.repository.SearchHistoryRepository;
 import org.example.recipe_match_backend.domain.user.domain.User;
@@ -61,11 +62,18 @@ public class SearchHistoryService {
 
         SearchHistoryRequest request = new SearchHistoryRequest(uid,recipes,recipeIngredients,recipeTools,categoryTypes,difficultyTypes);
 
-        List<Recipe> recommendRecipes = searchHistoryRepository.recommend(request);
+        List<RecipeWithScoreDto> recommendRecipes = searchHistoryRepository.recommend(request);
 
         List<RecipeResponse> recipeResponses = new ArrayList<>();
 
-        for(Recipe recipe:recommendRecipes){
+        for(RecipeWithScoreDto recipeWithScore:recommendRecipes){
+
+            Recipe recipe = recipeWithScore.getRecipe();
+
+            Double score = recipeWithScore.getScoreExpr();
+
+            log.info("{} score:{}", recipe.getRecipeName(),score);
+
             int likeSize = recipeLikeRepository.findByRecipe(recipe).size();
             int bookMarkSize = recipeBookMarkRepository.findByRecipe(recipe).size();
 

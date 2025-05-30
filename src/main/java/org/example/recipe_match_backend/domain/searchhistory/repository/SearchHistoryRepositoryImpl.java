@@ -3,6 +3,7 @@ package org.example.recipe_match_backend.domain.searchhistory.repository;
 import ch.qos.logback.core.rolling.helper.IntegerTokenConverter;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
@@ -15,6 +16,7 @@ import org.example.recipe_match_backend.domain.recipe.domain.QRecipe;
 import org.example.recipe_match_backend.domain.recipe.domain.Recipe;
 import org.example.recipe_match_backend.domain.recipe.domain.RecipeIngredient;
 import org.example.recipe_match_backend.domain.recipe.domain.RecipeTool;
+import org.example.recipe_match_backend.domain.searchhistory.dto.request.RecipeWithScoreDto;
 import org.example.recipe_match_backend.domain.searchhistory.dto.request.SearchHistoryRequest;
 import org.example.recipe_match_backend.domain.tool.domain.Tool;
 import org.example.recipe_match_backend.domain.user.domain.User;
@@ -44,14 +46,14 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
     }
 
     @Override
-    public List<Recipe> recommend(SearchHistoryRequest request) {
+    public List<RecipeWithScoreDto> recommend(SearchHistoryRequest request) {
 
         NumberExpression<Double> scoreExpr =  buildScoreExpr(request);
 
         Optional<User> optionalUser = userRepository.findByUid(request.getUid());
 
         return queryFactory
-                .select(recipe)
+                .select(Projections.constructor(RecipeWithScoreDto.class, recipe,scoreExpr))
                 .from(recipe)
                 .where(
                         optionalUser.map(u -> allergiesContainAny(u.getAllergies())).orElse(null),
