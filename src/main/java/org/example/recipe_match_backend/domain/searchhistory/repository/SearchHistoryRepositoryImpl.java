@@ -46,16 +46,15 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
     }
 
     @Override
-    public List<RecipeWithScoreDto> recommend(SearchHistoryRequest request) {
+    public List<Recipe> recommend(SearchHistoryRequest request) {
 
         NumberExpression<Double> scoreExpr =  buildScoreExpr(request);
 
         Optional<User> optionalUser = userRepository.findByUid(request.getUid());
 
         return queryFactory
-                .select(Projections.constructor(RecipeWithScoreDto.class, recipe,scoreExpr))
+                .select(recipe)
                 .from(recipe)
-                .join(recipe.recipeIngredients, recipeIngredient)
                 .where(
                         optionalUser.map(u -> allergiesContainAny(u.getAllergies())).orElse(null),
                         optionalUser.map(u -> duplicateAny(request.getRecipes())).orElse(null)
@@ -142,7 +141,7 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
                 userIngredients,
                 MainIngredients,
                 recipeIngredientCount,
-                recipeIngredient.ingredient::eq,
+                ing -> recipe.recipeIngredients.any().ingredient.eq(ing),
                 60.0));
 
         return score;
