@@ -7,5 +7,5 @@ import org.example.recipe_match_backend.domain.searchhistory.dto.request.SearchH
 import java.util.List;
 
 public interface SearchHistoryRepositoryCustom {
-    List<RecipeWithScoreDto> recommend(SearchHistoryRequest request);
+    List<Recipe> recommend(SearchHistoryRequest request);
 }

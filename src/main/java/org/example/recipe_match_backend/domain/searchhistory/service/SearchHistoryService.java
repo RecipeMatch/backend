@@ -62,17 +62,11 @@ public class SearchHistoryService {
 
         SearchHistoryRequest request = new SearchHistoryRequest(uid,recipes,recipeIngredients,recipeTools,categoryTypes,difficultyTypes);
 
-        List<RecipeWithScoreDto> recommendRecipes = searchHistoryRepository.recommend(request);
+        List<Recipe> recommendRecipes = searchHistoryRepository.recommend(request);
 
         List<RecipeResponse> recipeResponses = new ArrayList<>();
 
-        for(RecipeWithScoreDto recipeWithScore:recommendRecipes){
-
-            Recipe recipe = recipeWithScore.getRecipe();
-
-            Double score = recipeWithScore.getScoreExpr();
-
-            log.info("{} score:{}", recipe.getRecipeName(),score);
+        for(Recipe recipe:recommendRecipes){
 
             int likeSize = recipeLikeRepository.findByRecipe(recipe).size();
             int bookMarkSize = recipeBookMarkRepository.findByRecipe(recipe).size();
