@@ -55,6 +55,7 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
         return queryFactory
                 .select(Projections.constructor(RecipeWithScoreDto.class, recipe,scoreExpr))
                 .from(recipe)
+                .join(recipe.recipeIngredients, recipeIngredient)
                 .where(
                         optionalUser.map(u -> allergiesContainAny(u.getAllergies())).orElse(null),
                         optionalUser.map(u -> duplicateAny(request.getRecipes())).orElse(null)
@@ -141,7 +142,7 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
                 userIngredients,
                 MainIngredients,
                 recipeIngredientCount,
-                ing -> recipe.recipeIngredients.any().ingredient.eq(ing),
+                recipeIngredient.ingredient::eq,
                 60.0));
 
         return score;
