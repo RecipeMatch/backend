@@ -422,7 +422,7 @@
   },
   {
     "id": "14",
-    "recipeName": "채소국수",
+    "recipeName": "잔치국수",
     "description": "갖가지 야채를 듬뿍 넣어서 만든 요리로 출출할 때 간식거리로 아주 좋답니다.",
     "cookingTime": 30,
     "difficulty": "초보환영",
@@ -1241,7 +1241,7 @@
     "difficulty": "보통",
     "category": "KOREAN",
     "ingredients": [
-      { "ingredientName": "닭", "quantity": "1마리" },
+      { "ingredientName": "닭고기", "quantity": "1마리" },
       { "ingredientName": "간장", "quantity": "5큰술" },
       { "ingredientName": "고추장", "quantity": "2큰술" },
       { "ingredientName": "고춧가루", "quantity": "1과1/2큰술" },
@@ -1730,31 +1730,67 @@
   {
     "id": "55",
     "recipeName": "동태찌개",
-    "description": "생선을 넣어 시원한 동태찌개를 끓여보세요~",
-    "cookingTime": 40,
-    "difficulty": "초보환영",
+    "description": "동태와 무, 두부를 넣어 시원하고 얼큰한 국물 맛이 일품인 전통 한식 찌개입니다.",
+    "cookingTime": 30,
+    "difficulty": "보통",
     "category": "KOREAN",
     "ingredients": [
-      { "ingredientName": "콩나물", "quantity": "400g" },
-      { "ingredientName": "쇠고기", "quantity": "100g" },
-      { "ingredientName": "표고버섯", "quantity": "4장" },
+      { "ingredientName": "동태(손질된 생태)", "quantity": "400g" },
+      { "ingredientName": "무", "quantity": "200g" },
+      { "ingredientName": "두부", "quantity": "150g" },
+      { "ingredientName": "대파", "quantity": "1대" },
       { "ingredientName": "양파", "quantity": "1/2개" },
-      { "ingredientName": "당근", "quantity": "1/2개" },
-      { "ingredientName": "미나리", "quantity": "1단" },
-      { "ingredientName": "계란", "quantity": "2개" }
+      { "ingredientName": "청양고추", "quantity": "1~2개" },
+      { "ingredientName": "다진 마늘", "quantity": "1큰술" },
+      { "ingredientName": "고춧가루", "quantity": "1.5큰술" },
+      { "ingredientName": "고추장", "quantity": "1큰술" },
+      { "ingredientName": "국간장", "quantity": "1큰술" },
+      { "ingredientName": "멸치·다시마 육수", "quantity": "800ml" },
+      { "ingredientName": "소금·후추", "quantity": "적당량" },
+      { "ingredientName": "식용유", "quantity": "1큰술" }
     ],
-    "allergy": "알류, 쇠고기",
+    "allergy": "대두",
     "steps": [
-      { "stepOrder": 1, "content": "콩나물은 냄비에 소금 약간과 물 1컵을 붓고 7분 정도 삶은 후 체에 밭쳐 물기를 뺀다." },
-      { "stepOrder": 2, "content": "물에 불린 표고와 쇠고기는 채썰어 갖은 양념(간장, 설탕, 다진 파, 마늘, 후춧가루, 깨소금) 한다." },
-      { "stepOrder": 3, "content": "미나리는 다듬어 5cm 길이로 썬다." },
-      { "stepOrder": 4, "content": "양파와 당근은 채썰어 소금에 절여놓고 계란은 풀어 지단을 부쳐 채썬다." },
-      { "stepOrder": 5, "content": "당근과 미나리를 각각 볶아내고 양념한 표고와 쇠고기도 볶는다." },
-      { "stepOrder": 6, "content": "삶은 콩나물에 참기름과 소금으로 무친다." }
+      {
+        "stepOrder": 1,
+        "content": "냄비에 멸치(10마리)와 다시마(5×5cm) 넣고 물 800ml를 부어 중약불에서 5분간 끓인 뒤 건더기를 건져내어 육수를 준비한다."
+      },
+      {
+        "stepOrder": 2,
+        "content": "무는 나박썰기(1cm 두께, 3cm 크기), 양파는 채 썰고, 두부는 2cm 크기로 깍둑썰기, 대파는 어슷썰기, 청양고추는 송송 썬다."
+      },
+      {
+        "stepOrder": 3,
+        "content": "그릇에 고춧가루 1.5큰술, 고추장 1큰술, 국간장 1큰술, 다진 마늘 1큰술, 후추 약간을 넣고 양념장을 만든다."
+      },
+      {
+        "stepOrder": 4,
+        "content": "냄비에 식용유 1큰술을 두르고 중불에서 무를 넣어 2분간 살짝 볶아 단맛을 낸다."
+      },
+      {
+        "stepOrder": 5,
+        "content": "준비한 육수를 붓고 양념장을 풀어가며 고루 저어 준다."
+      },
+      {
+        "stepOrder": 6,
+        "content": "무가 반투명해질 때까지 약 5분간 끓인다."
+      },
+      {
+        "stepOrder": 7,
+        "content": "손질한 동태를 넣고 2분간 끓인 뒤, 두부와 양파를 넣고 다시 3분간 더 끓인다."
+      },
+      {
+        "stepOrder": 8,
+        "content": "마지막으로 대파와 청양고추를 넣고, 간을 보고 필요시 소금으로 맞춘 뒤 1분간 더 끓인다."
+      },
+      {
+        "stepOrder": 9,
+        "content": "그릇에 담아 따끈하게 서빙한다."
+      }
     ],
-    "tools": [ "냄비", "체", "칼", "도마" ],
-    "alterTools": "전자냄비, 거름망, 주방용 가위, 플라스틱 도마",
-    "serving": "2"
+    "tools": ["냄비", "도마", "칼", "국자", "계량스푼 및 계량컵"],
+    "alterTools": "양념팬 또는 스톡팟, 과도(작은 재료 손질 시), 일반 숟가락",
+    "serving": "3~4"
   },
   {
     "id": "56",
@@ -3120,31 +3156,42 @@
   {
     "id": "98",
     "recipeName": "닭강정",
-    "description": "달콤하고 바삭한 닭강정입니다.",
+    "description": "달콤 짭조름한 양념에 바삭하게 튀긴 닭튀김을 버무려 만든 한국식 치킨 스낵입니다.",
     "cookingTime": 40,
     "difficulty": "보통",
     "category": "KOREAN",
     "ingredients": [
-      { "ingredientName": "닭", "quantity": "1마리" },
-      { "ingredientName": "진간장", "quantity": "4큰술" },
-      { "ingredientName": "마늘", "quantity": "2작은술" },
-      { "ingredientName": "후춧가루", "quantity": "약간" },
-      { "ingredientName": "녹말", "quantity": "4큰술" },
-      { "ingredientName": "고추장", "quantity": "2큰술" },
-      { "ingredientName": "물엿", "quantity": "2큰술" },
-      { "ingredientName": "술", "quantity": "3큰술" },
-      { "ingredientName": "깨소금", "quantity": "약간" }
+      { "ingredientName": "닭고기", "quantity": "500g" },
+      { "ingredientName": "감자전분", "quantity": "4큰술" },
+      { "ingredientName": "밀가루", "quantity": "2큰술" },
+      { "ingredientName": "계란", "quantity": "1개" },
+      { "ingredientName": "식용유", "quantity": "튀김용 적당량" },
+      { "ingredientName": "간장", "quantity": "3큰술" },
+      { "ingredientName": "물엿", "quantity": "3큰술" },
+      { "ingredientName": "설탕", "quantity": "2큰술" },
+      { "ingredientName": "다진 마늘", "quantity": "1큰술" },
+      { "ingredientName": "다진 생강", "quantity": "1작은술" },
+      { "ingredientName": "식초", "quantity": "1큰술" },
+      { "ingredientName": "고추장", "quantity": "1큰술" },
+      { "ingredientName": "통깨", "quantity": "약간" }
     ],
-    "allergy": "닭고기",
+    "allergy": "닭고기, 밀, 알류, 대두",
     "steps": [
-      { "stepOrder": 1, "content": "닭은 먹기 좋은 크기로 토막내어 진간장, 다진 마늘, 후춧가루로 밑간한다." },
-      { "stepOrder": 2, "content": "닭에 녹말가루를 고루 묻힌 후, 180°C로 예열한 튀김팬에서 바삭하게 튀긴다." },
-      { "stepOrder": 3, "content": "양념 재료(진간장, 고추장, 물엿, 술 등)를 냄비에 넣어 끓여 소스를 만든 후, 튀긴 닭을 넣어 소스가 고루 배도록 조린다." },
-      { "stepOrder": 4, "content": "접시에 담아 통깨를 뿌려 낸다." }
+      { "stepOrder": 1, "content": "닭다리살은 한 입 크기로 썰고, 소금·후추로 밑간한다." },
+      { "stepOrder": 2, "content": "볼에 감자전분, 밀가루, 계란을 넣어 튀김 반죽을 만든 뒤 닭에 골고루 묻힌다." },
+      { "stepOrder": 3, "content": "냄비에 식용유를 넉넉히 붓고 170℃로 예열한 뒤 닭을 넣어 10분간 바삭하게 튀긴다." },
+      { "stepOrder": 4, "content": "팬에 간장, 물엿, 설탕, 다진 마늘, 다진 생강, 식초, 고추장을 넣고 약불에서 2분간 끓여 소스를 준비한다." },
+      { "stepOrder": 5, "content": "튀긴 닭을 소스에 넣고 빠르게 버무린 뒤 통깨를 뿌린다." },
+      { "stepOrder": 6, "content": "접시에 담아 바로 서빙한다." }
     ],
-    "tools": [ "냄비", "프라이팬", "칼", "도마" ],
-    "alterTools": "압력튀김기(없을 경우 일반 프라이팬 사용), 스테인리스 냄비, 주방용 가위, 나무 도마",
-    "serving": "2"
+    "tools": [
+      "냄비",
+      "볼",
+      "주걱",
+      "채망"
+    ],
+    "alterTools": "웍, 믹싱볼, 일반 숟가락",
+    "serving": "4"
   },
   {
     "id": "99",
@@ -5090,7 +5137,7 @@
     "difficulty": "보통",
     "category": "WESTERN",
     "ingredients": [
-      { "ingredientName": "닭", "quantity": "500g" },
+      { "ingredientName": "닭고기", "quantity": "500g" },
       { "ingredientName": "식용유", "quantity": "약간" },
       { "ingredientName": "간장", "quantity": "1큰술" },
       { "ingredientName": "청주", "quantity": "1큰술" },
@@ -5805,159 +5852,257 @@
   {
     "id": "183",
     "recipeName": "닭고기명란튀김",
-    "description": "닭고기와 명란을 튀겨 만든 요리입니다.",
+    "description": "담백한 닭가슴살 위에 고소한 명란젓 소스를 올려 바삭하게 튀겨낸 퓨전 요리입니다.",
     "cookingTime": 40,
     "difficulty": "보통",
     "category": "FUSION",
     "ingredients": [
-      { "ingredientName": "봄동", "quantity": "약간" },
-      { "ingredientName": "바지락", "quantity": "약간" },
-      { "ingredientName": "홍고추", "quantity": "1개" },
-      { "ingredientName": "실파", "quantity": "3뿌리" },
-      { "ingredientName": "식용유", "quantity": "2큰술" },
-      { "ingredientName": "다진마늘", "quantity": "1큰술" },
-      { "ingredientName": "청주", "quantity": "1큰술" },
-      { "ingredientName": "물", "quantity": "1/2컵" },
-      { "ingredientName": "굴소스", "quantity": "1/2큰술" },
-      { "ingredientName": "소금", "quantity": "약간" },
-      { "ingredientName": "후춧가루", "quantity": "약간" }
+      { "ingredientName": "닭고기", "quantity": "300g" },
+      { "ingredientName": "명란젓", "quantity": "2개(약 100g)" },
+      { "ingredientName": "녹말가루", "quantity": "2큰술" },
+      { "ingredientName": "밀가루", "quantity": "2큰술" },
+      { "ingredientName": "계란", "quantity": "1개" },
+      { "ingredientName": "빵가루", "quantity": "1컵" },
+      { "ingredientName": "마요네즈", "quantity": "1큰술" },
+      { "ingredientName": "다진 마늘", "quantity": "1작은술" },
+      { "ingredientName": "식용유(튀김용)", "quantity": "적당량" },
+      { "ingredientName": "당근(채썬)", "quantity": "50g" },
+      { "ingredientName": "실파(채썬)", "quantity": "2뿌리" },
+      { "ingredientName": "소금·후추", "quantity": "약간" }
     ],
-    "allergy": "조개류",
+    "allergy": "닭고기, 밀, 알류",
     "steps": [
-      { "stepOrder": 1, "content": "닭가슴살은 옆으로 펼쳐 소금과 후춧가루로 간을 한다." },
-      { "stepOrder": 2, "content": "명란젓은 껍질을 제거한 후, 마요네즈와 섞어 준비한다." },
-      { "stepOrder": 3, "content": "닭가슴살에 녹말가루를 고루 묻히고, 준비한 명란젓 혼합물을 올린다." },
-      { "stepOrder": 4, "content": "밀가루, 계란, 빵가루를 차례로 입혀 160°C의 기름에서 바삭하게 튀긴다." },
-      { "stepOrder": 5, "content": "채썬 당근과 대파를 곁들여 접시에 담는다." }
+      {
+        "stepOrder": 1,
+        "content": "닭가슴살은 두툼하게 편 후 소금·후추로 밑간하고 녹말가루를 골고루 묻힌다."
+      },
+      {
+        "stepOrder": 2,
+        "content": "명란젓은 껍질을 제거해 마요네즈, 다진 마늘과 섞어 소스를 준비한다."
+      },
+      {
+        "stepOrder": 3,
+        "content": "밑간한 닭가슴살 위에 명란젓 소스를 얹는다."
+      },
+      {
+        "stepOrder": 4,
+        "content": "닭가슴살을 밀가루→계란물→빵가루 순으로 입혀 160°C로 예열한 기름에 4~5분간 노릇하게 튀긴다."
+      },
+      {
+        "stepOrder": 5,
+        "content": "채썬 당근과 실파를 곁들어 접시에 담아 완성한다."
+      }
     ],
-    "tools": ["튀김용 냄비", "칼", "도마", "프라이팬"],
-    "alterTools": "딥프라이어, 주방용 가위, 플라스틱 도마, 전자그릴",
+    "tools": [
+      "튀김용 냄비",
+      "도마",
+      "칼",
+      "볼",
+      "주걱"
+    ],
+    "alterTools": "딥프라이어, 플라스틱 도마, 전기그릴",
     "serving": "2"
   },
   {
     "id": "184",
     "recipeName": "봄동바지락볶음",
-    "description": "봄동과 바지락의 조화! 처음 접하시는 분들도 맛보면 반하게 되는 요리입니다.",
+    "description": "봄동과 바지락의 신선한 조화가 일품인 얼큰하고 담백한 한식 볶음 요리입니다.",
     "cookingTime": 30,
     "difficulty": "보통",
     "category": "KOREAN",
     "ingredients": [
-      { "ingredientName": "찬밥", "quantity": "1공기" },
-      { "ingredientName": "옥수수", "quantity": "200g" },
-      { "ingredientName": "소금", "quantity": "1/2작은술" },
-      { "ingredientName": "계란", "quantity": "1/2개" },
-      { "ingredientName": "녹말가루", "quantity": "6큰술" },
-      { "ingredientName": "물", "quantity": "1큰술" },
-      { "ingredientName": "설탕", "quantity": "1/2컵" },
-      { "ingredientName": "식용유", "quantity": "3컵" }
+      { "ingredientName": "봄동", "quantity": "200g" },
+      { "ingredientName": "바지락", "quantity": "300g" },
+      { "ingredientName": "홍고추", "quantity": "1개" },
+      { "ingredientName": "실파", "quantity": "2뿌리" },
+      { "ingredientName": "다진 마늘", "quantity": "1큰술" },
+      { "ingredientName": "청주", "quantity": "1큰술" },
+      { "ingredientName": "굴소스", "quantity": "1/2큰술" },
+      { "ingredientName": "식용유", "quantity": "1큰술" },
+      { "ingredientName": "소금", "quantity": "약간" },
+      { "ingredientName": "후춧가루", "quantity": "약간" }
     ],
-    "allergy": "알류",
+    "allergy": "조개류",
     "steps": [
-      { "stepOrder": 1, "content": "바지락은 연한 소금물에 담가 해감을 시킨다." },
-      { "stepOrder": 2, "content": "봄동은 깨끗이 손질하여 먹기 좋은 크기로 자른다." },
-      { "stepOrder": 3, "content": "홍고추는 굵게 다지고, 실파는 송송 썬다." },
-      { "stepOrder": 4, "content": "달군 프라이팬에 식용유를 두르고 마늘을 볶다가 물을 붓는다." },
-      { "stepOrder": 5, "content": "물이 끓으면 바지락과 청주를 넣고 뚜껑을 덮어 끓인다." },
-      { "stepOrder": 6, "content": "마지막에 봄동과 굴소스를 넣고 재빨리 볶는다." }
+      {
+        "stepOrder": 1,
+        "content": "바지락은 연한 소금물에 20분간 담가 해감을 시켜 모래를 제거한다."
+      },
+      {
+        "stepOrder": 2,
+        "content": "봄동은 깨끗이 씻어 한입 크기로 자르고, 홍고추는 어슷썰기, 실파는 송송 썬다."
+      },
+      {
+        "stepOrder": 3,
+        "content": "달군 프라이팬에 식용유와 다진 마늘을 넣고 약한 불에서 향이 올라올 때까지 볶는다."
+      },
+      {
+        "stepOrder": 4,
+        "content": "바지락과 청주를 넣고 중불에 뚜껑을 덮어 2분간 끓인다."
+      },
+      {
+        "stepOrder": 5,
+        "content": "바지락이 입을 벌리면 봄동과 굴소스를 넣고 센 불에서 재빨리 볶아 국물이 자작해질 때까지 익힌다."
+      },
+      {
+        "stepOrder": 6,
+        "content": "홍고추와 실파를 넣고 소금·후춧가루로 간을 맞춘 뒤 불을 끄고 접시에 담아 서빙한다."
+      }
     ],
-    "tools": ["프라이팬", "칼", "도마"],
+    "tools": [
+      "프라이팬",
+      "칼",
+      "도마"
+    ],
     "alterTools": "논스틱 팬, 주방용 가위, 플라스틱 도마",
     "serving": "2"
   },
   {
     "id": "185",
     "recipeName": "김치동그랑땡",
-    "description": "아이들도 좋아하는 두부와 김치를 이용한 동그랑땡 요리입니다.",
+    "description": "매콤한 김치와 부드러운 두부로 만든 아이들도 좋아하는 동그랑땡입니다.",
     "cookingTime": 30,
     "difficulty": "초보환영",
     "category": "KOREAN",
     "ingredients": [
-      { "ingredientName": "양배추", "quantity": "100g" },
-      { "ingredientName": "모시조개", "quantity": "1봉지" },
-      { "ingredientName": "된장", "quantity": "4큰술" },
-      { "ingredientName": "다진마늘", "quantity": "1큰술" },
-      { "ingredientName": "실파", "quantity": "1뿌리" },
-      { "ingredientName": "물", "quantity": "6컵" }
+      { "ingredientName": "두부", "quantity": "300g" },
+      { "ingredientName": "김치", "quantity": "150g" },
+      { "ingredientName": "돼지고기 다짐육", "quantity": "100g" },
+      { "ingredientName": "밀가루", "quantity": "2큰술" },
+      { "ingredientName": "계란", "quantity": "1개" },
+      { "ingredientName": "파", "quantity": "1대" },
+      { "ingredientName": "다진 마늘", "quantity": "1작은술" },
+      { "ingredientName": "소금·후추", "quantity": "약간" },
+      { "ingredientName": "식용유", "quantity": "2큰술" }
     ],
-    "allergy": "대두, 조개류",
+    "allergy": "대두, 밀, 알류",
     "steps": [
-      { "stepOrder": 1, "content": "김치는 잘게 다진다." },
-      { "stepOrder": 2, "content": "감자는 삶아서 체에 밭쳐 물기를 제거하고, 두부는 물기를 짠 후 으깬다." },
-      { "stepOrder": 3, "content": "당근과 피망은 곱게 다진다." },
-      { "stepOrder": 4, "content": "모든 재료에 밀가루, 계란, 다진마늘, 소금, 후춧가루를 넣어 반죽을 만든다." },
-      { "stepOrder": 5, "content": "프라이팬에 식용유를 두르고 한 숟가락씩 떼어 노릇하게 지진다." }
+      {
+        "stepOrder": 1,
+        "content": "두부는 물기를 꼭 짜고 곱게 으깬다. 김치는 잘게 다진다."
+      },
+      {
+        "stepOrder": 2,
+        "content": "볼에 두부, 김치, 돼지고기 다짐육, 다진 마늘, 잘게 썬 파, 밀가루, 계란, 소금·후추를 넣고 고루 섞어 반죽을 만든다."
+      },
+      {
+        "stepOrder": 3,
+        "content": "한 숟가락 분량씩 떼어 동그랗게 빚는다."
+      },
+      {
+        "stepOrder": 4,
+        "content": "프라이팬에 식용유를 두르고 중약불에서 동그랑땡을 앞뒤로 노릇하게 굽는다."
+      },
+      {
+        "stepOrder": 5,
+        "content": "겉이 바삭하게 익으면 키친타월 위에 올려 기름을 뺀 후 서빙한다."
+      }
     ],
-    "tools": ["프라이팬", "믹싱볼", "칼", "도마"],
-    "alterTools": "논스틱 팬, 스테인리스 믹싱볼, 주방용 가위, 플라스틱 도마",
+    "tools": [
+      "믹싱볼",
+      "도마",
+      "칼",
+      "프라이팬",
+      "주걱"
+    ],
+    "alterTools": "논스틱 팬, 실리콘 주걱, 플라스틱 볼",
     "serving": "2"
   },
   {
     "id": "186",
     "recipeName": "찬밥맛탕",
-    "description": "찬밥을 활용한 달콤한 맛탕! 간식으로도 좋습니다.",
-    "cookingTime": 40,
+    "description": "남은 찬밥을 달콤한 시럽에 볶아낸 아이들 간식용 달콤 바삭 디저트입니다.",
+    "cookingTime": 20,
     "difficulty": "초보환영",
     "category": "KOREAN",
     "ingredients": [
-      { "ingredientName": "가래떡", "quantity": "500g" },
-      { "ingredientName": "쇠고기 육수", "quantity": "8컵" },
-      { "ingredientName": "대파", "quantity": "1뿌리" },
-      { "ingredientName": "쇠고기", "quantity": "100g" },
-      { "ingredientName": "계란", "quantity": "1개" },
-      { "ingredientName": "소금", "quantity": "약간" },
-      { "ingredientName": "간장", "quantity": "1큰술" },
-      { "ingredientName": "설탕", "quantity": "1/2큰술" },
-      { "ingredientName": "다진파", "quantity": "2작은술" },
-      { "ingredientName": "다진마늘", "quantity": "1작은술" },
-      { "ingredientName": "깨소금", "quantity": "1작은술" },
+      { "ingredientName": "찬밥", "quantity": "1공기(200g)" },
+      { "ingredientName": "설탕", "quantity": "2큰술" },
+      { "ingredientName": "물엿", "quantity": "1큰술" },
       { "ingredientName": "참기름", "quantity": "1작은술" },
-      { "ingredientName": "후춧가루", "quantity": "약간" }
+      { "ingredientName": "통깨", "quantity": "1작은술" }
     ],
-    "allergy": "쇠고기, 알류, 대두",
+    "allergy": "",
     "steps": [
-      { "stepOrder": 1, "content": "가래떡은 0.5cm 두께로 어슷썰어 씻어 건진다." },
-      { "stepOrder": 2, "content": "쇠고기 육수는 냄비에 데워 준비한다." },
-      { "stepOrder": 3, "content": "채썬 대파와 다진 마늘을 육수에 넣고 팔팔 끓인다." },
-      { "stepOrder": 4, "content": "가래떡을 넣고 떡이 익어 떠오를 때까지 끓인다." }
+      {
+        "stepOrder": 1,
+        "content": "찬밥은 덩어리를 풀어 놓는다."
+      },
+      {
+        "stepOrder": 2,
+        "content": "팬에 설탕과 물엿을 넣고 약불에서 녹여 시럽을 만든다."
+      },
+      {
+        "stepOrder": 3,
+        "content": "시럽이 끓기 시작하면 찬밥을 넣고 주걱으로 고루 섞으며 2~3분간 볶는다."
+      },
+      {
+        "stepOrder": 4,
+        "content": "참기름과 통깨를 넣고 한 번 더 볶아 재료가 고루 어우러지게 한다."
+      },
+      {
+        "stepOrder": 5,
+        "content": "불을 끄고 그릇에 담아 서빙한다."
+      }
     ],
-    "tools": ["냄비", "칼", "도마"],
-    "alterTools": "전자압력솥, 주방용 가위, 플라스틱 도마",
-    "serving": "4"
+    "tools": [
+      "프라이팬",
+      "주걱",
+      "볼"
+    ],
+    "alterTools": "논스틱 팬, 실리콘 주걱, 플라스틱 볼",
+    "serving": "2"
   },
   {
     "id": "187",
-    "recipeName": "양배춧국",
-    "description": "담백한 된장국에 양배추와 모시조개가 어우러진 국 요리입니다.",
+    "recipeName": "양배추조개된장국",
+    "description": "양배추와 모시조개가 어우러진 담백하고 개운한 된장국입니다.",
     "cookingTime": 30,
     "difficulty": "초보환영",
     "category": "KOREAN",
     "ingredients": [
-      { "ingredientName": "오이", "quantity": "4개" },
-      { "ingredientName": "양파", "quantity": "1/2개" },
-      { "ingredientName": "홍고추", "quantity": "2개" },
-      { "ingredientName": "정향", "quantity": "4개" },
-      { "ingredientName": "통후추", "quantity": "5알" },
-      { "ingredientName": "월계수잎", "quantity": "2장" },
-      { "ingredientName": "통계피", "quantity": "10g" },
-      { "ingredientName": "통생강", "quantity": "1개" },
-      { "ingredientName": "소금", "quantity": "5큰술" },
-      { "ingredientName": "물", "quantity": "4컵" },
-      { "ingredientName": "식초", "quantity": "3컵" },
-      { "ingredientName": "설탕", "quantity": "1컵" },
-      { "ingredientName": "당근", "quantity": "1/2개" },
-      { "ingredientName": "[절임용 소금물] 소금", "quantity": "1컵" },
-      { "ingredientName": "물", "quantity": "5컵" }
+      { "ingredientName": "양배추", "quantity": "200g" },
+      { "ingredientName": "모시조개", "quantity": "200g" },
+      { "ingredientName": "된장", "quantity": "2큰술" },
+      { "ingredientName": "다진 마늘", "quantity": "1큰술" },
+      { "ingredientName": "대파", "quantity": "1대" },
+      { "ingredientName": "멸치·다시마 육수", "quantity": "800ml" },
+      { "ingredientName": "소금·후추", "quantity": "약간" }
     ],
-    "allergy": "",
+    "allergy": "조개류, 대두",
     "steps": [
-      { "stepOrder": 1, "content": "양배추는 두꺼운 부분을 제거하고 가로 5cm 길이로 채썬다. 실파는 송송 썬다." },
-      { "stepOrder": 2, "content": "모시조개는 소금물에 담가 해감을 시킨다." },
-      { "stepOrder": 3, "content": "냄비에 물, 다시마, 멸치를 넣어 끓인 후 면보로 걸러 다시물을 준비한다." },
-      { "stepOrder": 4, "content": "다시물에 된장을 풀어 한 번 더 끓인 후 양배추, 모시조개, 다진 마늘을 넣고 끓인다." },
-      { "stepOrder": 5, "content": "완성된 국을 그릇에 담고 송송 썬 실파를 올려 낸다." }
+      {
+        "stepOrder": 1,
+        "content": "모시조개는 연한 소금물에 20분간 담가 해감을 한다."
+      },
+      {
+        "stepOrder": 2,
+        "content": "양배추는 먹기 좋은 크기로 자르고, 대파는 어슷썬다."
+      },
+      {
+        "stepOrder": 3,
+        "content": "냄비에 육수를 붓고 된장을 풀어 중불에서 끓인다."
+      },
+      {
+        "stepOrder": 4,
+        "content": "된장이 풀리면 다진 마늘과 모시조개를 넣고 5분간 끓인다."
+      },
+      {
+        "stepOrder": 5,
+        "content": "양배추와 대파를 넣고 3분간 더 끓인 뒤 소금·후추로 간을 맞춘다."
+      },
+      {
+        "stepOrder": 6,
+        "content": "그릇에 담아 뜨겁게 서빙한다."
+      }
     ],
-    "tools": ["냄비", "칼", "도마", "체"],
-    "alterTools": "전자압력솥, 주방용 가위, 플라스틱 도마, 거름망",
+    "tools": [
+      "냄비",
+      "도마",
+      "칼",
+      "체"
+    ],
+    "alterTools": "스톡팟, 플라스틱 도마, 거름망",
     "serving": "2"
   },
   {
@@ -6255,6 +6400,415 @@
     ],
     "tools": ["밀폐용기", "칼"],
     "alterTools": "플라스틱 밀폐용기, 주방용 가위",
+    "serving": "2"
+  },
+  {
+    "id": "201",
+    "recipeName": "닭볶음탕",
+    "description": "매콤달콤한 양념에 닭고기와 채소를 넣어 푹 끓여낸 한국식 매운 찜요리입니다.",
+    "cookingTime": 45,
+    "difficulty": "보통",
+    "category": "KOREAN",
+    "ingredients": [
+      { "ingredientName": "닭고기", "quantity": "800g" },
+      { "ingredientName": "감자", "quantity": "2개(400g)" },
+      { "ingredientName": "당근", "quantity": "1개(100g)" },
+      { "ingredientName": "양파", "quantity": "1개" },
+      { "ingredientName": "대파", "quantity": "1대" },
+      { "ingredientName": "마늘(다진)", "quantity": "2큰술" },
+      { "ingredientName": "고추장", "quantity": "2큰술" },
+      { "ingredientName": "고춧가루", "quantity": "1큰술" },
+      { "ingredientName": "간장", "quantity": "2큰술" },
+      { "ingredientName": "설탕", "quantity": "1큰술" },
+      { "ingredientName": "물", "quantity": "500ml" },
+      { "ingredientName": "후추", "quantity": "약간" },
+      { "ingredientName": "식용유", "quantity": "1큰술" }
+    ],
+    "allergy": "닭고기, 밀, 대두",
+    "steps": [
+      { "stepOrder": 1, "content": "닭고기는 흐르는 물에 씻어 물기를 제거하고, 감자·당근은 큼직하게 썰어둔다. 양파는 굵게 채썬다." },
+      { "stepOrder": 2, "content": "깊은 냄비에 식용유를 두르고 다진 마늘을 볶다가 닭고기를 넣어 겉면이 노릇해질 때까지 볶는다." },
+      { "stepOrder": 3, "content": "고추장·고춧가루·간장·설탕·후추를 섞어 만든 양념장을 넣고 재빨리 볶는다." },
+      { "stepOrder": 4, "content": "물 500ml를 붓고 감자, 당근을 넣은 뒤 중불로 20분간 끓인다." },
+      { "stepOrder": 5, "content": "양파와 대파를 넣고 5분간 더 끓인 뒤, 간을 보고 필요시 소금으로 맞춘다." },
+      { "stepOrder": 6, "content": "완성된 닭볶음탕을 그릇에 담아 뜨겁게 서빙한다." }
+    ],
+    "tools": [
+      "냄비",
+      "도마",
+      "칼",
+      "계량스푼",
+      "주걱"
+    ],
+    "alterTools": "스톡팟, 과도(작은 재료 손질 시), 일반 숟가락",
+    "serving": "4"
+  },
+  {
+    "id": "202",
+    "recipeName": "닭갈비",
+    "description": "매콤달콤한 양념에 재운 닭고기와 채소를 센 불에 볶아 먹는 춘천식 철판 요리입니다.",
+    "cookingTime": 30,
+    "difficulty": "보통",
+    "category": "KOREAN",
+    "ingredients": [
+      { "ingredientName": "닭고기", "quantity": "500g" },
+      { "ingredientName": "고구마", "quantity": "1개(150g)" },
+      { "ingredientName": "양배추", "quantity": "200g" },
+      { "ingredientName": "양파", "quantity": "1개" },
+      { "ingredientName": "대파", "quantity": "1대" },
+      { "ingredientName": "깻잎", "quantity": "한 줌" },
+      { "ingredientName": "고추장", "quantity": "2큰술" },
+      { "ingredientName": "고춧가루", "quantity": "1큰술" },
+      { "ingredientName": "간장", "quantity": "1큰술" },
+      { "ingredientName": "다진 마늘", "quantity": "1큰술" },
+      { "ingredientName": "설탕", "quantity": "1큰술" },
+      { "ingredientName": "후추", "quantity": "약간" },
+      { "ingredientName": "식용유", "quantity": "1큰술" }
+    ],
+    "allergy": "닭고기, 밀, 대두",
+    "steps": [
+      { "stepOrder": 1, "content": "닭다리살은 한 입 크기로 썰고, 고구마는 반달 모양, 양배추·양파·대파는 먹기 좋게 썬다. 깻잎은 반으로 자른다." },
+      { "stepOrder": 2, "content": "고추장·고춧가루·간장·다진 마늘·설탕·후추를 섞어 양념장을 만든다." },
+      { "stepOrder": 3, "content": "닭고기를 양념장에 버무려 20분간 재운다." },
+      { "stepOrder": 4, "content": "프라이팬에 식용유를 두르고 재운 닭고기를 볶다가 반 정도 익으면 고구마를 추가해 5분간 볶는다." },
+      { "stepOrder": 5, "content": "양배추, 양파, 대파를 넣고 5분간 더 볶아 익힌다." },
+      { "stepOrder": 6, "content": "마지막으로 깻잎을 넣고 1분간 볶아낸 뒤 불을 끈다." },
+      { "stepOrder": 7, "content": "접시에 담아 뜨겁게 서빙한다." }
+    ],
+    "tools": [
+      "프라이팬",
+      "도마",
+      "칼",
+      "주걱",
+      "계량스푼"
+    ],
+    "alterTools": "웍, 그릴팬, 과도(작은 재료 손질 시), 일반 숟가락",
+    "serving": "4"
+  },
+  {
+    "id": "203",
+    "recipeName": "닭개장",
+    "description": "매콤하고 얼큰한 육수에 찢은 닭고기와 여러 채소가 어우러진 한국식 매운 닭국입니다.",
+    "cookingTime": 60,
+    "difficulty": "중간",
+    "category": "KOREAN",
+    "ingredients": [
+      { "ingredientName": "닭고기", "quantity": "600g" },
+      { "ingredientName": "콩나물", "quantity": "200g" },
+      { "ingredientName": "고사리(불린 것)", "quantity": "100g" },
+      { "ingredientName": "대파", "quantity": "1대" },
+      { "ingredientName": "달걀", "quantity": "2개" },
+      { "ingredientName": "다진 마늘", "quantity": "1큰술" },
+      { "ingredientName": "고춧가루", "quantity": "2큰술" },
+      { "ingredientName": "참기름", "quantity": "1큰술" },
+      { "ingredientName": "간장", "quantity": "1큰술" },
+      { "ingredientName": "물", "quantity": "1.2L" },
+      { "ingredientName": "소금·후추", "quantity": "적당량" }
+    ],
+    "allergy": "닭고기, 알류",
+    "steps": [
+      { "stepOrder": 1, "content": "냄비에 물 1.2L와 닭다리살을 넣어 센 불에서 끓인다. 끓어오르면 중불로 줄이고 거품을 제거한다." },
+      { "stepOrder": 2, "content": "닭이 익으면 꺼내 식힌 뒤 살만 발라 결대로 찢는다." },
+      { "stepOrder": 3, "content": "냄비에 참기름을 두르고 다진 마늘, 고춧가루를 넣어 약불에서 1분간 볶아 향을 낸다." },
+      { "stepOrder": 4, "content": "닭 육수를 부은 뒤 콩나물, 고사리를 넣고 10분간 끓인다." },
+      { "stepOrder": 5, "content": "찢은 닭고기를 넣고 간장, 소금, 후추로 간을 맞춘다." },
+      { "stepOrder": 6, "content": "달걀을 풀어 국물에 천천히 부어 익혀준 뒤 대파를 넣어 1분간 더 끓인다." },
+      { "stepOrder": 7, "content": "그릇에 담아 뜨겁게 서빙한다." }
+    ],
+    "tools": [
+      "냄비",
+      "채망",
+      "주걱",
+      "도마",
+      "칼"
+    ],
+    "alterTools": "스톡팟, 일반 숟가락, 과도",
+    "serving": "4"
+  },
+  {
+    "id": "204",
+    "recipeName": "닭칼국수",
+    "description": "담백한 닭육수에 쫄깃한 칼국수 면을 넣어 끓여내는 한국식 국수 요리입니다.",
+    "cookingTime": 50,
+    "difficulty": "보통",
+    "category": "KOREAN",
+    "ingredients": [
+      { "ingredientName": "닭육수", "quantity": "1.5L" },
+      { "ingredientName": "닭고기", "quantity": "300g" },
+      { "ingredientName": "칼국수면", "quantity": "400g" },
+      { "ingredientName": "애호박", "quantity": "1/2개(100g)" },
+      { "ingredientName": "당근", "quantity": "50g" },
+      { "ingredientName": "양파", "quantity": "1/2개" },
+      { "ingredientName": "다진 마늘", "quantity": "1큰술" },
+      { "ingredientName": "대파", "quantity": "1대" },
+      { "ingredientName": "달걀", "quantity": "1개(선택)" },
+      { "ingredientName": "소금·후추", "quantity": "적당량" }
+    ],
+    "allergy": "닭고기, 밀, 알류",
+    "steps": [
+      { "stepOrder": 1, "content": "닭육수를 냄비에 붓고 끓으면 다진 마늘과 닭고기를 넣어 5분간 끓인다." },
+      { "stepOrder": 2, "content": "애호박, 당근, 양파는 채썰고, 대파는 어슷썬다." },
+      { "stepOrder": 3, "content": "칼국수 면을 넣고 면이 익을 때까지 5~7분간 끓인다." },
+      { "stepOrder": 4, "content": "채소를 넣고 2분간 더 끓인 뒤 달걀을 풀어 넣어 익힌다." },
+      { "stepOrder": 5, "content": "소금·후추로 간을 맞추고 대파를 올려 1분간 더 끓인다." },
+      { "stepOrder": 6, "content": "그릇에 담아 뜨겁게 서빙한다." }
+    ],
+    "tools": [
+      "냄비",
+      "도마",
+      "칼",
+      "국자",
+      "계량컵"
+    ],
+    "alterTools": "스톡팟, 면 삶는 바구니, 일반 숟가락",
+    "serving": "4"
+  },
+  {
+    "id": "205",
+    "recipeName": "치킨 파르미지아나",
+    "description": "토마토 소스와 치즈를 올려 오븐에 구운 이탈리아식 치즈 치킨 스테이크입니다.",
+    "cookingTime": 35,
+    "difficulty": "보통",
+    "category": "ITALIAN",
+    "ingredients": [
+      { "ingredientName": "닭고기", "quantity": "2쪽(400g)" },
+      { "ingredientName": "밀가루", "quantity": "1/2컵" },
+      { "ingredientName": "계란", "quantity": "1개" },
+      { "ingredientName": "빵가루", "quantity": "1컵" },
+      { "ingredientName": "마리나라 소스", "quantity": "1컵" },
+      { "ingredientName": "모차렐라 치즈", "quantity": "100g" },
+      { "ingredientName": "파르메산 치즈", "quantity": "2큰술" },
+      { "ingredientName": "올리브유", "quantity": "2큰술" },
+      { "ingredientName": "소금·후추", "quantity": "약간" }
+    ],
+    "allergy": "닭고기, 알류, 밀, 유유",
+    "steps": [
+      { "stepOrder": 1, "content": "닭가슴살은 두툼하게 편 후 소금·후추로 밑간한다." },
+      { "stepOrder": 2, "content": "밀가루→계란물→빵가루 순으로 입혀 준비한다." },
+      { "stepOrder": 3, "content": "프라이팬에 올리브유를 두르고 닭을 앞뒤로 노릇하게 구워낸다." },
+      { "stepOrder": 4, "content": "오븐용 그릇에 닭을 옮기고 마리나라 소스와 모차렐라·파르메산 치즈를 올린다." },
+      { "stepOrder": 5, "content": "180℃로 예열한 오븐에 10분간 굽고, 치즈가 녹으면 꺼내 서빙한다." }
+    ],
+    "tools": [
+      "프라이팬",
+      "오븐용 그릇",
+      "오븐",
+      "도마",
+      "칼"
+    ],
+    "alterTools": "에어프라이어, 논스틱 팬, 실리콘 주걱",
+    "serving": "2"
+  },
+  {
+    "id": "206",
+    "recipeName": "치킨 데리야키",
+    "description": "달콤 짭조름한 일본식 데리야키 소스로 구워낸 간단한 치킨 요리입니다.",
+    "cookingTime": 25,
+    "difficulty": "보통",
+    "category": "JAPANESE",
+    "ingredients": [
+      { "ingredientName": "닭고기", "quantity": "400g" },
+      { "ingredientName": "간장", "quantity": "3큰술" },
+      { "ingredientName": "미린", "quantity": "2큰술" },
+      { "ingredientName": "설탕", "quantity": "1큰술" },
+      { "ingredientName": "사케", "quantity": "1큰술" },
+      { "ingredientName": "다진 마늘", "quantity": "1작은술" },
+      { "ingredientName": "다진 생강", "quantity": "1작은술" },
+      { "ingredientName": "통깨", "quantity": "약간" },
+      { "ingredientName": "실파", "quantity": "1대(어슷썰기)" }
+    ],
+    "allergy": "닭고기, 대두",
+    "steps": [
+      { "stepOrder": 1, "content": "닭다리살을 먹기 좋은 크기로 자른 후 소스 재료를 섞어 15분간 재운다." },
+      { "stepOrder": 2, "content": "프라이팬에 중불로 달군 뒤 닭을 껍질면부터 구워 노릇해지면 뒤집어 익힌다." },
+      { "stepOrder": 3, "content": "남은 양념장을 붓고 소스가 자작해질 때까지 졸인다." },
+      { "stepOrder": 4, "content": "접시에 옮겨 담고 통깨와 실파를 뿌려 마무리한다." }
+    ],
+    "tools": [
+      "프라이팬",
+      "도마",
+      "칼",
+      "주걱"
+    ],
+    "alterTools": "그릴팬, 실리콘 주걱",
+    "serving": "2"
+  },
+  {
+    "id": "207",
+    "recipeName": "쿵파오 치킨",
+    "description": "매콤달콤한 소스에 볶은 닭과 고소한 땅콩이 어우러진 중국 쓰촨식 치킨 요리입니다.",
+    "cookingTime": 30,
+    "difficulty": "중간",
+    "category": "CHINESE",
+    "ingredients": [
+      { "ingredientName": "닭고기", "quantity": "400g" },
+      { "ingredientName": "땅콩", "quantity": "50g" },
+      { "ingredientName": "대파", "quantity": "1대" },
+      { "ingredientName": "마늘", "quantity": "1큰술(다진)" },
+      { "ingredientName": "생강", "quantity": "1작은술(다진)" },
+      { "ingredientName": "건고추", "quantity": "5개" },
+      { "ingredientName": "고추기름", "quantity": "1큰술" },
+      { "ingredientName": "간장", "quantity": "2큰술" },
+      { "ingredientName": "설탕", "quantity": "1큰술" },
+      { "ingredientName": "식초", "quantity": "1큰술" },
+      { "ingredientName": "전분물(전분+물)", "quantity": "2큰술" },
+      { "ingredientName": "후춧가루", "quantity": "약간" },
+      { "ingredientName": "식용유", "quantity": "2큰술" }
+    ],
+    "allergy": "닭고기, 대두, 밀, 땅콩",
+    "steps": [
+      { "stepOrder": 1, "content": "닭다리살은 한입 크기로 썰어 소금·후춧가루로 밑간한다." },
+      { "stepOrder": 2, "content": "땅콩은 살짝 볶아 껍질을 벗겨 준비한다. 대파는 어슷썰기, 마늘·생강은 다진다." },
+      { "stepOrder": 3, "content": "달군 팬에 식용유와 고추기름을 두르고 건고추, 마늘, 생강을 넣어 향을 낸다." },
+      { "stepOrder": 4, "content": "닭을 넣어 겉면이 노릇해질 때까지 볶는다." },
+      { "stepOrder": 5, "content": "간장·설탕·식초를 섞어 넣고 골고루 볶다가 전분물을 부어 농도를 맞춘다." },
+      { "stepOrder": 6, "content": "땅콩과 대파를 넣고 재빨리 볶아 마무리한 뒤 서빙한다." }
+    ],
+    "tools": [
+      "프라이팬",
+      "도마",
+      "칼",
+      "볼",
+      "주걱"
+    ],
+    "alterTools": "웍, 실리콘 주걱",
+    "serving": "2"
+  },
+  {
+    "id": "208",
+    "recipeName": "치킨 가라아게",
+    "description": "겉은 바삭하고 속은 촉촉한 일본식 간장 마리네이드 치킨 튀김입니다.",
+    "cookingTime": 30,
+    "difficulty": "보통",
+    "category": "JAPANESE",
+    "ingredients": [
+      { "ingredientName": "닭고기", "quantity": "500g" },
+      { "ingredientName": "간장", "quantity": "2큰술" },
+      { "ingredientName": "미림", "quantity": "1큰술" },
+      { "ingredientName": "생강즙", "quantity": "1작은술" },
+      { "ingredientName": "마늘즙", "quantity": "1작은술" },
+      { "ingredientName": "감자전분", "quantity": "4큰술" },
+      { "ingredientName": "식용유(튀김용)", "quantity": "적당량" }
+    ],
+    "allergy": "닭고기, 대두, 밀",
+    "steps": [
+      { "stepOrder": 1, "content": "닭다리살을 간장·미림·생강즙·마늘즙에 버무려 15분간 재운다." },
+      { "stepOrder": 2, "content": "재운 닭에 감자전분을 고루 묻힌다." },
+      { "stepOrder": 3, "content": "170℃로 예열한 기름에 닭을 넣고 5분간 바삭하게 튀긴다." },
+      { "stepOrder": 4, "content": "기름을 뺀 뒤 접시에 담아 서빙한다." }
+    ],
+    "tools": [
+      "튀김용 냄비",
+      "도마",
+      "칼",
+      "볼",
+      "체"
+    ],
+    "alterTools": "딥프라이어, 채망, 실리콘 주걱",
+    "serving": "3"
+  },
+  {
+    "id": "209",
+    "recipeName": "치킨 코르동 블루",
+    "description": "햄과 치즈를 넣어 바삭하게 튀긴 스위스식 클래식 치킨 요리입니다.",
+    "cookingTime": 40,
+    "difficulty": "중간",
+    "category": "WESTERN",
+    "ingredients": [
+      { "ingredientName": "닭고기", "quantity": "400g" },
+      { "ingredientName": "슬라이스 햄", "quantity": "2장" },
+      { "ingredientName": "슬라이스 치즈", "quantity": "2장" },
+      { "ingredientName": "밀가루", "quantity": "1/2컵" },
+      { "ingredientName": "계란", "quantity": "1개" },
+      { "ingredientName": "빵가루", "quantity": "1컵" },
+      { "ingredientName": "소금·후추", "quantity": "약간" },
+      { "ingredientName": "식용유(튀김용)", "quantity": "적당량" }
+    ],
+    "allergy": "닭고기, 유유, 알류, 밀",
+    "steps": [
+      { "stepOrder": 1, "content": "닭가슴살을 칼집 넣어 펼친 뒤 햄과 치즈를 올리고 돌돌 말아 고정한다." },
+      { "stepOrder": 2, "content": "밀가루→계란물→빵가루 순으로 옷을 입힌다." },
+      { "stepOrder": 3, "content": "170℃ 기름에 넣어 5분간 바삭하게 튀긴다." },
+      { "stepOrder": 4, "content": "기름을 뺀 뒤 접시에 담아 서빙한다." }
+    ],
+    "tools": [
+      "튀김용 냄비",
+      "도마",
+      "칼",
+      "볼",
+      "주걱"
+    ],
+    "alterTools": "에어프라이어, 딥프라이어, 실리콘 주걱",
+    "serving": "2"
+  },
+  {
+    "id": "210",
+    "recipeName": "레드 커리 치킨",
+    "description": "향긋하고 매콤한 태국식 레드 커리 페이스트로 끓여낸 치킨 커리입니다.",
+    "cookingTime": 40,
+    "difficulty": "보통",
+    "category": "SOUTHEAST_ASIAN",
+    "ingredients": [
+      { "ingredientName": "닭고기", "quantity": "400g" },
+      { "ingredientName": "레드 커리 페이스트", "quantity": "2큰술" },
+      { "ingredientName": "코코넛 밀크", "quantity": "400ml" },
+      { "ingredientName": "가지", "quantity": "1/2개(100g)" },
+      { "ingredientName": "파프리카", "quantity": "1개" },
+      { "ingredientName": "피시 소스", "quantity": "1큰술" },
+      { "ingredientName": "설탕", "quantity": "1작은술" },
+      { "ingredientName": "바질잎", "quantity": "약간" },
+      { "ingredientName": "식용유", "quantity": "1큰술" }
+    ],
+    "allergy": "닭고기",
+    "steps": [
+      { "stepOrder": 1, "content": "달군 냄비에 식용유와 레드 커리 페이스트를 넣고 약불에서 볶아 향을 낸다." },
+      { "stepOrder": 2, "content": "코코넛 밀크를 붓고 잘 섞는다." },
+      { "stepOrder": 3, "content": "가지와 파프리카를 넣고 중불에서 5분간 끓인다." },
+      { "stepOrder": 4, "content": "닭다리살을 넣고 10분간 익힌다." },
+      { "stepOrder": 5, "content": "피시 소스와 설탕으로 간을 맞추고 바질잎을 올려 서빙한다." }
+    ],
+    "tools": [
+      "냄비",
+      "도마",
+      "칼",
+      "스푼"
+    ],
+    "alterTools": "웍",
+    "serving": "2"
+  },
+  {
+    "id": "211",
+    "recipeName": "치킨 퀘사디아",
+    "description": "멕시코식 토르티야에 치킨과 치즈를 넣어 바삭하게 구운 퓨전 간식입니다.",
+    "cookingTime": 20,
+    "difficulty": "보통",
+    "category": "FUSION",
+    "ingredients": [
+      { "ingredientName": "토르티야", "quantity": "4장" },
+      { "ingredientName": "닭고기", "quantity": "200g" },
+      { "ingredientName": "양파", "quantity": "1/2개" },
+      { "ingredientName": "파프리카", "quantity": "1/2개" },
+      { "ingredientName": "체다 치즈", "quantity": "100g" },
+      { "ingredientName": "피자 치즈", "quantity": "50g" },
+      { "ingredientName": "올리브유", "quantity": "1큰술" },
+      { "ingredientName": "소금·후추", "quantity": "약간" }
+    ],
+    "allergy": "닭고기, 유유, 밀",
+    "steps": [
+      { "stepOrder": 1, "content": "닭가슴살은 한입 크기로 썰어 소금·후추로 밑간 후 올리브유에 볶아 익힌다." },
+      { "stepOrder": 2, "content": "양파와 파프리카를 채썰어 함께 볶는다." },
+      { "stepOrder": 3, "content": "토르티야 한 장에 체다 치즈와 볶은 재료를 올린 뒤 피자 치즈를 뿌리고 또띠야로 덮는다." },
+      { "stepOrder": 4, "content": "달군 팬에 양면을 2분씩 바삭하게 구워 낸 뒤 한입 크기로 썬다." },
+      { "stepOrder": 5, "content": "접시에 담아 서빙한다." }
+    ],
+    "tools": [
+      "프라이팬",
+      "도마",
+      "칼",
+      "볼",
+      "주걱"
+    ],
+    "alterTools": "그릴팬, 실리콘 주걱",
     "serving": "2"
   }
 ]
