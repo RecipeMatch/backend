@@ -6490,7 +6490,7 @@
     "recipeName": "닭개장",
     "description": "매콤하고 얼큰한 육수에 찢은 닭고기와 여러 채소가 어우러진 한국식 매운 닭국입니다.",
     "cookingTime": 60,
-    "difficulty": "중간",
+    "difficulty": "보통",
     "category": "KOREAN",
     "ingredients": [
       { "ingredientName": "닭고기", "quantity": "600g" },
@@ -6638,7 +6638,7 @@
     "recipeName": "쿵파오 치킨",
     "description": "매콤달콤한 소스에 볶은 닭과 고소한 땅콩이 어우러진 중국 쓰촨식 치킨 요리입니다.",
     "cookingTime": 30,
-    "difficulty": "중간",
+    "difficulty": "보통",
     "category": "CHINESE",
     "ingredients": [
       { "ingredientName": "닭고기", "quantity": "400g" },
@@ -6712,7 +6712,7 @@
     "recipeName": "치킨 코르동 블루",
     "description": "햄과 치즈를 넣어 바삭하게 튀긴 스위스식 클래식 치킨 요리입니다.",
     "cookingTime": 40,
-    "difficulty": "중간",
+    "difficulty": "보통",
     "category": "WESTERN",
     "ingredients": [
       { "ingredientName": "닭고기", "quantity": "400g" },
