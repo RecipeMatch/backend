@@ -21,6 +21,7 @@ import java.util.List;
 public class SearchHistoryRequest {
 
     private String uid;
+    private Boolean userInfo;
     private List<Recipe> recipes = new ArrayList<>();
     private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
     private List<RecipeTool> recipeTools = new ArrayList<>();
