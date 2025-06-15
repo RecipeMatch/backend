@@ -20,6 +20,7 @@ import org.example.recipe_match_backend.domain.searchhistory.dto.request.RecipeW
 import org.example.recipe_match_backend.domain.searchhistory.dto.request.SearchHistoryRequest;
 import org.example.recipe_match_backend.domain.tool.domain.Tool;
 import org.example.recipe_match_backend.domain.user.domain.User;
+import org.example.recipe_match_backend.domain.user.domain.UserIngredient;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
 import org.example.recipe_match_backend.type.AllergyType;
 
@@ -51,13 +52,15 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
         NumberExpression<Double> scoreExpr =  buildScoreExpr(request);
 
         Optional<User> optionalUser = userRepository.findByUid(request.getUid());
+        Optional<User> user = request.getUserInfo() ? optionalUser : Optional.empty();
 
         return queryFactory
                 .select(recipe)
                 .from(recipe)
                 .where(
                         optionalUser.map(u -> allergiesContainAny(u.getAllergies())).orElse(null),
-                        optionalUser.map(u -> duplicateAny(request.getRecipes())).orElse(null)
+                        optionalUser.map(u -> duplicateAny(request.getRecipes())).orElse(null),
+                        user.map(u -> userIngredientEqAny(u.getUserIngredients())).orElse(null)
                 )
                 .orderBy(scoreExpr.desc(),recipe.recipeLikes.size().desc())
                 .limit(5)
@@ -73,6 +76,18 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
                 .reduce(BooleanExpression::or)
                 .orElse(null);
         return anyAllergies.not();
+    }
+
+    private BooleanExpression userIngredientEqAny(List<UserIngredient> userIngredients) {
+        if (userIngredients == null || userIngredients.isEmpty()) {
+            return null;
+        }
+
+        return userIngredients.stream()
+                .map(UserIngredient::getIngredient)
+                .map(ingredient -> recipe.recipeIngredients.any().ingredient.eq(ingredient))
+                .reduce(BooleanExpression::or)
+                .orElse(null);
     }
 
     private BooleanExpression duplicateAny(List<Recipe> recipes){
