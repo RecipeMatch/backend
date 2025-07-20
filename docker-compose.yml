@@ -21,6 +21,15 @@ services:
       interval: 10s
       retries: 5
 
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+
   backend:
     image: ${DOCKER_ID}/${BACKEND}:latest
     container_name: recipe-backend
