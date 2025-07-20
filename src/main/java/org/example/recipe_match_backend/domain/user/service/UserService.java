@@ -24,6 +24,7 @@ import org.example.recipe_match_backend.global.exception.login.InvalidTokenExcep
 import org.example.recipe_match_backend.global.exception.user.UserNotFoundException;
 import org.example.recipe_match_backend.global.jwt.JwtTokenProvider;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
+import org.example.recipe_match_backend.global.jwt.redis.TokenService;
 import org.example.recipe_match_backend.type.AllergyType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -46,6 +47,7 @@ public class UserService {
     private final AmazonS3Client amazonS3Client;
     private final ToolRepository toolRepository;
     private final IngredientRepository ingredientRepository;
+    private final TokenService tokenService;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
@@ -163,6 +165,8 @@ public class UserService {
 
         String accessToken = jwtTokenProvider.createAccessToken(user.getUid());
         String refreshToken = jwtTokenProvider.createRefreshToken(user.getUid());
+
+        tokenService.storeRefreshToken(user.getId().toString(), refreshToken);
 
         return new TokenResponse(accessToken, refreshToken);
     }
