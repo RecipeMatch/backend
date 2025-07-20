@@ -11,8 +11,11 @@ import org.example.recipe_match_backend.domain.user.dto.response.TokenIncludeNic
 import org.example.recipe_match_backend.domain.user.dto.response.TokenResponse;
 import org.example.recipe_match_backend.domain.user.repository.UserRepository;
 import org.example.recipe_match_backend.domain.user.service.UserService;
+import org.example.recipe_match_backend.global.jwt.custom.CustomUserDetails;
+import org.example.recipe_match_backend.global.jwt.redis.TokenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +26,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
+    private final TokenService tokenService;
 
     // 사용자 로그인, uid(email) 전달 받음
     @PostMapping("/login")
@@ -44,6 +47,15 @@ public class UserController {
         return ResponseEntity.ok(userService.recreateToken(refreshRequest));
     }
 
+    // 로그아웃: Redis에 저장된 Refresh Token 삭제
+    @DeleteMapping("/logout")
+    public ResponseEntity<Void> logout(
+            @RequestBody OAuthRequest request
+    ) {
+        String userUId = request.getUid();
+        tokenService.deleteRefreshToken(userUId);
+        return ResponseEntity.noContent().build();
+    }
 
     @GetMapping("/recipes")
     public ResponseEntity<List<RecipeResponse>> userRecipes(@RequestParam("uid") String uid) {
