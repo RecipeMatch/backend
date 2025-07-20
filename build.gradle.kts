@@ -37,6 +37,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
 
+    // Redis
+    implementation ("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation ("org.apache.commons:commons-pool2")
+
     /** AWS S3 관련 */
     // https://mvnrepository.com/artifact/io.awspring.cloud/spring-cloud-starter-aws
     implementation("io.awspring.cloud:spring-cloud-starter-aws:2.4.4")
@@ -61,10 +65,6 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
-
-    // Redis
-    implementation ("org.springframework.boot:spring-boot-starter-data-redis")
-    implementation ("org.apache.commons:commons-pool2")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
