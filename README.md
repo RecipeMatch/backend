@@ -12,7 +12,7 @@
 
 ---
 - 자카드 유사도를 통해 이전 검색기록 기반 레시피 추천 기능
-- 사용자 정보(보유 재료, 보유 도구, 본인 알레르기)를 기반으로 맞춤형 레시피 추천 기능 
+- 사용자 정보(보유 재료, 보유 도구, 본인 알레르기)를 기반으로 맞춤형 레시피 추천 기능
 - 네이버 검색 기반 API 기반 상품 추천 기능 (부족한 재료, 상품 검색 기반)
 - Google TTS API 기반 TTS 기능 (요리 순서 설명)
 - Google Maps API 기반 사용자 위치를 반영하여 주변 상점 추천 기능
@@ -23,6 +23,8 @@
 
 ---
 ![img.png](src/main/resources/static/images/img.png)
+
+![img_9.png](src/main/resources/static/images/img_9.png)
 
 <br>
 
