@@ -52,15 +52,16 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepositoryCusto
         NumberExpression<Double> scoreExpr =  buildScoreExpr(request);
 
         Optional<User> optionalUser = userRepository.findByUid(request.getUid());
-        Optional<User> user = request.getUserInfo() ? optionalUser : Optional.empty();
+        Optional<User> infoUser = request.getUserInfo() ? optionalUser : Optional.empty();
+        Optional<User> allergicUser =  request.getUserAllergic() ? optionalUser : Optional.empty();
 
         return queryFactory
                 .select(recipe)
                 .from(recipe)
                 .where(
-                        optionalUser.map(u -> allergiesContainAny(u.getAllergies())).orElse(null),
+                        allergicUser.map(u -> allergiesContainAny(u.getAllergies())).orElse(null),
                         optionalUser.map(u -> duplicateAny(request.getRecipes())).orElse(null),
-                        user.map(u -> userIngredientEqAny(u.getUserIngredients())).orElse(null)
+                        infoUser.map(u -> userIngredientEqAny(u.getUserIngredients())).orElse(null)
                 )
                 .orderBy(scoreExpr.desc(),recipe.recipeLikes.size().desc())
                 .limit(5)
