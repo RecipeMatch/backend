@@ -43,7 +43,7 @@ public class SearchHistoryService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
-    public List<RecipeResponse> recommended_Recipe(String uid,Boolean userInfo){
+    public List<RecipeResponse> recommended_Recipe(String uid,Boolean userInfo,Boolean userAllergic){
 
         User user = userRepository.findByUid(uid).orElseThrow();
         List<SearchHistory> searchHistories = user.getSearchHistories();
@@ -60,7 +60,7 @@ public class SearchHistoryService {
             difficultyTypes.add(recipe.getDifficulty());
         }
 
-        SearchHistoryRequest request = new SearchHistoryRequest(uid,userInfo,recipes,recipeIngredients,recipeTools,categoryTypes,difficultyTypes);
+        SearchHistoryRequest request = new SearchHistoryRequest(uid,userInfo,userAllergic,recipes,recipeIngredients,recipeTools,categoryTypes,difficultyTypes);
 
         List<Recipe> recommendRecipes = searchHistoryRepository.recommend(request);
 
