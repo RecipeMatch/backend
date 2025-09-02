@@ -8,6 +8,11 @@
 
 <br>
 
+**🎯 사용 기술**
+
+---
+- **Java, SpringBoot, JPA, QueryDSL, MySQL, Redis, Spring Security+JWT+OAuth2, Docker, Github Actions, AWS EC2**
+
 **🎯 주요 기능**
 
 ---
