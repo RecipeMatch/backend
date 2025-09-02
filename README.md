@@ -12,6 +12,8 @@
 
 ---
 - **Java, SpringBoot, JPA, QueryDSL, MySQL, Redis, Spring Security+JWT+OAuth2, Docker, Github Actions, AWS EC2**
+  
+<br>
 
 **🎯 주요 기능**
 
